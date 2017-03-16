@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+<table>
+    {% for persona in personas %}
+        <tr>
+            <td>{{ persona.mostrar }}</td>
+            <td>{{ persona.email }}</td>
+            <td>{{ persona.telefono }}</td>
+        </tr>
+    {% endfor %}
+</table>
+
+{% endblock %}

@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+{{ form_start(form) }}
+    {{ form_row(form.nombres) }}
+    {{ form_row(form.fechaNacimiento) }}
+    {{ form_row(form.cedula) }}
+    {{ form_row(form.telefono) }}
+    {{ form_row(form.email) }}
+    {{ form_row(form.nacionalidad) }}
+
+    <button type="submit">Crear Persona!</button>
+{{ form_end(form) }}
+
+{% endblock %}
