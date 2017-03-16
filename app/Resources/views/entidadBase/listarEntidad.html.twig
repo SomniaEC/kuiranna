@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+<table>
+	<tr>
+		{% for cabecera in entidades[0].mostrarCabeceras %}
+		<th>{{ cabecera }}</th>
+		{% endfor %}
+	</tr>
+	
+	{% for entidad in entidades %}
+	<tr>
+		{% for detalle in entidad.mostrarDetalles %}
+		<td>{{ detalle }}</td>
+		{% endfor %}
+		<td><a href="{{ path('modificar_persona', {'id': entidad.id}) }}">Modificar</a></td>
+	</tr>
+	{% endfor %}
+</table>
+
+{% endblock %}
