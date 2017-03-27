@@ -10,7 +10,12 @@
     {{ form_row(form.email) }}
     {{ form_row(form.nacionalidad) }}
 
-    <button type="submit">Crear Persona!</button>
+{% if operacion is defined and operacion==constant('AppBundle\\ConstantesDeOperaciones::CREAR') %}
+<div>
+	<button type="submit">Guardar!</button>
+</div>
+{% endif %}
+    
 {{ form_end(form) }}
 
 {% endblock %}

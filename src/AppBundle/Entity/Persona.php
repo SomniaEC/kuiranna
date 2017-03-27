@@ -185,4 +185,7 @@ class Persona extends EntidadBase {
 	public function getMostrarCabeceras() {
 		return array("id", "nombres", "nacionalidad","cedula","fechaNacimiento");
 	}
+	public static function getNombreEntidad() {
+		return "persona";
+	}
 }
