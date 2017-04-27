@@ -1,22 +1,32 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
+{% if mensaje is defined %}
+<div>
+	{{ mensaje }}
+</div>
+{% endif %}
+<div>
+	<table>
+		<tr>
+			{% for cabecera in entidades[0].mostrarCabeceras %}
+			<th>{{ cabecera }}</th>
+			{% endfor %}
+		</tr>
 
-<table>
-	<tr>
-		{% for cabecera in entidades[0].mostrarCabeceras %}
-		<th>{{ cabecera }}</th>
+		{% for entidad in entidades %}
+		<tr>
+			{% for detalle in entidad.mostrarDetalles %}
+			<td>{{ detalle }}</td>
+			{% endfor %}
+			<td><a href="{{ path(ruta_modificar, {'id': entidad.id}) }}">Modificar</a>
+			</td>
+			<td><a href="{{ path(ruta_mostrar, {'id': entidad.id}) }}">Mostrar</a>
+			</td>
+			<td><a href="{{ path(ruta_eliminar, {'id': entidad.id}) }}">Eliminar</a>
+			</td>
+		</tr>
 		{% endfor %}
-	</tr>
-	
-	{% for entidad in entidades %}
-	<tr>
-		{% for detalle in entidad.mostrarDetalles %}
-		<td>{{ detalle }}</td>
-		{% endfor %}
-		<td><a href="{{ path('modificar_persona', {'id': entidad.id}) }}">Modificar</a></td>
-	</tr>
-	{% endfor %}
-</table>
+	</table>
 
-{% endblock %}
+	{% endblock %}
