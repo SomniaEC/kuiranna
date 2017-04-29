@@ -7,4 +7,5 @@ class ConstantesDeOperaciones {
 	const MODIFICAR = "guardar";
 	const MOSTRAR = "mostrar";
 	const ELIMINAR = "eliminar";
+	const PRUEBA = "prueba";
 }

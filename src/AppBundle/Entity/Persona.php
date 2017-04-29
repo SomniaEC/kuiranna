@@ -179,12 +179,15 @@ class Persona extends EntidadBase {
 	public function getId() {
 		return $this->id;
 	}
+	
 	public function getMostrarDetalles() {
 		return array($this->id, $this->nombres, $this->nacionalidad, $this->cedula, $this->fechaNacimiento->format('d-m-Y'));
 	}
+	
 	public function getMostrarCabeceras() {
 		return array("id", "nombres", "nacionalidad","cedula","fechaNacimiento");
 	}
+	
 	public static function getNombreEntidad() {
 		return "persona";
 	}

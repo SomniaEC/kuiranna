@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+{{ form_start(form) }}
+    {{ form_row(form.direccion) }}
+    {{ form_row(form.referencia) }}
+    {{ form_row(form.descripcionCasa) }}
+    {{ form_row(form.provincia) }}
+    {{ form_row(form.canton) }}
+    {{ form_row(form.sector) }}
+
+{% if operacion is defined and operacion==constant('AppBundle\\ConstantesDeOperaciones::CREAR') %}
+<div>
+	<button type="submit">Guardar!</button>
+</div>
+{% endif %}
+    
+{{ form_end(form) }}
+
+{% endblock %}

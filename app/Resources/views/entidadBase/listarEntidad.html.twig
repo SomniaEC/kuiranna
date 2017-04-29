@@ -19,14 +19,15 @@
 			{% for detalle in entidad.mostrarDetalles %}
 			<td>{{ detalle }}</td>
 			{% endfor %}
-			<td><a href="{{ path(ruta_modificar, {'id': entidad.id}) }}">Modificar</a>
+			<td><a href="{{ path(ruta_modificar, {'nombreEntidad':nombreEntidad, 'id': entidad.id}) }}">Modificar</a>
 			</td>
-			<td><a href="{{ path(ruta_mostrar, {'id': entidad.id}) }}">Mostrar</a>
+			<td><a href="{{ path(ruta_mostrar, {'nombreEntidad':nombreEntidad, 'id': entidad.id}) }}">Mostrar</a>
 			</td>
-			<td><a href="{{ path(ruta_eliminar, {'id': entidad.id}) }}">Eliminar</a>
+			<td><a href="{{ path(ruta_eliminar, {'nombreEntidad':nombreEntidad, 'id': entidad.id}) }}">Eliminar</a>
 			</td>
 		</tr>
 		{% endfor %}
 	</table>
-
+	<a href="{{ path(ruta_modificar, {'nombreEntidad':nombreEntidad}) }}">Agregar</a>
+	<a href="{{ path(ruta_modificar, {'nombreEntidad':nombreEntidad}) }}">Agregar prueba</a>
 	{% endblock %}
