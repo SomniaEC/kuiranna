@@ -5,11 +5,10 @@ namespace AppBundle\Controller;
 use AppBundle\Entity\Persona;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpFoundation\Response;
 
 class PersonaController extends Controller {
 	/**
-	 * @Route("/persona/prueba")
+	 * @Route("/persona/prueba", name="prueba_persona")
 	 */
 	public function createAction() {
 		$persona = new Persona ();
@@ -30,7 +29,7 @@ class PersonaController extends Controller {
 		
 		return $this->redirectToRoute ( "listar_entidad", array (
 				"nombreEntidad" => "persona",
-				"mensaje" => "Persona de prueba guardada con id: ". $persona->getId ()
+				"mensaje" => "Persona de prueba guardada con id: " . $persona->getId () 
 		) );
 	}
 }

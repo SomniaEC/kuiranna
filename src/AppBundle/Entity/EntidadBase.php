@@ -46,7 +46,7 @@ abstract class EntidadBase {
 				'ruta_modificar' => ConstantesDeOperaciones::MODIFICAR . '_entidad',
 				'ruta_eliminar' => ConstantesDeOperaciones::ELIMINAR . '_entidad',
 				'ruta_crear' => ConstantesDeOperaciones::CREAR . '_' . static::getNombreEntidad (),
-				'ruta_prueba' => ConstantesDeOperaciones::PRUEBA . '_' . static::getNombreEntidad () 
+				'ruta_prueba' => ConstantesDeOperaciones::PRUEBA . '_'
 		);
 	}
 }

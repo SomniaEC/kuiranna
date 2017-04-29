@@ -8,7 +8,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 class DomicilioController extends Controller {
 	/**
-	 * @Route("/domicilio/prueba")
+	 * @Route("/domicilio/prueba", name="prueba_domicilio")
 	 */
 	public function createAction() {
 		$domicilio = new Domicilio ();
@@ -27,7 +27,7 @@ class DomicilioController extends Controller {
 		
 		return $this->redirectToRoute ( "listar_entidad", array (
 				"nombreEntidad" => "domicilio",
-				"mensaje" => "Domicilio de prueba guardada con id: " . $persona->getId () 
+				"mensaje" => "Domicilio de prueba guardada con id: " . $domicilio->getId () 
 		) );
 	}
 }
