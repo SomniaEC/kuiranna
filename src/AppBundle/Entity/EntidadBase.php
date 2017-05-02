@@ -37,7 +37,7 @@ abstract class EntidadBase {
 	public function getId() {
 		return $this->id;
 	}
-	public abstract function getMostrarCabeceras();
+	public static abstract function getMostrarCabeceras();
 	public abstract function getMostrarDetalles();
 	public static abstract function getNombreEntidad();
 	public static function getRutas() {
@@ -46,7 +46,10 @@ abstract class EntidadBase {
 				'ruta_modificar' => ConstantesDeOperaciones::MODIFICAR . '_entidad',
 				'ruta_eliminar' => ConstantesDeOperaciones::ELIMINAR . '_entidad',
 				'ruta_crear' => ConstantesDeOperaciones::CREAR . '_' . static::getNombreEntidad (),
-				'ruta_prueba' => ConstantesDeOperaciones::PRUEBA . '_'
+				'ruta_prueba' => ConstantesDeOperaciones::PRUEBA . '_',
+				'ruta_listar' => ConstantesDeOperaciones::LISTAR . '_entidad'
 		);
 	}
+	
+	public abstract function __toString();
 }

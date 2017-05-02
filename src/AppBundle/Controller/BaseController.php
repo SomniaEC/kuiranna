@@ -13,7 +13,7 @@ use Symfony\Component\HttpFoundation\Request;
 
 class BaseController extends Controller {
 	/**
-	 * Class for importing needed clases
+	 * Uncalled method for importing needed clases
 	 */
 	private function dummy() {
 		new Persona ();
@@ -28,8 +28,10 @@ class BaseController extends Controller {
 	public function listarEntidadAction(Request $request, $nombreEntidad) {
 		$em = $this->getDoctrine ()->getManager ();
 		$mensaje = $request->query->get ( 'mensaje' );
+		$className = "AppBundle\Entity\\" . ucfirst ( $nombreEntidad );
 		$entidades = $em->getRepository ( 'AppBundle:' . ucfirst ( $nombreEntidad ) )->findAll ();
 		return $this->render ( 'entidadBase/listarEntidad.html.twig', array_merge ( array (
+				'cabeceras' => $className::getMostrarCabeceras (),
 				'entidades' => $entidades,
 				'nombreEntidad' => $nombreEntidad,
 				'mensaje' => $mensaje 
@@ -66,7 +68,8 @@ class BaseController extends Controller {
 		$form = $this->createForm ( 'AppBundle\Form\\' . ucfirst ( $nombreEntidad ) . 'Type', $entidad );
 		
 		return $this->render ( $nombreEntidad . '/' . $nombreEntidad . '.html.twig', array (
-				'form' => $form->createView () 
+				'form' => $form->createView (),
+				'nombreEntidad' => $nombreEntidad 
 		) );
 	}
 	
@@ -107,6 +110,7 @@ class BaseController extends Controller {
 		
 		return $this->render ( $nombreEntidad . '/' . $nombreEntidad . '.html.twig', array (
 				'form' => $form->createView (),
+				'nombreEntidad' => $nombreEntidad,
 				'operacion' => ConstantesDeOperaciones::CREAR 
 		) );
 	}

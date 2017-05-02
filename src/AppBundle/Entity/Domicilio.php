@@ -43,7 +43,7 @@ class Domicilio extends EntidadBase {
 		return array($this->id, $this->direccion, $this->referencia, $this->descripcionCasa, $this->provincia, $this->canton, $this->sector);
 	}
 	
-	public function getMostrarCabeceras() {
+	public static function getMostrarCabeceras() {
 		return array("id", "direccion", "referencia","descripcion de la casa","provincia", "canton", "sector");
 	}
 	
@@ -193,5 +193,9 @@ class Domicilio extends EntidadBase {
     public function getSector()
     {
         return $this->sector;
+    }
+    
+    public function __toString() {
+    	return $this->direccion;
     }
 }

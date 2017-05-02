@@ -1,21 +1,12 @@
-{% extends 'base.html.twig' %}
+{% extends 'entidadBase/mostrarEntidad.html.twig' %}
 
-{% block body %}
+{% block form %}
 
-{{ form_start(form) }}
-    {{ form_row(form.direccion) }}
-    {{ form_row(form.referencia) }}
-    {{ form_row(form.descripcionCasa) }}
-    {{ form_row(form.provincia) }}
-    {{ form_row(form.canton) }}
-    {{ form_row(form.sector) }}
-
-{% if operacion is defined and operacion==constant('AppBundle\\ConstantesDeOperaciones::CREAR') %}
-<div>
-	<button type="submit">Guardar!</button>
-</div>
-{% endif %}
-    
-{{ form_end(form) }}
+    {{ form_row(form.direccion, t_options) }}
+    {{ form_row(form.referencia, t_options) }}
+    {{ form_row(form.descripcionCasa, t_options) }}
+    {{ form_row(form.provincia, t_options) }}
+    {{ form_row(form.canton, t_options) }}
+    {{ form_row(form.sector, t_options) }}
 
 {% endblock %}
