@@ -36,7 +36,7 @@ class Denuncia extends EntidadBase {
 		return "denuncia";
 	}
 	public function __toString() {
-		return $this->nombres;
+		return $this->hechos;
 	}
 
     /**
