@@ -13,9 +13,14 @@ class DenunciaController extends Controller {
 	public function createAction() {
 		$denuncia = new Denuncia ();
 		$denuncia->setFechaRegistro ( new \DateTime ( date ( "d-m-Y" ) ) );
-		$denuncia->setHechos("Denuncia presentada ........");
+		$denuncia->setHechos ( "Denuncia presentada ........" );
 		
 		$em = $this->getDoctrine ()->getManager ();
+		
+		$derechos = $em->getRepository ( 'AppBundle:Derecho' )->findAll ();
+		
+		$denuncia->setDenuncia ( $derechos [array_rand ( $derechos )] );
+		
 		$em->persist ( $denuncia );
 		$em->flush ();
 		

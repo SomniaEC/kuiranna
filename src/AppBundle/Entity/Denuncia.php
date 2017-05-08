@@ -18,18 +18,31 @@ class Denuncia extends EntidadBase {
 	 */
 	private $hechos;
 	
+	/**
+	 * Many Denuncias have Many Derechos Vulnerados.
+	 * @ORM\ManyToMany(targetEntity="Derecho")
+	 * @ORM\JoinTable(name="derechoVulnerado",
+	 *      joinColumns={@ORM\JoinColumn(name="denuncia_id", referencedColumnName="id")},
+	 *      inverseJoinColumns={@ORM\JoinColumn(name="derecho_id", referencedColumnName="id")}
+	 *      )
+	 */
+	private $derechos;
+	
+	
 	public function getMostrarDetalles() {
 		return array (
 				$this->id,
 				$this->fechaRegistro->format ( 'd-m-Y' ),
-				$this->hechos
+				$this->hechos,
+				implode (", ", $this->derechos->getValues())
 		);
 	}
 	public static function getMostrarCabeceras() {
 		return array (
 				"id",
 				"fechaRegistro",
-				"hechos"
+				"hechos",
+				"derechos"
 		);
 	}
 	public static function getNombreEntidad() {
@@ -85,5 +98,46 @@ class Denuncia extends EntidadBase {
     public function getHechos()
     {
         return $this->hechos;
+    }
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->derechos = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Add derecho
+     *
+     * @param \AppBundle\Entity\Derecho $derecho
+     *
+     * @return Denuncia
+     */
+    public function addDerecho(\AppBundle\Entity\Derecho $derecho)
+    {
+        $this->derechos[] = $derecho;
+
+        return $this;
+    }
+
+    /**
+     * Remove derecho
+     *
+     * @param \AppBundle\Entity\Derecho $derecho
+     */
+    public function removeDerecho(\AppBundle\Entity\Derecho $derecho)
+    {
+        $this->derechos->removeElement($derecho);
+    }
+
+    /**
+     * Get derechos
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getDerechos()
+    {
+        return $this->derechos;
     }
 }
