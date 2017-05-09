@@ -2,8 +2,8 @@
 
 namespace AppBundle\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
 use AppBundle\ConstantesDeOperaciones;
+use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\MappedSuperclass
@@ -37,12 +37,19 @@ abstract class EntidadBase {
 	public function getId() {
 		return $this->id;
 	}
-	public abstract function getMostrarCabeceras();
+	public static abstract function getMostrarCabeceras();
 	public abstract function getMostrarDetalles();
 	public static abstract function getNombreEntidad();
-	public static function getRutas(){
-		return array('ruta_mostrar' => ConstantesDeOperaciones::MOSTRAR . '_' . static::getNombreEntidad(),
-						'ruta_modificar' => ConstantesDeOperaciones::MODIFICAR . '_' . static::getNombreEntidad(),
-						'ruta_eliminar' => ConstantesDeOperaciones::ELIMINAR . '_' . static::getNombreEntidad());
+	public static function getRutas() {
+		return array (
+				'ruta_mostrar' => ConstantesDeOperaciones::MOSTRAR . '_entidad',
+				'ruta_modificar' => ConstantesDeOperaciones::MODIFICAR . '_entidad',
+				'ruta_eliminar' => ConstantesDeOperaciones::ELIMINAR . '_entidad',
+				'ruta_crear' => ConstantesDeOperaciones::CREAR . '_' . static::getNombreEntidad (),
+				'ruta_prueba' => ConstantesDeOperaciones::PRUEBA . '_',
+				'ruta_listar' => ConstantesDeOperaciones::LISTAR . '_entidad'
+		);
 	}
+	
+	public abstract function __toString();
 }

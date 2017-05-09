@@ -2,6 +2,7 @@
 
 {% block body %}
 {% if mensaje is defined %}
+<div><a href="{{ path('homepage') }}">Home</a></div>
 <div>
 	{{ mensaje }}
 </div>
@@ -9,7 +10,7 @@
 <div>
 	<table>
 		<tr>
-			{% for cabecera in entidades[0].mostrarCabeceras %}
+			{% for cabecera in cabeceras %}
 			<th>{{ cabecera }}</th>
 			{% endfor %}
 		</tr>
@@ -19,14 +20,16 @@
 			{% for detalle in entidad.mostrarDetalles %}
 			<td>{{ detalle }}</td>
 			{% endfor %}
-			<td><a href="{{ path(ruta_modificar, {'id': entidad.id}) }}">Modificar</a>
+			<td><a href="{{ path(ruta_modificar, {'nombreEntidad':nombreEntidad, 'id': entidad.id}) }}">Modificar</a>
 			</td>
-			<td><a href="{{ path(ruta_mostrar, {'id': entidad.id}) }}">Mostrar</a>
+			<td><a href="{{ path(ruta_mostrar, {'nombreEntidad':nombreEntidad, 'id': entidad.id}) }}">Mostrar</a>
 			</td>
-			<td><a href="{{ path(ruta_eliminar, {'id': entidad.id}) }}">Eliminar</a>
+			<td><a href="{{ path(ruta_eliminar, {'nombreEntidad':nombreEntidad, 'id': entidad.id}) }}">Eliminar</a>
 			</td>
 		</tr>
 		{% endfor %}
 	</table>
-
+	<a href="{{ path(ruta_modificar, {'nombreEntidad':nombreEntidad}) }}">Agregar</a>
+	{% set ruta = ruta_prueba ~ nombreEntidad %}
+	<a href="{{ path(ruta) }}">Agregar prueba</a>
 	{% endblock %}
