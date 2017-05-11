@@ -26,7 +26,7 @@ class PersonaDomicilio extends EntidadBase {
 	private $domicilio;
 	
 	/**
-	 * @ORM\ManyToOne(targetEntity="Denuncia", cascade={"persist"})
+	 * @ORM\ManyToOne(targetEntity="Denuncia", cascade={"persist"}, inversedBy="personasDomicilio")
 	 * @ORM\JoinColumn(name="denuncia_id", referencedColumnName="id")
 	 */
 	private $denuncia;
