@@ -13,7 +13,7 @@ class CentroEducativoType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('nombre');
+        $builder->add('nombre')->add('junta')        ;
     }
     
     /**
@@ -31,7 +31,7 @@ class CentroEducativoType extends AbstractType
      */
     public function getBlockPrefix()
     {
-        return 'appbundle_centroEducativo';
+        return 'appbundle_centroeducativo';
     }
 
 
