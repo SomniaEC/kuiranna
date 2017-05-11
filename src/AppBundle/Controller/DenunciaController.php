@@ -19,7 +19,7 @@ class DenunciaController extends Controller {
 		
 		$derechos = $em->getRepository ( 'AppBundle:Derecho' )->findAll ();
 		
-		$denuncia->setdenuncia ( $derechos [array_rand ( $derechos )] );
+		$denuncia->addDerecho( $derechos [array_rand ( $derechos )] );
 		
 		$em->persist ( $denuncia );
 		$em->flush ();
