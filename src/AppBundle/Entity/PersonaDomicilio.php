@@ -49,7 +49,7 @@ class PersonaDomicilio extends EntidadBase {
 		return "personaDomicilio";
 	}
 	public function __toString() {
-		return $this->nombres;
+		return $this->persona . " " . $this->domicilio;
 	}
 
     /**

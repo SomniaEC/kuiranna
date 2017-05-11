@@ -6,5 +6,12 @@
     {{ form_row(form.hechos, t_options) }}
     {{ form_row(form.derechos, t_options) }}
     {{ form_row(form.junta, t_options) }}
-
+    {% for personaDomicilio in form.personasDomicilio %}
+        {{ form_row(personaDomicilio.persona, t_options) }}
+        {{ form_row(personaDomicilio.domicilio, t_options) }}
+        {{ form_row(personaDomicilio.denuncia, t_options) }}
+        {{ form_row(personaDomicilio.tipo, t_options) }}
+        {{ form_row(personaDomicilio.junta, t_options) }}
+	{% endfor %}
+	
 {% endblock %}
