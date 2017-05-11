@@ -13,7 +13,7 @@ class DenunciaType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('fechaRegistro')->add('hechos')->add('derechos');
+        $builder->add('fechaRegistro')->add('hechos')->add('derechos')->add('junta');
     }
     
     /**

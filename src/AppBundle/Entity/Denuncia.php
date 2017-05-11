@@ -19,7 +19,7 @@ class Denuncia extends EntidadBase {
 	private $hechos;
 	
 	/**
-	 * Many Denuncias have Many Derechos Vulnerados.
+	 * Muchas Denuncias tienen muchos Derechos Vulnerados.
 	 * @ORM\ManyToMany(targetEntity="Derecho")
 	 * @ORM\JoinTable(name="derechoVulnerado",
 	 *      joinColumns={@ORM\JoinColumn(name="denuncia_id", referencedColumnName="id")},
@@ -28,13 +28,30 @@ class Denuncia extends EntidadBase {
 	 */
 	private $derechos;
 	
+	/**
+	 * @ORM\ManyToOne(targetEntity="Junta", cascade={"persist"})
+	 * @ORM\JoinColumn(name="junta_id", referencedColumnName="id")
+	 */
+	private $junta;
+	
+	/**
+	 * @ORM\OnetoMany(targetEntity="PersonaDomicilio", mappedBy="denuncia")
+	 */
+	private $personasDomicilio;
+	
+	/**
+	 * @ORM\OnetoMany(targetEntity="VulneradoDomicilio", mappedBy="denuncia")
+	 */
+	private $vulneradosDomicilio;
+	
 	
 	public function getMostrarDetalles() {
 		return array (
 				$this->id,
 				$this->fechaRegistro->format ( 'd-m-Y' ),
 				$this->hechos,
-				implode (", ", $this->derechos->getValues())
+				implode (", ", $this->derechos->getValues()),
+				$this->junta
 		);
 	}
 	public static function getMostrarCabeceras() {
@@ -42,7 +59,8 @@ class Denuncia extends EntidadBase {
 				"id",
 				"fechaRegistro",
 				"hechos",
-				"derechos"
+				"derechos",
+				"junta"
 		);
 	}
 	public static function getNombreEntidad() {
@@ -105,6 +123,8 @@ class Denuncia extends EntidadBase {
     public function __construct()
     {
         $this->derechos = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->personasDomicilio = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->vulneradosDomicilio = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
@@ -139,5 +159,97 @@ class Denuncia extends EntidadBase {
     public function getDerechos()
     {
         return $this->derechos;
+    }
+
+    /**
+     * Set junta
+     *
+     * @param \AppBundle\Entity\Junta $junta
+     *
+     * @return Denuncia
+     */
+    public function setJunta(\AppBundle\Entity\Junta $junta = null)
+    {
+        $this->junta = $junta;
+
+        return $this;
+    }
+
+    /**
+     * Get junta
+     *
+     * @return \AppBundle\Entity\Junta
+     */
+    public function getJunta()
+    {
+        return $this->junta;
+    }
+
+    /**
+     * Add personasDomicilio
+     *
+     * @param \AppBundle\Entity\PersonaDomicilio $personasDomicilio
+     *
+     * @return Denuncia
+     */
+    public function addPersonasDomicilio(\AppBundle\Entity\PersonaDomicilio $personasDomicilio)
+    {
+        $this->personasDomicilio[] = $personasDomicilio;
+
+        return $this;
+    }
+
+    /**
+     * Remove personasDomicilio
+     *
+     * @param \AppBundle\Entity\PersonaDomicilio $personasDomicilio
+     */
+    public function removePersonasDomicilio(\AppBundle\Entity\PersonaDomicilio $personasDomicilio)
+    {
+        $this->personasDomicilio->removeElement($personasDomicilio);
+    }
+
+    /**
+     * Get personasDomicilio
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getPersonasDomicilio()
+    {
+        return $this->personasDomicilio;
+    }
+
+    /**
+     * Add vulneradosDomicilio
+     *
+     * @param \AppBundle\Entity\VulneradoDomicilio $vulneradosDomicilio
+     *
+     * @return Denuncia
+     */
+    public function addVulneradosDomicilio(\AppBundle\Entity\VulneradoDomicilio $vulneradosDomicilio)
+    {
+        $this->vulneradosDomicilio[] = $vulneradosDomicilio;
+
+        return $this;
+    }
+
+    /**
+     * Remove vulneradosDomicilio
+     *
+     * @param \AppBundle\Entity\VulneradoDomicilio $vulneradosDomicilio
+     */
+    public function removeVulneradosDomicilio(\AppBundle\Entity\VulneradoDomicilio $vulneradosDomicilio)
+    {
+        $this->vulneradosDomicilio->removeElement($vulneradosDomicilio);
+    }
+
+    /**
+     * Get vulneradosDomicilio
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getVulneradosDomicilio()
+    {
+        return $this->vulneradosDomicilio;
     }
 }
