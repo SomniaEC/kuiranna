@@ -1,13 +1,14 @@
 {% extends 'base.html.twig' %}
+{% form_theme form 'form/form_customization.html.twig' %}
 
 {% block body %}
 
     {{ form_start(form) }}
     
     	{% if operacion is defined and operacion==constant('AppBundle\\ConstantesDeOperaciones::CREAR') %}
-    	    {% set t_options = {} %}
+    	    {% set t_options = {'attr': {'class': 'value'}} %}
     	{% else %}
-    		{% set t_options = {'attr': {'disabled': 'true'} } %}
+    		{% set t_options = {'attr': {'disabled': 'true', 'class': 'value'} } %}
     	{% endif %}
     	
         {% block form %}{% endblock %}
@@ -15,11 +16,11 @@
         {% block buttons %}
         
             {% if operacion is defined and operacion==constant('AppBundle\\ConstantesDeOperaciones::CREAR') %}
-            <div>
+            <div class="row">
             	<button type="submit">Guardar!</button>
             </div>
             {% endif %}
-             <div>
+             <div class="row">
             	<a href="{{ path('listar_entidad', {'nombreEntidad':nombreEntidad}) }}">Atras</a>
             </div>
             

@@ -1,0 +1,22 @@
+@CHARSET "ISO-8859-1";
+
+.contenido {
+	width: 50%;
+	min-width: 640px;
+}
+
+.row {
+	margin-left: 150px;
+	clear: both;
+	padding-top: 3px;
+	padding-bottom: 3px;
+}
+
+.row label {
+	float: left;
+}
+
+.row .value {
+	float: right;
+	margin-right: 250px;
+}
