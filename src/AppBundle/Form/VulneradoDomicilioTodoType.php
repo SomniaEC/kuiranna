@@ -2,23 +2,18 @@
 
 namespace AppBundle\Form;
 
-use AppBundle\Entity\PersonaDomicilio;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class DenunciaTodoType extends AbstractType {
+class VulneradoDomicilioTodoType extends AbstractType {
 	/**
 	 *
 	 * {@inheritdoc}
 	 *
 	 */
 	public function buildForm(FormBuilderInterface $builder, array $options) {
-		$builder->add ( 'fechaRegistro' )->add ( 'hechos' )->add ( 'derechos' )->add ( 'junta' );
-		$builder->add ( 'personasDomicilio', CollectionType::class, array (
-				'entry_type' => PersonaDomicilio::class 
-		) );
+		$builder->add ( 'viveCon' )->add ( 'vulnerado', VulneradoType::class )->add ( 'domicilio', DomicilioType::class );
 	}
 	
 	/**
@@ -28,7 +23,7 @@ class DenunciaTodoType extends AbstractType {
 	 */
 	public function configureOptions(OptionsResolver $resolver) {
 		$resolver->setDefaults ( array (
-				'data_class' => 'AppBundle\Entity\Denuncia' 
+				'data_class' => 'AppBundle\Entity\VulneradoDomicilio' 
 		) );
 	}
 	
@@ -38,6 +33,6 @@ class DenunciaTodoType extends AbstractType {
 	 *
 	 */
 	public function getBlockPrefix() {
-		return 'appbundle_denuncia';
+		return 'appbundle_vulneradodomicilio';
 	}
 }

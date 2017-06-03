@@ -51,7 +51,7 @@ class BaseController extends Controller {
 		
 		return $this->redirectToRoute ( "listar_entidad", array (
 				"nombreEntidad" => $nombreEntidad,
-				"mensaje" => "Eliminación correcta" 
+				"mensaje" => "Eliminacion correcta" 
 		) );
 	}
 	
@@ -77,6 +77,59 @@ class BaseController extends Controller {
 	 * @Route("{nombreEntidad}/guardar", name="guardar_entidad")
 	 */
 	public function guardarEntidadAction(Request $request, $nombreEntidad) {
+		if ($nombreEntidad == 'denuncia') {
+			$idEntidad = $request->query->get ( 'id' );
+			if ($idEntidad == null) {
+				return $this->redirectToRoute ( 'crear_denuncia' );
+			} else {
+				return $this->redirectToRoute ( 'crear_denuncia' , array (
+						"id" => $idEntidad,
+				) );
+			}
+		} else {
+			// 1) build the form
+			$idEntidad = $request->query->get ( 'id' );
+			if ($idEntidad == null) {
+				$className = "AppBundle\Entity\\" . ucfirst ( $nombreEntidad );
+				$entidad = new $className ();
+				$mensaje = ucfirst ( $nombreEntidad ) . " creada correctamente";
+			} else {
+				$em = $this->getDoctrine ()->getManager ();
+				$entidad = $em->getRepository ( 'AppBundle:' . ucfirst ( $nombreEntidad ) )->find ( $idEntidad );
+				$mensaje = ucfirst ( $nombreEntidad ) . " modificada correctamente";
+			}
+			
+			$form = $this->createForm ( 'AppBundle\Form\\' . ucfirst ( $nombreEntidad ) . 'Type', $entidad );
+			
+			// 2) handle the submit (will only happen on POST)
+			$form->handleRequest ( $request );
+			if ($form->isSubmitted () && $form->isValid ()) {
+				
+				// 4) save the User!
+				$em = $this->getDoctrine ()->getManager ();
+				$em->persist ( $entidad );
+				$em->flush ();
+				
+				// ... do any other work - like sending them an email, etc
+				// maybe set a "flash" success message for the user
+				return $this->redirectToRoute ( 'listar_entidad', array (
+						"nombreEntidad" => $nombreEntidad,
+						"mensaje" => $mensaje 
+				) );
+			}
+			
+			return $this->render ( $nombreEntidad . '/' . $nombreEntidad . '.html.twig', array (
+					'form' => $form->createView (),
+					'nombreEntidad' => $nombreEntidad,
+					'operacion' => ConstantesDeOperaciones::CREAR 
+			) );
+		}
+	}
+	
+	/**
+	 * @Route("{nombreEntidad}/guardartodo", name="guardar_entidad_todo")
+	 */
+	public function guardarEntidadTodoAction(Request $request, $nombreEntidad) {
 		// 1) build the form
 		$idEntidad = $request->query->get ( 'id' );
 		if ($idEntidad == null) {
@@ -89,7 +142,7 @@ class BaseController extends Controller {
 			$mensaje = ucfirst ( $nombreEntidad ) . " modificada correctamente";
 		}
 		
-		$form = $this->createForm ( 'AppBundle\Form\\' . ucfirst ( $nombreEntidad ) . 'Type', $entidad );
+		$form = $this->createForm ( 'AppBundle\Form\\' . ucfirst ( $nombreEntidad ) . 'TodoType', $entidad );
 		
 		// 2) handle the submit (will only happen on POST)
 		$form->handleRequest ( $request );
@@ -108,7 +161,7 @@ class BaseController extends Controller {
 			) );
 		}
 		
-		return $this->render ( $nombreEntidad . '/' . $nombreEntidad . '.html.twig', array (
+		return $this->render ( $nombreEntidad . '/' . $nombreEntidad . '.todo.html.twig', array (
 				'form' => $form->createView (),
 				'nombreEntidad' => $nombreEntidad,
 				'operacion' => ConstantesDeOperaciones::CREAR 

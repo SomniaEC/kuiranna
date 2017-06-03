@@ -35,12 +35,12 @@ class Denuncia extends EntidadBase {
 	private $junta;
 	
 	/**
-	 * @ORM\OnetoMany(targetEntity="PersonaDomicilio", mappedBy="denuncia")
+	 * @ORM\OnetoMany(targetEntity="PersonaDomicilio", mappedBy="denuncia", cascade={"persist"})
 	 */
 	private $personasDomicilio;
 	
 	/**
-	 * @ORM\OnetoMany(targetEntity="VulneradoDomicilio", mappedBy="denuncia")
+	 * @ORM\OnetoMany(targetEntity="VulneradoDomicilio", mappedBy="denuncia", cascade={"persist"})
 	 */
 	private $vulneradosDomicilio;
 	
@@ -194,7 +194,7 @@ class Denuncia extends EntidadBase {
      */
     public function addPersonasDomicilio(\AppBundle\Entity\PersonaDomicilio $personasDomicilio)
     {
-        $this->personasDomicilio[] = $personasDomicilio;
+        $this->personasDomicilio->add($personasDomicilio);
 
         return $this;
     }

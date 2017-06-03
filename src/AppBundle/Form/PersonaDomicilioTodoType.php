@@ -7,14 +7,14 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class PersonaDomicilioType extends AbstractType {
+class PersonaDomicilioTodoType extends AbstractType {
 	/**
 	 *
 	 * {@inheritdoc}
 	 *
 	 */
 	public function buildForm(FormBuilderInterface $builder, array $options) {
-		$builder->add ( 'tipo' )->add ( 'persona', PersonaType::class)->add ( 'domicilio', DomicilioType::class)->add ( 'denuncia' )->add ( 'junta' );
+		$builder->add ( 'tipo' )->add ( 'persona', PersonaType::class)->add ( 'domicilio', DomicilioType::class);
 	}
 	
 	/**

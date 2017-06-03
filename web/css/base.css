@@ -3,10 +3,14 @@
 .contenido {
 	width: 50%;
 	min-width: 640px;
+	padding-left: 150px;
+}
+
+.formulario {
+	padding-right: 250px;
 }
 
 .row {
-	margin-left: 150px;
 	clear: both;
 	padding-top: 3px;
 	padding-bottom: 3px;
@@ -18,5 +22,9 @@
 
 .row .value {
 	float: right;
-	margin-right: 250px;
+}
+
+.header {
+	font-weight: bold;
+	padding-top: 8px;
 }

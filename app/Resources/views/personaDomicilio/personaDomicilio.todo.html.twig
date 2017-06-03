@@ -1,0 +1,9 @@
+{% extends 'entidadBase/mostrarEntidad.html.twig' %}
+
+{% block form %}
+
+    {{ form_row(form.persona, t_options) }}
+    {{ form_row(form.domicilio, t_options) }}
+    {{ form_row(form.tipo, t_options) }}
+
+{% endblock %}

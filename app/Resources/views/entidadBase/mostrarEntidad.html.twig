@@ -1,14 +1,14 @@
 {% extends 'base.html.twig' %}
-{% form_theme form 'form/form_customization.html.twig' %}
+{% form_theme form 'form/form_customizations.html.twig' %}
 
 {% block body %}
-
+	<div class="formulario">
     {{ form_start(form) }}
     
     	{% if operacion is defined and operacion==constant('AppBundle\\ConstantesDeOperaciones::CREAR') %}
-    	    {% set t_options = {'attr': {'class': 'value'}} %}
+    	    {% set t_options = {} %}
     	{% else %}
-    		{% set t_options = {'attr': {'disabled': 'true', 'class': 'value'} } %}
+    		{% set t_options = {'attr': {'disabled': 'true'} } %}
     	{% endif %}
     	
         {% block form %}{% endblock %}
@@ -27,6 +27,6 @@
         {% endblock %}
     
     {{ form_end(form) }}
-
+	</div>
 
 {% endblock %}

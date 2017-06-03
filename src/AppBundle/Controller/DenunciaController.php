@@ -2,11 +2,14 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\ConstantesDeOperaciones;
+use AppBundle\ConstantesDeTipoPersona;
 use AppBundle\Entity\Denuncia;
+use AppBundle\Entity\PersonaDomicilio;
+use AppBundle\Entity\VulneradoDomicilio;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
-use AppBundle\ConstantesDeOperaciones;
 
 class DenunciaController extends Controller {
 	/**
@@ -21,7 +24,7 @@ class DenunciaController extends Controller {
 		
 		$derechos = $em->getRepository ( 'AppBundle:Derecho' )->findAll ();
 		
-		$denuncia->addDerecho( $derechos [array_rand ( $derechos )] );
+		$denuncia->addDerecho ( $derechos [array_rand ( $derechos )] );
 		
 		$em->persist ( $denuncia );
 		$em->flush ();
@@ -33,42 +36,59 @@ class DenunciaController extends Controller {
 	}
 	
 	/**
-	 * @Route("denuncia/guardartodo", name="guardar_denuncia_todo")
+	 * @Route("denuncia/crear", name="crear_denuncia")
 	 */
-	public function guardarEntidadAction(Request $request) {
+	public function crearDenunciaAction(Request $request) {
 		// 1) build the form
 		$idEntidad = $request->query->get ( 'id' );
 		if ($idEntidad == null) {
-			$entidad = new Denuncia();
+			$denuncia = new Denuncia ();
+			$denunciante = new PersonaDomicilio ();
+			$denunciante->setTipo ( ConstantesDeTipoPersona::DENUNCIANTE );
+			$denuncia->addPersonasDomicilio ( $denunciante );
+			$denunciado = new PersonaDomicilio ();
+			$denunciado->setTipo ( ConstantesDeTipoPersona::DENUNCIADO );
+			$denuncia->addPersonasDomicilio ( $denunciado );
+			$vulnerado = new VulneradoDomicilio ();
+			$denuncia->addVulneradosDomicilio ( $vulnerado );
 			$mensaje = "Denuncia creada correctamente";
 		} else {
 			$em = $this->getDoctrine ()->getManager ();
-			$entidad = $em->getRepository ( 'AppBundle:Denuncia' )->find ( $idEntidad );
+			$denuncia = $em->getRepository ( 'AppBundle:Denuncia' )->find ( $idEntidad );
 			$mensaje = "Denuncia modificada correctamente";
 		}
-		$form = $this->createForm ( 'AppBundle\Form\DenunciaTodoType', $entidad );
-	
+		
+		$form = $this->createForm ( 'AppBundle\Form\\DenunciaType', $denuncia );
+		
 		// 2) handle the submit (will only happen on POST)
 		$form->handleRequest ( $request );
 		if ($form->isSubmitted () && $form->isValid ()) {
-				
+			
 			// 4) save the User!
 			$em = $this->getDoctrine ()->getManager ();
-			$em->persist ( $entidad );
+			foreach ( $denuncia->getPersonasDomicilio () as $pDomicilio ) {
+				$pDomicilio->setDenuncia ( $denuncia );
+				$pDomicilio->setJunta ( $denuncia->getJunta () );
+			}
+			foreach ( $denuncia->getVulneradosDomicilio () as $vulnerados ) {
+				$vulnerados->setDenuncia ( $denuncia );
+				$vulnerados->setJunta ( $denuncia->getJunta () );
+			}
+			$em->persist ( $denuncia );
 			$em->flush ();
-				
+			
 			// ... do any other work - like sending them an email, etc
 			// maybe set a "flash" success message for the user
 			return $this->redirectToRoute ( 'listar_entidad', array (
 					"nombreEntidad" => "denuncia",
-					"mensaje" => $mensaje
+					"mensaje" => $mensaje 
 			) );
 		}
-	
-		return $this->render ( 'denuncia/denuncia.todo.html.twig', array (
+		
+		return $this->render ( 'denuncia/denuncia.html.twig', array (
 				'form' => $form->createView (),
 				'nombreEntidad' => 'denuncia',
-				'operacion' => ConstantesDeOperaciones::CREAR
+				'operacion' => ConstantesDeOperaciones::CREAR 
 		) );
 	}
 }
