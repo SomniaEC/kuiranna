@@ -2,33 +2,40 @@
 
 {% block body %}
 {% if mensaje is defined %}
-<div><a href="{{ path('homepage') }}">Home</a></div>
 <div>
 	{{ mensaje }}
 </div>
 {% endif %}
-<div>
-	<table>
-		<tr>
-			{% for cabecera in cabeceras %}
-			<th>{{ cabecera }}</th>
-			{% endfor %}
-		</tr>
+	<div class="table">
+		<div class="row header">
+    			{% for cabecera in cabeceras %}
+    			<div class="cell">
+    			{{ cabecera }}
+				</div>
+    			{% endfor %}
+    			<div class="cell">
+				</div>
+    			<div class="cell">
+    			Operaciones
+				</div>
+				<div class="cell">
+				</div>
+		</div>
 
 		{% for entidad in entidades %}
-		<tr>
+		<div class="row">
 			{% for detalle in entidad.mostrarDetalles %}
-			<td>{{ detalle }}</td>
+			<div class="cell">{{ detalle }}</div>
 			{% endfor %}
-			<td><a href="{{ path(ruta_modificar, {'nombreEntidad':nombreEntidad, 'id': entidad.id}) }}">Modificar</a>
-			</td>
-			<td><a href="{{ path(ruta_mostrar, {'nombreEntidad':nombreEntidad, 'id': entidad.id}) }}">Mostrar</a>
-			</td>
-			<td><a href="{{ path(ruta_eliminar, {'nombreEntidad':nombreEntidad, 'id': entidad.id}) }}">Eliminar</a>
-			</td>
-		</tr>
+			<div class="cell"><a href="{{ path(ruta_modificar, {'nombreEntidad':nombreEntidad, 'id': entidad.id}) }}">Modificar</a>
+			</div>
+			<div class="cell"><a href="{{ path(ruta_mostrar, {'nombreEntidad':nombreEntidad, 'id': entidad.id}) }}">Mostrar</a>
+			</div>
+			<div class="cell"><a href="{{ path(ruta_eliminar, {'nombreEntidad':nombreEntidad, 'id': entidad.id}) }}">Eliminar</a>
+			</div>
+		</div>
 		{% endfor %}
-	</table>
+	</div>
 	<a href="{{ path(ruta_modificar, {'nombreEntidad':nombreEntidad}) }}">Agregar</a>
 	{% set ruta = ruta_prueba ~ nombreEntidad %}
 	<a href="{{ path(ruta) }}">Agregar prueba</a>
