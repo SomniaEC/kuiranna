@@ -2,6 +2,7 @@
 
 namespace AppBundle\Entity;
 
+use AppBundle\ConstantesDeEstado;
 use AppBundle\ConstantesDeOperaciones;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -15,6 +16,11 @@ abstract class EntidadBase {
 	 * @ORM\GeneratedValue(strategy="AUTO")
 	 */
 	protected $id;
+	
+	/**
+	 * @ORM\Column(type="string")
+	 */
+	protected $estado = ConstantesDeEstado::ACTIVO;
 	
 	/**
 	 * Set id
@@ -37,6 +43,27 @@ abstract class EntidadBase {
 	public function getId() {
 		return $this->id;
 	}
+	/**
+	 * Set estado
+	 *
+	 * @param string $estado        	
+	 *
+	 * @return EntidadBase
+	 */
+	public function setEstado($estado) {
+		$this->estado = estado;
+		
+		return $this;
+	}
+	
+	/**
+	 * Get estado
+	 *
+	 * @return string
+	 */
+	public function getEstado() {
+		return $this->estado;
+	}
 	public static abstract function getMostrarCabeceras();
 	public abstract function getMostrarDetalles();
 	public static abstract function getNombreEntidad();
@@ -47,9 +74,8 @@ abstract class EntidadBase {
 				'ruta_eliminar' => ConstantesDeOperaciones::ELIMINAR . '_entidad',
 				'ruta_crear' => ConstantesDeOperaciones::CREAR . '_' . static::getNombreEntidad (),
 				'ruta_prueba' => ConstantesDeOperaciones::PRUEBA . '_',
-				'ruta_listar' => ConstantesDeOperaciones::LISTAR . '_entidad'
+				'ruta_listar' => ConstantesDeOperaciones::LISTAR . '_entidad' 
 		);
 	}
-	
 	public abstract function __toString();
 }

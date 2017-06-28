@@ -1,0 +1,172 @@
+@CHARSET "ISO-8859-1";
+
+.contenido {
+	width: 50%;
+	min-width: 640px;
+	padding-left: 150px;
+}
+
+.formulario {
+	margin: 0 0 150px 0;
+  	width:70%;
+  	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+  	display: table;
+
+}
+
+.row label {
+	float: left;
+	color: blue;
+	padding: 6px 12px;
+  	display: table-row;
+	
+}
+
+.row .value {
+	float: right;
+	display: table-cell;
+  	margin: 6px  12px;
+}
+.row .value .text{
+	float: right;
+	padding: 6px 12px;
+  	display: table-row;
+}
+
+.header {
+	font-weight: bold;
+	padding-top: 8px;
+}
+
+body {
+  font-family: "Helvetica Neue", Helvetica, Arial;
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 400;
+  color: #3b3b3b;
+  -webkit-font-smoothing: antialiased;
+  font-smoothing: antialiased;
+  background: #9e9e9e;
+}
+
+.table {
+  margin: 0 0 40px 0;
+  width: 100%;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+  display: table;
+}
+@media screen and (max-width: 580px) {
+  .table {
+    display: block;
+  }
+}
+
+.row {
+  display: table-row;
+  background: #f6f6f6;
+}
+.row:nth-of-type(odd) {
+  background: #e9e9e9;
+}
+.row.header {
+  font-weight: 900;
+  color: #ffffff;
+  background: #2980b9;
+}
+@media screen and (max-width: 580px) {
+  .row {
+    padding: 8px 0;
+    display: block;
+  }
+}
+
+.cell {
+  padding: 6px 12px;
+  display: table-cell;
+}
+@media screen and (max-width: 580px) {
+  .cell {
+    padding: 2px 12px;
+    display: block;
+  }
+}
+
+.button {
+    background-color: white; 
+    color: black; 
+    border: 2px solid #008CBA;
+}
+
+.button:hover {
+    background-color: #008CBA;
+    color: white;
+}
+
+
+/* Add a black background color to the top navigation */
+.topnav {
+    overflow: hidden;
+    background-color: #333;
+    font-family: Arial;
+}
+/* Style the links inside the navigation bar */
+.topnav li{
+    float: left;
+    padding: 14px 16px;  
+}
+
+.topnav a{
+    float: left;
+    font-size: 16px;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+}
+/* Change the color of links on hover */
+.topnav li:hover {
+    background-color: #b9b9b9;
+    color: black;
+}
+
+.dropdown {
+    float: left;
+    overflow: hidden;
+}
+.dropdown .menu_level_1 {
+    font-size: 16px;    
+    border: none;
+    outline: none;
+    color: white;
+    background-color: #f9f9f9;
+}
+
+.menu_level_1 {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    z-index: 1;
+    list-style-type: none;
+}
+
+.menu_level_1 li {
+    float: none;
+    color: black;
+    text-decoration: none;
+}
+
+.menu_level_1 a {
+    float: none;
+    color: black;
+    text-decoration: none;
+    display: block;
+    text-align: left;
+}
+
+.menu_level_1 li:hover {
+    background-color: #b9b9b9;
+}
+
+.dropdown:hover .menu_level_1 {
+    display: block;
+}

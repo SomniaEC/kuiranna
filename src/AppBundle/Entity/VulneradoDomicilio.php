@@ -26,10 +26,15 @@ class VulneradoDomicilio extends EntidadBase {
 	private $domicilio;
 	
 	/**
-	 * @ORM\ManyToOne(targetEntity="Denuncia", cascade={"persist"})
+	 * @ORM\ManyToOne(targetEntity="Denuncia", cascade={"persist"}, inversedBy="vulneradosDomicilio")
 	 * @ORM\JoinColumn(name="denuncia_id", referencedColumnName="id")
 	 */
 	private $denuncia;
+	/**
+	 * @ORM\ManyToOne(targetEntity="Junta", cascade={"persist"})
+	 * @ORM\JoinColumn(name="junta_id", referencedColumnName="id")
+	 */
+	private $junta;
 	
 	
 	public function getMostrarDetalles() {
@@ -141,5 +146,29 @@ class VulneradoDomicilio extends EntidadBase {
     public function getDenuncia()
     {
         return $this->denuncia;
+    }
+
+    /**
+     * Set junta
+     *
+     * @param \AppBundle\Entity\Junta $junta
+     *
+     * @return VulneradoDomicilio
+     */
+    public function setJunta(\AppBundle\Entity\Junta $junta = null)
+    {
+        $this->junta = $junta;
+
+        return $this;
+    }
+
+    /**
+     * Get junta
+     *
+     * @return \AppBundle\Entity\Junta
+     */
+    public function getJunta()
+    {
+        return $this->junta;
     }
 }

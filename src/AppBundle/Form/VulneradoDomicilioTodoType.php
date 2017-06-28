@@ -2,19 +2,18 @@
 
 namespace AppBundle\Form;
 
-use AppBundle\Entity\Persona;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class PersonaDomicilioType extends AbstractType {
+class VulneradoDomicilioTodoType extends AbstractType {
 	/**
 	 *
 	 * {@inheritdoc}
 	 *
 	 */
 	public function buildForm(FormBuilderInterface $builder, array $options) {
-		$builder->add ( 'tipo' )->add ( 'persona', PersonaType::class)->add ( 'domicilio', DomicilioType::class)->add ( 'denuncia' )->add ( 'junta' );
+		$builder->add ( 'viveCon' )->add ( 'vulnerado', VulneradoType::class )->add ( 'domicilio', DomicilioType::class );
 	}
 	
 	/**
@@ -24,7 +23,7 @@ class PersonaDomicilioType extends AbstractType {
 	 */
 	public function configureOptions(OptionsResolver $resolver) {
 		$resolver->setDefaults ( array (
-				'data_class' => 'AppBundle\Entity\PersonaDomicilio' 
+				'data_class' => 'AppBundle\Entity\VulneradoDomicilio' 
 		) );
 	}
 	
@@ -34,6 +33,6 @@ class PersonaDomicilioType extends AbstractType {
 	 *
 	 */
 	public function getBlockPrefix() {
-		return 'appbundle_personadomicilio';
+		return 'appbundle_vulneradodomicilio';
 	}
 }
