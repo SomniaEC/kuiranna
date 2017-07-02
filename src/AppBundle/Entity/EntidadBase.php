@@ -64,9 +64,9 @@ abstract class EntidadBase {
 	public function getEstado() {
 		return $this->estado;
 	}
-	public static abstract function getMostrarCabeceras();
+
 	public abstract function getMostrarDetalles();
-	public static abstract function getNombreEntidad();
+
 	public static function getRutas() {
 		return array (
 				'ruta_mostrar' => ConstantesDeOperaciones::MOSTRAR . '_entidad',
