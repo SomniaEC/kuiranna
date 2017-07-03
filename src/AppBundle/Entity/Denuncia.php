@@ -35,12 +35,12 @@ class Denuncia extends EntidadBase {
 	private $junta;
 	
 	/**
-	 * @ORM\OneToMany(targetEntity="PersonaDomicilio", mappedBy="denuncia", cascade={"persist"})
+	 * @ORM\OneToMany(targetEntity="PersonaDomicilio", mappedBy="denuncia", cascade={"persist", "remove"})
 	 */
 	private $personasDomicilio;
 	
 	/**
-	 * @ORM\OneToMany(targetEntity="VulneradoDomicilio", mappedBy="denuncia", cascade={"persist"})
+	 * @ORM\OneToMany(targetEntity="VulneradoDomicilio", mappedBy="denuncia", cascade={"persist", "remove"})
 	 */
 	private $vulneradosDomicilio;
 	

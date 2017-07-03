@@ -13,7 +13,7 @@ class VulneradoDomicilioTodoType extends AbstractType {
 	 *
 	 */
 	public function buildForm(FormBuilderInterface $builder, array $options) {
-		$builder->add ( 'viveCon' )->add ( 'vulnerado', VulneradoType::class )->add ( 'domicilio', DomicilioType::class );
+		$builder->add ( 'vulnerado', VulneradoType::class )->add ( 'viveCon' )->add ( 'domicilio', DomicilioType::class );
 	}
 	
 	/**
