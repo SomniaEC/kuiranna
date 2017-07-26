@@ -21,7 +21,8 @@ class DenunciaType extends AbstractType {
 		) );
 		$builder->add ( 'personasDomicilio', CollectionType::class, array (
 				'entry_type' => PersonaDomicilioTodoType::class,
-				'allow_add' => true 
+				'allow_add' => true,
+				'attr' => array ('row_class' => 'personas_domicilio')
 		) );
 	}
 	
