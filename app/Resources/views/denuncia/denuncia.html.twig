@@ -10,33 +10,40 @@
     {{ form_row(form.personasDomicilio, t_options) }}
 	
 	<script>
-	var $collectionHolder;
 
+jQuery(document).ready(function() {
 	// setup an "add a tag" link
-	var $addVulneradoLink = $('<a href="#" class="add_vulnerado_link">Agregar Vulnerado</a>');
-	var $newLink = $('<div class="row add_link"></div>').append($addVulneradoLink);
+	var $addVulneradoLink = $('<a href="#" class="add_element_link add_vulnerado">Agregar Vulnerado</a>');
+	var $collectionHolder = $('#appbundle_denuncia_vulneradosDomicilio');
+	
+	addLinkToForm($collectionHolder, $addVulneradoLink, $startIndex, 1);
+	
+});
 
-	jQuery(document).ready(function() {
-	    // Get the ul that holds the collection of tags
-	    $collectionHolder = $('#appbundle_denuncia_vulneradosDomicilio');
+function addLinkToForm($elementHolder, $addElementLink, $startIndex) {
+	var $newLink = $('<div class="row add_link"></div>').append($addElementLink);
+	
+	// Get the ul that holds the collection of tags
 
-	    // add the "add a tag" anchor and li to the tags ul
-	    $collectionHolder.append($newLink);
 
-	    // count the current form inputs we have (e.g. 2), use that as the new
-	    // index when inserting a new item (e.g. 2)
-	    $collectionHolder.data('index', 1);
+	// add the "add a tag" anchor and li to the tags ul
+	$elementHolder.append($newLink);
 
-	    $addVulneradoLink.on('click', function(e) {
-	        // prevent the link from creating a "#" on the URL
-	        e.preventDefault();
+	// count the current form inputs we have (e.g. 2), use that as the new
+	// index when inserting a new item (e.g. 2)
+	$elementHolder.data('index', startIndex);
 
-	        // add a new tag form
-	        addVulneradoForm($collectionHolder, $newLink);
-	    });
-	});
+	$addElementLink.on('click', function(e) {
+		
+	// prevent the link from creating a "#" on the URL
+	e.preventDefault();
 
-	function addVulneradoForm($collectionHolder, $newLink) {
+	// add a new tag form
+        addNewElementToForm($elementHolder, $newLink);
+    });
+}
+	
+	function addNewElementToForm($collectionHolder, $newLink) {
 	    // Get the data-prototype explained earlier
 	    var prototype = $collectionHolder.data('prototype');
 
