@@ -7,6 +7,7 @@ use AppBundle\ConstantesDeTipoPersona;
 use AppBundle\Entity\Denuncia;
 use AppBundle\Entity\PersonaDomicilio;
 use AppBundle\Entity\VulneradoDomicilio;
+use Doctrine\Common\Collections\ArrayCollection;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -58,6 +59,19 @@ class DenunciaController extends Controller {
 			$mensaje = "Denuncia modificada correctamente";
 		}
 		
+		$originalPDomicilios = new ArrayCollection ();
+		$originalVulnerados = new ArrayCollection ();
+		
+		// Create an ArrayCollection of the current pDomicilios objects in the database
+		foreach ( $denuncia->getPersonasDomicilio () as $pDomicilio ) {
+			$originalPDomicilios->add ( $pDomicilio );
+		}
+		
+		// Create an ArrayCollection of the current vulnerados objects in the database
+		foreach ( $denuncia->getVulneradosDomicilio () as $vulnerado ) {
+			$originalVulnerados->add ( $vulnerado );
+		}
+		
 		$form = $this->createForm ( 'AppBundle\Form\\DenunciaType', $denuncia );
 		
 		// 2) handle the submit (will only happen on POST)
@@ -70,9 +84,19 @@ class DenunciaController extends Controller {
 				$pDomicilio->setDenuncia ( $denuncia );
 				$pDomicilio->setJunta ( $denuncia->getJunta () );
 			}
-			foreach ( $denuncia->getVulneradosDomicilio () as $vulnerados ) {
-				$vulnerados->setDenuncia ( $denuncia );
-				$vulnerados->setJunta ( $denuncia->getJunta () );
+			foreach ( $denuncia->getVulneradosDomicilio () as $vulnerado ) {
+				$vulnerado->setDenuncia ( $denuncia );
+				$vulnerado->setJunta ( $denuncia->getJunta () );
+			}
+			foreach ( $originalPDomicilios as $pDomicilio ) {
+				if (false === $denuncia->getPersonasDomicilio ()->contains ( $pDomicilio )) {
+					$em->remove ( $pDomicilio );
+				}
+			}
+			foreach ( $originalVulnerados as $vulnerado ) {
+				if (false === $denuncia->getVulneradosDomicilio ()->contains ( $vulnerado )) {
+					$em->remove ( $vulnerado );
+				}
 			}
 			$em->persist ( $denuncia );
 			$em->flush ();

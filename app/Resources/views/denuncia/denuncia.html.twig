@@ -16,10 +16,28 @@ jQuery(document).ready(function() {
 	var $addVulneradoLink = $('<a href="#" class="add_element_link add_vulnerado">Agregar Vulnerado</a>');
 	var $vulneradoHolder = $('#appbundle_denuncia_vulneradosDomicilio');
 	
+	//Add remove link to vulnerados and denunciantes/denunciados
+	$('#appbundle_denuncia_vulneradosDomicilio div.vulnerados_domicilio_row').each(function(){
+		addRemoveLink($(this));
+	});
+	$('#appbundle_denuncia_personasDomicilio div.personas_domicilio_row').each(function(){
+		addRemoveLink($(this));
+	});
+	
 	addLinkToForm($vulneradoHolder, $addVulneradoLink);
 	addDenunciadoDenuncianteLinkToForm();
 	
 });
+
+function addRemoveLink($elementHolder) {
+	var $removeLink = $('<a href="#" class="remove_element_link">Quitar</a>');
+	var $removeLinkHolder = $('<div class="remove_link"></div>').append($removeLink);
+	$elementHolder.prepend($removeLinkHolder);
+	$removeLink.on('click', function(e) {
+		e.preventDefault();
+		$elementHolder.remove();
+    });
+}
 
 function addLinkToForm($elementHolder, $addElementLink) {
 	var $newLink = $('<div class="row add_link"></div>').append($addElementLink);
@@ -55,8 +73,10 @@ function addNewElementToForm($collectionHolder, $newLink) {
 	// increase the index with one for the next item
 	$collectionHolder.data('index', index + 1);
 
+	$element = $(newForm);
+	addRemoveLink($element);
 	// Display the form in the page in an li, before the "Add a tag" link li
-	$newLink.before(newForm);
+	$newLink.before($element);
 }
 
 function addDenunciadoDenuncianteLinkToForm() {
@@ -120,6 +140,7 @@ function addNewDenunElementToForm($collectionHolder, $newLink, $value) {
 	// Display the form in the page in an li, before the "Add a tag" link li
 	var $element = $(newForm)
 	$element.find('.tipo_persona').val($value);
+	addRemoveLink($element);
 	$newLink.before($element);
 }
 </script>

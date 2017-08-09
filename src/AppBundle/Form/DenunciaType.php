@@ -17,11 +17,14 @@ class DenunciaType extends AbstractType {
 		$builder->add ( 'fechaRegistro' )->add ( 'hechos' )->add ( 'derechos' )->add ( 'junta' );
 		$builder->add ( 'vulneradosDomicilio', CollectionType::class, array (
 				'entry_type' => VulneradoDomicilioTodoType::class,
-				'allow_add' => true 
+				'allow_add' => true,
+				'allow_delete' => true,
+				'attr' => array ('row_class' => 'vulnerados_domicilio')
 		) );
 		$builder->add ( 'personasDomicilio', CollectionType::class, array (
 				'entry_type' => PersonaDomicilioTodoType::class,
 				'allow_add' => true,
+				'allow_delete' => true,
 				'attr' => array ('row_class' => 'personas_domicilio')
 		) );
 	}
