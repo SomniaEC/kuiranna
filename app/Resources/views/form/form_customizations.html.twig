@@ -1,10 +1,54 @@
 {%- block form_row -%}
-    <div class="row">
+    <div {{ block('row_attributes') }}>
         {{- form_label(form) -}}
         {{- form_errors(form) -}}
         {{- form_widget(form) -}}
     </div>
 {%- endblock form_row -%}
+
+{%- block date_widget -%}
+    {%- if widget == 'single_text' -%}
+        {{ block('form_widget_simple') }}
+    {%- else -%}
+        <div {{ block('date_widget_container_attributes') }}>
+            {{- date_pattern|replace({
+                '{{ year }}':  form_widget(form.year),
+                '{{ month }}': form_widget(form.month),
+                '{{ day }}':   form_widget(form.day),
+            })|raw -}}
+        </div>
+    {%- endif -%}
+{%- endblock date_widget -%}
+
+{%- block datetime_widget -%}
+    {% if widget == 'single_text' %}
+        {{- block('form_widget_simple') -}}
+    {%- else -%}
+        <div {{ block('date_widget_container_attributes') }}>
+            {{- form_errors(form.date) -}}
+            {{- form_errors(form.time) -}}
+            {{- form_widget(form.date) -}}
+            {{- form_widget(form.time) -}}
+        </div>
+    {%- endif -%}
+{%- endblock datetime_widget -%}
+
+{%- block row_attributes -%}
+    {%- set attrClass = "" -%}
+    {%- for attrname, attrvalue in attr -%}
+        {%- if attrname == 'row_class' -%}
+            {%- set attrClass = ' ' ~ attrvalue -%}
+        {%- endif -%}
+    {%- endfor -%}
+    {% if container_row_attr is defined %}
+    	{%- for attrname, attrvalue in container_row_attr -%}
+            {%- if attrname == 'row_class' -%}
+                {%- set attrClass = ' ' ~ attrvalue -%}
+            {%- endif -%}
+        {%- endfor -%}
+    {% endif %}
+    class="row{{ attrClass }}"
+{%- endblock row_attributes -%}
 
 {%- block widget_attributes -%}
     id="{{ id }}" name="{{ full_name }}"
@@ -19,11 +63,63 @@
             {{- attrname }}="{{ attrname }}"
         {%- elseif attrvalue is not same as(false) -%}
         	{%- if attrname == 'class' -%}
-                {%- set attrClass = attrvalue -%}
-            {%- else -%}
+                {%- set attrClass = ' ' ~ attrvalue -%}
+            {%- elseif attrname != 'row_class' -%}
             	{{- attrname }}="{{ attrvalue }}"
             {%- endif -%}
         {%- endif -%}
     {%- endfor -%}
-    {{- " " -}} class="{{ attrClass }} value" 
+    class="value{{ attrClass }}" 
 {%- endblock widget_attributes -%}
+
+{%- block widget_container_attributes -%}
+    {%- if id is not empty %}id="{{ id }}"{% endif -%}
+    {%- set attrClass = "" -%}
+    {%- for attrname, attrvalue in attr -%}
+        {{- " " -}}
+        {%- if attrname in ['placeholder', 'title'] -%}
+            {{- attrname }}="{{ translation_domain is same as(false) ? attrvalue : attrvalue|trans({}, translation_domain) }}"
+        {%- elseif attrvalue is same as(true) -%}
+            {{- attrname }}="{{ attrname }}"
+        {%- elseif attrvalue is not same as(false) -%}
+            {%- if attrname == 'class' -%}
+                {%- set attrClass = ' ' ~ attrvalue -%}
+            {%- elseif attrname != 'row_class' -%}
+                {{- attrname }}="{{ attrvalue }}"
+            {%- endif -%}
+        {%- endif -%}
+    {%- endfor -%}
+    class="container_value{{ attrClass }}" 
+{%- endblock widget_container_attributes -%}
+
+{%- block date_widget_container_attributes -%}
+    {%- if id is not empty %}id="{{ id }}"{% endif -%}
+    {%- set attrClass = "" -%}
+    {%- for attrname, attrvalue in attr -%}
+        {{- " " -}}
+        {%- if attrname in ['placeholder', 'title'] -%}
+            {{- attrname }}="{{ translation_domain is same as(false) ? attrvalue : attrvalue|trans({}, translation_domain) }}"
+        {%- elseif attrvalue is same as(true) -%}
+            {{- attrname }}="{{ attrname }}"
+        {%- elseif attrvalue is not same as(false) -%}
+            {%- if attrname == 'class' -%}
+                {%- set attrClass = ' ' ~ attrvalue -%}
+            {%- elseif attrname != 'row_class' -%}
+                {{- attrname }}="{{ attrvalue }}"
+            {%- endif -%}
+        {%- endif -%}
+    {%- endfor -%}
+    class="date_value{{ attrClass }}" 
+{%- endblock date_widget_container_attributes -%}
+
+{%- block form_rows -%}
+	{%- set row_attr = [] -%}
+	{%- for attrname, attrvalue in attr -%}
+		{%- if attrname == 'row_class' -%}
+            {% set row_attr = row_attr|merge({'row_class': attrvalue ~ '_row'}) %}
+        {%- endif -%}
+	{%- endfor -%}
+    {% for child in form %}
+        {{- form_row(child, {"container_row_attr" : row_attr}) -}}
+    {% endfor %}
+{%- endblock form_rows -%}

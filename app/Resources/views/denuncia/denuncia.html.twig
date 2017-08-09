@@ -9,51 +9,119 @@
     {{ form_row(form.vulneradosDomicilio, t_options) }}
     {{ form_row(form.personasDomicilio, t_options) }}
 	
-	<script>
-	var $collectionHolder;
+<script>
 
+jQuery(document).ready(function() {
 	// setup an "add a tag" link
-	var $addVulneradoLink = $('<a href="#" class="add_vulnerado_link">Agregar Vulnerado</a>');
-	var $newLink = $('<div class="row add_link"></div>').append($addVulneradoLink);
+	var $addVulneradoLink = $('<a href="#" class="add_element_link add_vulnerado">Agregar Vulnerado</a>');
+	var $vulneradoHolder = $('#appbundle_denuncia_vulneradosDomicilio');
+	
+	addLinkToForm($vulneradoHolder, $addVulneradoLink);
+	addDenunciadoDenuncianteLinkToForm();
+	
+});
 
-	jQuery(document).ready(function() {
-	    // Get the ul that holds the collection of tags
-	    $collectionHolder = $('#appbundle_denuncia_vulneradosDomicilio');
+function addLinkToForm($elementHolder, $addElementLink) {
+	var $newLink = $('<div class="row add_link"></div>').append($addElementLink);
+	var $startIndex = $elementHolder.children().length;
 
-	    // add the "add a tag" anchor and li to the tags ul
-	    $collectionHolder.append($newLink);
+	// add the "add a tag" anchor and li to the tags ul
+	$elementHolder.append($newLink);
 
-	    // count the current form inputs we have (e.g. 2), use that as the new
-	    // index when inserting a new item (e.g. 2)
-	    $collectionHolder.data('index', 1);
+	// count the current form inputs we have (e.g. 2), use that as the new
+	// index when inserting a new item (e.g. 2)
+	$elementHolder.data('index', $startIndex);
 
-	    $addVulneradoLink.on('click', function(e) {
-	        // prevent the link from creating a "#" on the URL
-	        e.preventDefault();
+	$addElementLink.on('click', function(e) {
+		// prevent the link from creating a "#" on the URL
+		e.preventDefault();
 
-	        // add a new tag form
-	        addVulneradoForm($collectionHolder, $newLink);
-	    });
+		// add a new tag form
+        addNewElementToForm($elementHolder, $newLink);
+    });
+}
+	
+function addNewElementToForm($collectionHolder, $newLink) {
+    // Get the data-prototype explained earlier
+    var prototype = $collectionHolder.data('prototype');
+    // get the new index
+    var index = $collectionHolder.data('index');
+
+	// Replace '__name__' in the prototype's HTML to
+	// instead be a number based on how many items we have
+	var newForm = prototype.replace(/__name__label__/g, index);
+	newForm = newForm.replace(/__name__/g, index);
+
+	// increase the index with one for the next item
+	$collectionHolder.data('index', index + 1);
+
+	// Display the form in the page in an li, before the "Add a tag" link li
+	$newLink.before(newForm);
+}
+
+function addDenunciadoDenuncianteLinkToForm() {
+	var $elementsHolder = $('#appbundle_denuncia_personasDomicilio');
+	var $denuncianteLastElement = $('#appbundle_denuncia_personasDomicilio :input.tipo_persona[value="DENUNCIANTE"]').last().closest('div.personas_domicilio_row');
+
+	var $addDenuncianteLink = $('<a href="#" class="add_element_link add_denunciante">Agregar Denunciante</a>');
+	var $addDenunciadoLink = $('<a href="#" class="add_element_link add_denunciado">Agregar Denunciado</a>');
+	
+	var $newDenuncianteLink = $('<div class="row add_link"></div>').append($addDenuncianteLink);
+	var $newDenunciadoLink = $('<div class="row add_link"></div>').append($addDenunciadoLink);
+
+	var $startIndex = $elementsHolder.children().length;
+
+	if($denuncianteLastElement.length == 0) {
+		$elementsHolder.append($newDenuncianteLink);
+	} else {
+		$denuncianteLastElement.after($newDenuncianteLink);
+	}
+	
+	$elementsHolder.append($newDenunciadoLink);
+
+	// count the current form inputs we have (e.g. 2), use that as the new
+	// index when inserting a new item (e.g. 2)
+	$elementsHolder.data('index', $startIndex);
+
+	$addDenuncianteLink.on('click', function(e) {
+
+		// prevent the link from creating a "#" on the URL
+		e.preventDefault();
+
+		// add a new tag form
+		addNewDenunElementToForm($elementsHolder, $newDenuncianteLink, 'DENUNCIANTE');
 	});
 
-	function addVulneradoForm($collectionHolder, $newLink) {
-	    // Get the data-prototype explained earlier
-	    var prototype = $collectionHolder.data('prototype');
+	$addDenunciadoLink.on('click', function(e) {
 
-	    // get the new index
-	    var index = $collectionHolder.data('index');
+		// prevent the link from creating a "#" on the URL
+		e.preventDefault();
 
-	    // Replace '__name__' in the prototype's HTML to
-	    // instead be a number based on how many items we have
-	    var newForm = prototype.replace(/__name__label__/g, index);
-	    newForm = newForm.replace(/__name__/g, index);
+		// add a new tag form
+		addNewDenunElementToForm($elementsHolder, $newDenunciadoLink, 'DENUNCIADO');
+	});
+}
 
-	    // increase the index with one for the next item
-	    $collectionHolder.data('index', index + 1);
 
-	    // Display the form in the page in an li, before the "Add a tag" link li
-	    $newLink.before(newForm);
-	}
-	</script>
+function addNewDenunElementToForm($collectionHolder, $newLink, $value) {
+    // Get the data-prototype explained earlier
+    var prototype = $collectionHolder.data('prototype');
+    // get the new index
+    var index = $collectionHolder.data('index');
+
+	// Replace '__name__' in the prototype's HTML to
+	// instead be a number based on how many items we have
+	var newForm = prototype.replace(/__name__label__/g, index);
+	newForm = newForm.replace(/__name__/g, index);
+
+	// increase the index with one for the next item
+	$collectionHolder.data('index', index + 1);
+
+	// Display the form in the page in an li, before the "Add a tag" link li
+	var $element = $(newForm)
+	$element.find('.tipo_persona').val($value);
+	$newLink.before($element);
+}
+</script>
 	
 {% endblock %}

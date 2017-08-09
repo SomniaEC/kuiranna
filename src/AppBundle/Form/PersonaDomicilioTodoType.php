@@ -6,6 +6,7 @@ use AppBundle\Entity\Persona;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 class PersonaDomicilioTodoType extends AbstractType {
 	/**
@@ -14,7 +15,9 @@ class PersonaDomicilioTodoType extends AbstractType {
 	 *
 	 */
 	public function buildForm(FormBuilderInterface $builder, array $options) {
-		$builder->add ( 'tipo' )->add ( 'persona', PersonaType::class)->add ( 'domicilio', DomicilioType::class);
+		$builder->add ( 'tipo', TextType::class, array (
+				'attr' => array ('class' => 'tipo_persona', 'row_class' => 'tipo_row') ))
+		->add ( 'persona', PersonaType::class )->add ( 'domicilio', DomicilioType::class );
 	}
 	
 	/**
