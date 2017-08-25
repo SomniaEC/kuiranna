@@ -11,7 +11,7 @@ services:
 services:
     app.menu_builder:
         class: AppBundle\Menu\Builder
-        arguments: ["@knp_menu.factory"]
+        arguments: ["@knp_menu.factory", "@security.authorization_checker"]
         tags:
             - { name: knp_menu.menu_builder, method: createMainMenu, alias: main } # The alias is what is used to retrieve the menu
 
