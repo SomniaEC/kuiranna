@@ -5,7 +5,7 @@ namespace AppBundle\Menu;
 use Knp\Menu\FactoryInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationChecker;
 
-class Builder {
+class MenuBuilder {
 	private $factory;
 	private $authorizationChecker;
 	public function __construct(FactoryInterface $factory, AuthorizationChecker $authorizationChecker) {
