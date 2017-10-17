@@ -3,24 +3,12 @@
 namespace AppBundle\Controller;
 
 use AppBundle\ConstantesDeOperaciones;
-use AppBundle\Entity\Domicilio;
-use AppBundle\Entity\Persona;
-use AppBundle\Form\DomicilioType;
-use AppBundle\Form\PersonaType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use AppBundle\Entity\Actor;
 
 class BaseController extends Controller {
-	/**
-	 * Uncalled method for importing needed clases
-	 */
-	private function dummy() {
-		new Persona ();
-		new PersonaType ();
-		new Domicilio ();
-		new DomicilioType ();
-	}
 	
 	/**
 	 * @Route("/{nombreEntidad}/listar", name="listar_entidad")
@@ -35,7 +23,7 @@ class BaseController extends Controller {
 				'entidades' => $entidades,
 				'nombreEntidad' => $nombreEntidad,
 				'mensaje' => $mensaje 
-		), Persona::getRutas () ) );
+		), Actor::getRutas () ) );
 	}
 	
 	/**
@@ -82,8 +70,8 @@ class BaseController extends Controller {
 			if ($idEntidad == null) {
 				return $this->redirectToRoute ( 'crear_denuncia' );
 			} else {
-				return $this->redirectToRoute ( 'crear_denuncia' , array (
-						"id" => $idEntidad,
+				return $this->redirectToRoute ( 'crear_denuncia', array (
+						"id" => $idEntidad 
 				) );
 			}
 		} else {

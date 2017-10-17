@@ -12,7 +12,9 @@ class DerechoController extends Controller {
 	 */
 	public function createAction() {
 		$derecho = new Derecho ();
-		$derecho->setNombre ( "Derecho de Prueba" );
+		$derecho->setTipo ( "DERECHOS DE SUPERVIVENCIA" );
+		$derecho->setNombre ( "Art. 21" );
+		$derecho->setDescripcion( "Derecho a conocer a los progenitores y a mantener relaciones con ellos" );
 		
 		$em = $this->getDoctrine ()->getManager ();
 		$em->persist ( $derecho );

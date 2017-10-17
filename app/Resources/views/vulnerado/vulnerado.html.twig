@@ -2,13 +2,19 @@
 
 {% block form %}
 
-    {{ form_row(form.nombres, t_options) }}
-    {{ form_row(form.fechaNacimiento, t_options) }}
-    {{ form_row(form.cedula, t_options) }}
-    {{ form_row(form.tieneCapacidadEspecial, t_options) }}
-    {{ form_row(form.nacionalidad, t_options) }}
-    {{ form_row(form.nombresPadre, t_options) }}
-    {{ form_row(form.nombresMadre, t_options) }}
-    {{ form_row(form.centroEducativo, t_options) }}
+        {{ form_row(form.identificacion, t_options) }}
+        {{ form_row(form.nombres, t_options) }}
+        {{ form_row(form.fechaNacimiento, t_options) }}
+        {{ form_row(form.sexo, t_options) }}
+        {{ form_row(form.genero, t_options) }}
+        {{ form_row(form.nacionalidad, t_options) }}
+        {{ form_row(form.interculturalidad, t_options) }}
+        {{ form_row(form.ocupacion, t_options) }}
+        {{ form_row(form.instruccion, t_options) }}
+        {{ form_row(form.capacidadEspecial, t_options) }}
+        {{ form_row(form.legalidad, t_options) }}
+        {{ form_row(form.telefono, t_options) }}
+        {{ form_row(form.email, t_options) }}
+        {{ form_row(form.centroEducativo, t_options) }}
 
 {% endblock %}

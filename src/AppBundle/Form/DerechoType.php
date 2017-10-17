@@ -13,7 +13,7 @@ class DerechoType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('nombre')->add('junta')        ;
+    	$builder->add('tipo')->add('nombre')->add('descripcion');
     }
     
     /**
@@ -31,7 +31,7 @@ class DerechoType extends AbstractType
      */
     public function getBlockPrefix()
     {
-        return 'appbundle_derecho';
+        return 'bloque_derecho';
     }
 
 

@@ -1,0 +1,12 @@
+{% extends 'entidadBase/mostrarEntidad.html.twig' %}
+
+{% block form %}
+
+	{{ form_row(form.rol, t_options) }}
+    {{ form_row(form.actor, t_options) }}
+    {{ form_row(form.direccion, t_options) }}
+    {{ form_row(form.direccionTrabajo, t_options) }}
+    {{ form_row(form.denuncia, t_options) }}
+    {{ form_row(form.junta, t_options) }}
+
+{% endblock %}

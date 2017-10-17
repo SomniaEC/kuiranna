@@ -5,7 +5,7 @@ namespace AppBundle\Controller;
 use AppBundle\Entity\Junta;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use AppBundle\Entity\Domicilio;
+use AppBundle\Entity\Direccion;
 
 class JuntaController extends Controller {
 	/**
@@ -14,28 +14,33 @@ class JuntaController extends Controller {
 	public function createAction() {
 		$junta = new Junta();
 		$junta->setNombre('Quito Norte');
+		$junta->setRuc('1706432359');
+		$junta->setTelefono('022243244');
+		$junta->setEmail('123@abc.com');
+		$junta->setLogo('\home\images\logo.png');
 		
-		$domicilio = new Domicilio();
-		$domicilio->setDireccion ( "12 de Octubre y Coruña" );
-		$domicilio->setReferencia ( "plaza artigas" );
-		$domicilio->setDescripcionCasa ( "edificio Urban Plaza" );
-		$domicilio->setProvincia ( "Pichincha" );
-		$domicilio->setCanton ( "Quito" );
-		$domicilio->setSector ( "Floresta" );
+		$direccion = new Direccion();
+		$direccion->setProvincia ( "Pichincha" );
+		$direccion->setCanton ( "Quito" );
+		$direccion->setParroquia ( "Floresta" );
+		$direccion->setSector ( "Plaza Artigas" );
+		$direccion->setZona("Centro-Norte");
+		$direccion->setCallePrincipal("Av. La Coruna");
+		$direccion->setCalleSecundaria("Av. 12 de Octubre");
+		$direccion->setNumero("N24-564");
+		$direccion->setReferencia ( "junta" );
 		
-		$junta->setDomicilio($domicilio);
+		$junta->setDireccion($direccion);
 		
 		$em = $this->getDoctrine ()->getManager ();
 		
-		// tells Doctrine you want to (eventually) save the Product (no queries yet)
 		$em->persist ( $junta );
 		
-		// actually executes the queries (i.e. the INSERT query)
 		$em->flush ();
 		
 		return $this->redirectToRoute ( "listar_entidad", array (
 				"nombreEntidad" => "junta",
-				"mensaje" => "Junta de prueba con domicilio guardada con id: " . $junta->getId () 
+				"mensaje" => "Junta de prueba con direccion guardada con id: " . $junta->getId () 
 		) );
 	}
 }
