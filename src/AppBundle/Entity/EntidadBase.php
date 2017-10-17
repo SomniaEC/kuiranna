@@ -18,14 +18,14 @@ abstract class EntidadBase {
 	protected $id;
 	
 	/**
-	 * @ORM\Column(type="string")
+	 * @ORM\Column(type="string", length=30)
 	 */
 	protected $estado = ConstantesDeEstado::ACTIVO;
 	
 	/**
 	 * Set id
 	 *
-	 * @param string $id        	
+	 * @param string $id
 	 *
 	 * @return EntidadBase
 	 */
@@ -46,7 +46,7 @@ abstract class EntidadBase {
 	/**
 	 * Set estado
 	 *
-	 * @param string $estado        	
+	 * @param string $estado
 	 *
 	 * @return EntidadBase
 	 */
@@ -64,9 +64,11 @@ abstract class EntidadBase {
 	public function getEstado() {
 		return $this->estado;
 	}
-
-	public abstract function getMostrarDetalles();
-
+	
+	/**
+	 *
+	 * @return string[]
+	 */
 	public static function getRutas() {
 		return array (
 				'ruta_mostrar' => ConstantesDeOperaciones::MOSTRAR . '_entidad',
@@ -77,5 +79,12 @@ abstract class EntidadBase {
 				'ruta_listar' => ConstantesDeOperaciones::LISTAR . '_entidad' 
 		);
 	}
+	
+	/**
+	 */
+	public abstract function getMostrarDetalles();
+	
+	/**
+	 */
 	public abstract function __toString();
 }

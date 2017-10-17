@@ -1,0 +1,15 @@
+{% extends 'entidadBase/mostrarEntidad.html.twig' %}
+
+{% block form %}
+
+    {{ form_row(form.provincia, t_options) }}
+    {{ form_row(form.canton, t_options) }}
+    {{ form_row(form.parroquia, t_options) }}
+    {{ form_row(form.sector, t_options) }}
+    {{ form_row(form.zona, t_options) }}
+    {{ form_row(form.callePrincipal, t_options) }}
+    {{ form_row(form.calleSecundaria, t_options) }}
+    {{ form_row(form.numero, t_options) }}
+    {{ form_row(form.referencia, t_options) }}
+    
+{% endblock %}

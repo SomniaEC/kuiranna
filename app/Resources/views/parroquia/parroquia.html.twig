@@ -1,0 +1,7 @@
+{% extends 'entidadBase/mostrarEntidad.html.twig' %}
+
+{% block form %}
+    {{ form_row(form.codigo, t_options) }}
+    {{ form_row(form.nombre, t_options) }}
+    {{ form_row(form.canton, t_options) }}
+{% endblock %}

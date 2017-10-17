@@ -1,0 +1,8 @@
+{% extends 'entidadBase/mostrarEntidad.html.twig' %}
+
+{% block form %}
+    {{ form_row(form.modulo, t_options) }}
+    {{ form_row(form.accion, t_options) }}
+    {{ form_row(form.fechaHora, t_options) }}
+    {{ form_row(form.ip, t_options) }}
+{% endblock %}

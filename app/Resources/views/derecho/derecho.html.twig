@@ -1,6 +1,7 @@
 {% extends 'entidadBase/mostrarEntidad.html.twig' %}
 
 {% block form %}
+    {{ form_row(form.tipo, t_options) }}
     {{ form_row(form.nombre, t_options) }}
-    {{ form_row(form.junta, t_options) }}
+    {{ form_row(form.descripcion, t_options) }}
 {% endblock %}

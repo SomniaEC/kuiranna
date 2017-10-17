@@ -23,37 +23,37 @@ class Builder {
 				'route' => 'homepage' 
 		) );
 		
-		$menu->addChild ( 'Persona', array (
+		$menu->addChild ( 'Actor', array (
 				'uri' => '#' 
 		) );
-		$menu ['Persona']->setAttribute('class', 'dropdown');
-		$menu ['Persona']->addChild ( 'Listar Personas', array (
+		$menu ['Actor']->setAttribute('class', 'dropdown');
+		$menu ['Actor']->addChild ( 'Listar Actores', array (
 				'route' => 'listar_entidad',
 				'routeParameters' => array (
-						"nombreEntidad" => "persona" 
+						"nombreEntidad" => "actor" 
 				)
 		) );
-		$menu ['Persona']->addChild ( 'Crear Personas', array (
+		$menu ['Actor']->addChild ( 'Crear Actores', array (
 				'route' => 'guardar_entidad',
 				'routeParameters' => array (
-						"nombreEntidad" => "persona"
+						"nombreEntidad" => "actor"
 				)
 		) );
 		
-		$menu->addChild ( 'Domicilio', array (
+		$menu->addChild ( 'Direccion', array (
 				'uri' => '#'
 		) );
-		$menu ['Domicilio']->setAttribute('class', 'dropdown');
-		$menu ['Domicilio']->addChild ( 'Listar Domicilios', array (
+		$menu ['Direccion']->setAttribute('class', 'dropdown');
+		$menu ['Direccion']->addChild ( 'Listar Direccions', array (
 				'route' => 'listar_entidad',
 				'routeParameters' => array (
-						"nombreEntidad" => "domicilio"
+						"nombreEntidad" => "direccion"
 				)
 		) );
-		$menu ['Domicilio']->addChild ( 'Crear Domicilios', array (
+		$menu ['Direccion']->addChild ( 'Crear Direccions', array (
 				'route' => 'guardar_entidad',
 				'routeParameters' => array (
-						"nombreEntidad" => "domicilio"
+						"nombreEntidad" => "direccion"
 				)
 		) );
 		

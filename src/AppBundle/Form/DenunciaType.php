@@ -14,18 +14,30 @@ class DenunciaType extends AbstractType {
 	 *
 	 */
 	public function buildForm(FormBuilderInterface $builder, array $options) {
-		$builder->add ( 'fechaRegistro' )->add ( 'hechos' )->add ( 'derechos' )->add ( 'junta' );
-		$builder->add ( 'vulneradosDomicilio', CollectionType::class, array (
-				'entry_type' => VulneradoDomicilioTodoType::class,
+		$builder->add ( 'creacion' )->add ( 'hechos' )->add ( 'recursoImpugnacion' )
+		->add ( 'tipoMaltrato' )->add ( 'ambitoMaltrato' )->add ( 'vulneradoresDerechos' )
+		->add ( 'derechos' )->add ( 'junta' )->add ( 'vulneradosDireccion', CollectionType::class, array (
+				'entry_type' => VulneradoDireccionTodoType::class,
 				'allow_add' => true,
 				'allow_delete' => true,
-				'attr' => array ('row_class' => 'vulnerados_domicilio')
+				'label_attr' => array (
+						'class' => 'container_label' 
+				),
+				'attr' => array (
+						'row_class' => 'container_container_row vulnerados_direccion' 
+				) 
+		
 		) );
-		$builder->add ( 'personasDomicilio', CollectionType::class, array (
-				'entry_type' => PersonaDomicilioTodoType::class,
+		$builder->add ( 'actoresDireccion', CollectionType::class, array (
+				'entry_type' => ActorDireccionTodoType::class,
 				'allow_add' => true,
 				'allow_delete' => true,
-				'attr' => array ('row_class' => 'personas_domicilio')
+				'label_attr' => array (
+						'class' => 'container_label' 
+				),
+				'attr' => array (
+						'row_class' => 'container_container_row actores_direccion' 
+				) 
 		) );
 	}
 	
@@ -46,6 +58,6 @@ class DenunciaType extends AbstractType {
 	 *
 	 */
 	public function getBlockPrefix() {
-		return 'appbundle_denuncia';
+		return 'bloque_denuncia';
 	}
 }
