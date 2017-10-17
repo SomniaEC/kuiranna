@@ -21,7 +21,7 @@ class OperacionDenuncia extends EntidadBase {
 	private $fechaHora;
 	
 	/**
-	 * @ORM\ManyToOne(targetEntity="Denuncia", cascade={"persist"}, inversedBy="vulneradosDireccion")
+	 * @ORM\ManyToOne(targetEntity="Denuncia", cascade={"persist"}, inversedBy="operacionesDenuncia")
 	 * @ORM\JoinColumn(name="denuncia_id", referencedColumnName="id")
 	 */
 	private $denuncia;

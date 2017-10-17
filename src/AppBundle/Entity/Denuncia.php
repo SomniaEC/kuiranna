@@ -353,17 +353,33 @@ class Denuncia extends EntidadBase {
 	public function getVulneradosDireccion() {
 		return $this->vulneradosDireccion;
 	}
+	
+	/**
+         * Add operacionesDenuncia
+         *
+         * @param \AppBundle\Entity\OperacionDenuncia $operacionesDenuncia
+         *
+         * @return Denuncia
+         */
+        public function addOperacionesDenuncia(\AppBundle\Entity\OperacionDenuncia $operacionesDenuncia) {
+                $this->operacionesDenuncia [] = $operacionesDenuncia;
+
+                return $this;
+        }
+
+        /**
+         * Remove operacionesDenuncia
+         *
+         * @param \AppBundle\Entity\OperacionesDenuncia $operacionesDenuncia
+         */
+        public function removeOperacionesDenuncia(\AppBundle\Entity\OperacionDenuncia $operacionesDenuncia) {
+                $this->operacionesDenuncia->removeElement ( $operacionesDenuncia );
+        }
+
 	/**
 	 * @return \Doctrine\Common\Collections\ArrayCollection
 	 */
 	public function getOperacionesDenuncia() {
 		return $this->operacionesDenuncia;
-	}
-
-	/**
-	 * @param \Doctrine\Common\Collections\ArrayCollection $operacionesDenuncia
-	 */
-	public function setOperacionesDenuncia($operacionesDenuncia) {
-		$this->operacionesDenuncia = $operacionesDenuncia;
 	}
 }
