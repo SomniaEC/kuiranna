@@ -16,10 +16,10 @@ class DireccionController extends Controller {
 		$direccion->setCanton ( "Quito" );
 		$direccion->setParroquia ( "Benalcazar" );
 		$direccion->setSector ( "Bellavista" );
-		$direccion->setZona("Centro-Norte");
-		$direccion->setCallePrincipal("Eloy Alfaro");
-		$direccion->setCalleSecundaria("Catalina Aldaz");
-		$direccion->setNumero("N24-554");
+		$direccion->setZona ( "Centro-Norte" );
+		$direccion->setCallePrincipal ( "Eloy Alfaro" );
+		$direccion->setCalleSecundaria ( "Catalina Aldaz" );
+		$direccion->setNumero ( "N24-554" );
 		$direccion->setReferencia ( "junto a alitas del Cadilac" );
 		
 		$em = $this->getDoctrine ()->getManager ();

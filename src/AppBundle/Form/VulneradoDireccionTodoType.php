@@ -25,7 +25,7 @@ class VulneradoDireccionTodoType extends AbstractType {
 						'class' => 'container_label' 
 				),
 				'attr' => array (
-						'row_class' => 'container_row' 
+						'row_class' => 'container_row elementos_direccion' 
 				) 
 		) );
 	}

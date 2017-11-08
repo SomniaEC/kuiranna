@@ -25,14 +25,14 @@ class ActorDireccionType extends AbstractType {
 						'class' => 'container_label' 
 				),
 				'attr' => array (
-						'row_class' => 'container_row' 
+						'row_class' => 'container_row elementos_direccion' 
 				) 
 		) )->add ( 'direccionTrabajo', DireccionType::class, array (
 				'label_attr' => array (
 						'class' => 'container_label' 
 				),
 				'attr' => array (
-						'row_class' => 'container_row' 
+						'row_class' => 'container_row elementos_direccion' 
 				) 
 		) )->add ( 'denuncia' )->add ( 'junta' );
 	}

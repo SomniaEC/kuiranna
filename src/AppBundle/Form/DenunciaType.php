@@ -18,7 +18,7 @@ class DenunciaType extends AbstractType {
 		->add ( 'tipoMaltrato' )->add ( 'ambitoMaltrato' )->add ( 'vulneradoresDerechos' )
 		->add ( 'derechos' )->add ( 'junta' )->add ( 'vulneradosDireccion', CollectionType::class, array (
 				'entry_type' => VulneradoDireccionTodoType::class,
-				'allow_add' => true,
+				'allow_add' => false,
 				'allow_delete' => true,
 				'label_attr' => array (
 						'class' => 'container_label' 
@@ -30,7 +30,7 @@ class DenunciaType extends AbstractType {
 		) );
 		$builder->add ( 'actoresDireccion', CollectionType::class, array (
 				'entry_type' => ActorDireccionTodoType::class,
-				'allow_add' => true,
+				'allow_add' => false,
 				'allow_delete' => true,
 				'label_attr' => array (
 						'class' => 'container_label' 

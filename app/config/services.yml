@@ -25,4 +25,10 @@ services:
             - { name: knp_menu.menu_builder, method: createSuperAdminMenu, alias: superAdmin } # The alias is what is used to retrieve the menu
             
 
+    app.form.type.direccion:
+        class: AppBundle\Form\DireccionType
+        arguments: ['@doctrine.orm.entity_manager']
+        tags:
+            - { name: form.type }
+
     # ...
