@@ -25,16 +25,18 @@ security:
             anonymous:    ~
  
     access_control:
-        - { path: ^/register, role: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: /.*listar, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/register, role: IS_AUTHENTICATED_REMEMBERED }
+        - { path: /.*listar, role: IS_AUTHENTICATED_REMEMBERED }
         - { path: /.*guardar, role: ROLE_SUPER_ADMIN }
-        - { path: /.*mostrar, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: /.*mostrar, role: IS_AUTHENTICATED_REMEMBERED }
         - { path: /.*eliminar, role: ROLE_SUPER_ADMIN }
         - { path: /.*prueba, role: ROLE_SUPER_ADMIN }
-        - { path: ^/usuario/listar, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/usuario/listar, role: IS_AUTHENTICATED_REMEMBERED }
         
         
     role_hierarchy:
-        ROLE_CUSTOM:     [ROLE_USER]
-        ROLE_ADMIN:       [ROLE_CUSTOM]
-        ROLE_SUPER_ADMIN: [ROLE_ADMIN]
+        ROLE_SECRETARIO:     [ROLE_USER]
+        ROLE_MIEMBRO_DE_JUNTA:     [ROLE_USER]
+        ROLE_PSICOLOGO:     [ROLE_USER]
+        ROLE_ADMIN_JUNTA:       [ROLE_USER, ROLE_SECRETARIO, ROLE_MIEMBRO_DE_JUNTA, ROLE_PSICOLOGO, ROLE_ADMINISTRAR_JUNTA]
+        ROLE_SUPER_ADMIN: [ROLE_USER, ROLE_ADMIN_JUNTA, ROLE_CONFIGURAR_JUNTA]

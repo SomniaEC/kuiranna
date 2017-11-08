@@ -4,57 +4,52 @@ namespace AppBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
-use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
-class UsuarioType extends AbstractType
-{
-    /**
-     * {@inheritdoc}
-     */
-    public function buildForm(FormBuilderInterface $builder, array $options)
-    {	
-    	
-        $builder->add('cedula')
-        ->add('username')
-        ->add('plainPassword', RepeatedType::class, array(
-        		'type' => PasswordType::class,
-        		'first_options'  => array('label' => 'Password'),
-        		'second_options' => array('label' => 'Repeat Password'),
-        ))
-        ->add('telefonoConvencional')
-        ->add('telefonoCelular')
-        ->add('email')
-        ->add('cargo')
-        ->add('fechaInicio')
-        ->add('fechaFin')
-        ->add('estadoActividad')
-        ->add('enabled')
-        ->add('lastLogin')
-        ->add('passwordRequestedAt')
-        ->add('roles')
-        ->add('confirmationToken')
-        ->add('junta');
-    }
-    
-    /**
-     * {@inheritdoc}
-     */
-    public function configureOptions(OptionsResolver $resolver)
-    {
-        $resolver->setDefaults(array(
-            'data_class' => 'AppBundle\Entity\Usuario'
-        ));
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getBlockPrefix()
-    {
-        return 'appbundle_usuario';
-    }
-
-
+class UsuarioType extends AbstractType {
+	/**
+	 *
+	 * {@inheritdoc}
+	 *
+	 */
+	public function buildForm(FormBuilderInterface $builder, array $options) {
+		$builder->add ( 'cedula' );
+		$builder->add ( 'telefonoConvencional' );
+		$builder->add ( 'telefonoCelular' );
+		$builder->add ( 'cargo' );
+		$builder->add ( 'fechaInicio' );
+		$builder->add ( 'fechaFin' );
+		$builder->add ( 'estadoActividad' );
+		$builder->add ( 'junta' );
+		$builder->add('roles', ChoiceType::class, array(
+                'label' => 'Rol',
+                'required' => true,
+                'choices' => $this->getExistingRoles(),
+                'multiple' => true));
+	}
+	public function getParent() {
+		return 'FOS\UserBundle\Form\Type\RegistrationFormType';
+	}
+	public function getBlockPrefix() {
+		return 'app_user_registration';
+	}
+	public function getName() {
+		return $this->getBlockPrefix ();
+	}
+	public function getExistingRoles() {
+		
+		return array ('ROLE_ADMIN' => 'ROLE_ADMIN', 'ROLE_USER' => 'ROLE_USER', 'ROLE_CUSTOMER' => 'ROLE_CUSTOMER');
+		// sintaxis dentro de admin class:
+// 		$roleHierarchy = $this->getConfigurationPool()->getContainer()->getParameter('security.role_hierarchy.roles');
+		// sintaxis dentro de un controlador:
+// 		$container = new ContainerBuilder();
+// 		$roleHierarchy = $container->getParameter('security.role_hierarchy.roles');
+// 		$roles = array_keys($roleHierarchy);
+// 		$theRoles = array();
+	
+// 		foreach ($roles as $role) {
+// 			$theRoles[$role] = $role;
+// 		}
+// 		return $theRoles;
+	}
 }
