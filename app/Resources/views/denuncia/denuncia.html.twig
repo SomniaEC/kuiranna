@@ -2,6 +2,8 @@
 
 {% block form %}
 
+    {{ dump(form) }}
+
     {{ form_row(form.creacion, t_options) }}
     {{ form_row(form.hechos, t_options) }}
     {{ form_row(form.recursoImpugnacion, t_options) }}
@@ -13,9 +15,18 @@
     {{ form_row(form.vulneradosDireccion, t_options) }}
     {{ form_row(form.actoresDireccion, t_options) }}
 	
-<script>
+<script type="text/javascript">
 
 jQuery(document).ready(function() {
+
+    var $provincia_canton = JSON.parse('{{ form.children.vulneradosDireccion.children.0.children.direccion.vars.provincia_canton|raw }}');
+    var $canton_parroquia = JSON.parse('{{ form.children.vulneradosDireccion.children.0.children.direccion.vars.canton_parroquia|raw }}');
+    $.each($('.elementos_direccion'), function (key, value) {
+        bindSelects($(value).find('select.select_direccion_provincia').first(), $(value).find('select.select_direccion_canton').first(), $provincia_canton, 'codigo');
+        bindSelects($(value).find('select.select_direccion_canton').first(), $(value).find('select.select_direccion_parroquia').first(), $canton_parroquia, 'codigo');
+    });
+
+	
 	// setup an "add a tag" link
 	var $addVulneradoLink = $('<a href="#" class="add_element_link add_vulnerado">Agregar Vulnerado</a>');
 	var $vulneradoHolder = $('#bloque_denuncia_vulneradosDireccion');

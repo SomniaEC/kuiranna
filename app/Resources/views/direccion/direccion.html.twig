@@ -1,7 +1,16 @@
 {% extends 'entidadBase/mostrarEntidad.html.twig' %}
 
-{% block form %}
 
+{% block form %}
+<script type="text/javascript">
+jQuery(document).ready(function() {
+    var $provincia_canton = JSON.parse('{{ form.vars.provincia_canton|raw }}');
+    var $canton_parroquia = JSON.parse('{{ form.vars.canton_parroquia|raw }}');
+    bindSelects($('#bloque_direccion_provincia'), $('#bloque_direccion_canton'), $provincia_canton, 'codigo');
+    bindSelects($('#bloque_direccion_canton'), $('#bloque_direccion_parroquia'), $canton_parroquia, 'codigo');
+});
+</script>
+    
     {{ form_row(form.provincia, t_options) }}
     {{ form_row(form.canton, t_options) }}
     {{ form_row(form.parroquia, t_options) }}

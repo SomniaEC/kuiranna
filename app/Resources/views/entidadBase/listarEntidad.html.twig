@@ -36,7 +36,7 @@
 		</div>
 		{% endfor %}
 	</div>
-	<a href="{{ path(ruta_modificar, {'nombreEntidad':nombreEntidad}) }}">Agregar</a>
+	<a href="/{{nombreEntidad}}/guardar">Agregar</a>
 	{% set ruta = ruta_prueba ~ nombreEntidad %}
 	<a href="{{ path(ruta) }}">Agregar prueba</a>
 	{% endblock %}

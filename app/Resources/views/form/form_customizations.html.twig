@@ -40,13 +40,6 @@
             {%- set attrClass = ' ' ~ attrvalue -%}
         {%- endif -%}
     {%- endfor -%}
-    {% if container_row_attr is defined %}
-    	{%- for attrname, attrvalue in container_row_attr -%}
-            {%- if attrname == 'row_class' -%}
-                {%- set attrClass = ' ' ~ attrvalue -%}
-            {%- endif -%}
-        {%- endfor -%}
-    {% endif %}
     class="row{{ attrClass }}"
 {%- endblock row_attributes -%}
 

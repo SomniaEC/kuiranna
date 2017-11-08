@@ -51,7 +51,7 @@ class DenunciaController extends Controller {
 	}
 	
 	/**
-	 * @Route("denuncia/crear", name="crear_denuncia")
+	 * @Route("denuncia/guardar", name="guardar_denuncia")
 	 */
 	public function crearDenunciaAction(Request $request) {
 		// 1) build the form

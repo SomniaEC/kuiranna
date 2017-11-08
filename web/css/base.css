@@ -178,19 +178,25 @@ body {
 
 .container_value {
 	clear: both;
+	padding-left: 5px;
+    padding-bottom: 5px;
 }
 
-.row.container_row {
-    padding-left: 5px;
-    padding-bottom: 5px;
+.container_row {
     background: #cccccc;
 }
 
-.row.container_container_row {
-    padding-left: 5px;
-    padding-bottom: 5px;
-    background: #b3b3b3;
+.container_row:nth-of-type(odd) {
+  background: #b3b3b3;
+}
+
+.container_container_row {
+    background: #aca586;
     position: relative;
+}
+
+.container_container_row:nth-of-type(odd) {
+  background: #c1bba4;
 }
 
 /*
