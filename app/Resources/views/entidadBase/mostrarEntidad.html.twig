@@ -17,13 +17,13 @@
         
             {% if operacion is defined and operacion==constant('AppBundle\\ConstantesDeOperaciones::CREAR') %}
             <div class="row">
-            	<div class="cell" align="center">
+            	<div align="center">
             		<button class="button" type="submit">Guardar!</button>
             	 </div>
             </div>
             {% endif %}
              <div class="row">
-                 <div class="cell" align="center">
+                 <div align="center">
                 	<a href="{{ path('listar_entidad', {'nombreEntidad':nombreEntidad}) }}">Atras</a>
                 </div>
             </div>

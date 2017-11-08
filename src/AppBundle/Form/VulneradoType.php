@@ -13,7 +13,10 @@ class VulneradoType extends AbstractType {
 	 *
 	 */
 	public function buildForm(FormBuilderInterface $builder, array $options) {
-		$builder->add('nombres')->add('fechaNacimiento')->add('cedula')->add('nacionalidad')->add('tieneCapacidadEspecial')->add('centroEducativo')->add('nombresPadre')->add('nombresMadre');
+		$builder->add ( 'identificacion' )->add ( 'nombres' )->add ( 'fechaNacimiento' )
+		->add ( 'sexo' )->add ( 'genero' )->add ( 'nacionalidad' )->add ( 'interculturalidad' )
+		->add ( 'ocupacion' )->add ( 'instruccion' )->add ( 'capacidadEspecial' )->add ( 'legalidad' )
+		->add ( 'telefono' )->add ( 'email' )->add( 'centroEducativo' );
 	}
 	
 	/**
@@ -33,6 +36,6 @@ class VulneradoType extends AbstractType {
 	 *
 	 */
 	public function getBlockPrefix() {
-		return 'appbundle_vulnerado';
+		return 'bloque_vulnerado';
 	}
 }

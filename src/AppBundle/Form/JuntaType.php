@@ -13,7 +13,15 @@ class JuntaType extends AbstractType {
 	 *
 	 */
 	public function buildForm(FormBuilderInterface $builder, array $options) {
-		$builder->add ( 'nombre' )->add ( 'domicilio' );
+		$builder->add ( 'nombre' )->add ( 'ruc' )->add ( 'telefono' )->add ( 'email' )->add ( 'logo' )->add ( 'direccion', DireccionType::class, array (
+				'label_attr' => array (
+						'class' => 'container_label' 
+				),
+				'attr' => array (
+						'row_class' => 'container_row' 
+				) 
+		) );
+		;
 	}
 	
 	/**
@@ -33,6 +41,6 @@ class JuntaType extends AbstractType {
 	 *
 	 */
 	public function getBlockPrefix() {
-		return 'appbundle_junta';
+		return 'bloque_junta';
 	}
 }

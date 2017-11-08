@@ -2,25 +2,29 @@
 
 {% block form %}
 
-    {{ form_row(form.fechaRegistro, t_options) }}
+    {{ form_row(form.creacion, t_options) }}
     {{ form_row(form.hechos, t_options) }}
+    {{ form_row(form.recursoImpugnacion, t_options) }}
+    {{ form_row(form.tipoMaltrato, t_options) }}
+    {{ form_row(form.ambitoMaltrato, t_options) }}
+    {{ form_row(form.vulneradoresDerechos, t_options) }}
     {{ form_row(form.derechos, t_options) }}
     {{ form_row(form.junta, t_options) }}
-    {{ form_row(form.vulneradosDomicilio, t_options) }}
-    {{ form_row(form.personasDomicilio, t_options) }}
+    {{ form_row(form.vulneradosDireccion, t_options) }}
+    {{ form_row(form.actoresDireccion, t_options) }}
 	
 <script>
 
 jQuery(document).ready(function() {
 	// setup an "add a tag" link
 	var $addVulneradoLink = $('<a href="#" class="add_element_link add_vulnerado">Agregar Vulnerado</a>');
-	var $vulneradoHolder = $('#appbundle_denuncia_vulneradosDomicilio');
+	var $vulneradoHolder = $('#bloque_denuncia_vulneradosDireccion');
 	
 	//Add remove link to vulnerados and denunciantes/denunciados
-	$('#appbundle_denuncia_vulneradosDomicilio div.vulnerados_domicilio_row').each(function(){
+	$('#bloque_denuncia_vulneradosDireccion div.vulnerados_direccion_row').each(function(){
 		addRemoveLink($(this));
 	});
-	$('#appbundle_denuncia_personasDomicilio div.personas_domicilio_row').each(function(){
+	$('#bloque_denuncia_actoresDireccion div.actores_direccion_row').each(function(){
 		addRemoveLink($(this));
 	});
 	
@@ -80,8 +84,8 @@ function addNewElementToForm($collectionHolder, $newLink) {
 }
 
 function addDenunciadoDenuncianteLinkToForm() {
-	var $elementsHolder = $('#appbundle_denuncia_personasDomicilio');
-	var $denuncianteLastElement = $('#appbundle_denuncia_personasDomicilio :input.tipo_persona[value="DENUNCIANTE"]').last().closest('div.personas_domicilio_row');
+	var $elementsHolder = $('#bloque_denuncia_actoresDireccion');
+	var $denuncianteLastElement = $('#bloque_denuncia_actoresDireccion :input.rol_actor[value="DENUNCIANTE"]').last().closest('div.actores_direccion_row');
 
 	var $addDenuncianteLink = $('<a href="#" class="add_element_link add_denunciante">Agregar Denunciante</a>');
 	var $addDenunciadoLink = $('<a href="#" class="add_element_link add_denunciado">Agregar Denunciado</a>');
@@ -139,7 +143,7 @@ function addNewDenunElementToForm($collectionHolder, $newLink, $value) {
 
 	// Display the form in the page in an li, before the "Add a tag" link li
 	var $element = $(newForm)
-	$element.find('.tipo_persona').val($value);
+	$element.find('.rol_actor').val($value);
 	addRemoveLink($element);
 	$newLink.before($element);
 }

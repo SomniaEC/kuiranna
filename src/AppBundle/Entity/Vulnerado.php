@@ -3,251 +3,335 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity
  * @ORM\Table(name="vulnerado")
  */
 class Vulnerado extends EntidadBase {
+	
 	/**
-	 * @ORM\Column(type="string", length=250)
+	 * @ORM\Column(type="string", length=13)
+	 */
+	private $identificacion;
+	
+	/**
+	 * @ORM\Column(type="string", length=150)
 	 */
 	private $nombres;
-	/**
-	 * @ORM\Column(type="string", length=250)
-	 */
-	private $nombresPadre;
-	/**
-	 * @ORM\Column(type="string", length=250)
-	 */
-	private $nombresMadre;
+	
 	/**
 	 * @ORM\Column(type="date")
 	 */
 	private $fechaNacimiento;
+	
 	/**
 	 * @ORM\Column(type="string", length=10)
 	 */
-	private $cedula;
+	private $sexo;
+	
+	/**
+	 * @ORM\Column(type="string", length=10)
+	 */
+	private $genero;
+	
+	/**
+	 * @ORM\Column(type="string", length=80)
+	 */
+	private $nacionalidad;
+	
+	/**
+	 * @ORM\Column(type="string", length=20)
+	 */
+	private $interculturalidad;
+	
+	/**
+	 * @ORM\Column(type="string", length=25)
+	 */
+	private $ocupacion;
+	
+	/**
+	 * @ORM\Column(type="string", length=25)
+	 */
+	private $instruccion;
+	
+	/**
+	 * @ORM\Column(type="boolean")
+	 */
+	private $capacidadEspecial;
+	
+	/**
+	 * @ORM\Column(type="string", length=20)
+	 */
+	private $legalidad;
+	
 	/**
 	 * @ORM\Column(type="string", length=100)
 	 */
-	private $nacionalidad;
+	private $telefono;
+	
 	/**
-	 * @ORM\Column(type="boolean", length=100)
+	 * @ORM\Column(type="string", length=100)
+	 * @Assert\Email(message = "El email '{{ value }}' no es valido.")
 	 */
-	private $tieneCapacidadEspecial;
+	private $email;
+	
 	/**
 	 * @ORM\ManyToOne(targetEntity="CentroEducativo", cascade={"persist"})
 	 * @ORM\JoinColumn(name="centroEducativo_id", referencedColumnName="id")
 	 */
 	private $centroEducativo;
 	
-	
 	public function getMostrarDetalles() {
-		return array($this->id, $this->nombres, $this->nacionalidad, $this->cedula, $this->fechaNacimiento->format('d-m-Y'));
+		return array (
+				$this->id,
+				$this->identificacion,
+				$this->nombres,
+				$this->fechaNacimiento->format ( 'd-m-Y' ),
+				$this->sexo,
+				$this->genero,
+				$this->nacionalidad,
+				$this->interculturalidad,
+				$this->ocupacion,
+				$this->instruccion,
+				$this->capacidadEspecial,
+				$this->legalidad,
+				$this->telefono,
+				$this->email,
+				$this->centroEducativo
+		);
 	}
-	
 	public static function getMostrarCabeceras() {
-		return array("id", "nombres", "nacionalidad","cedula","fechaNacimiento");
+		return array (
+				"id",
+				"identificacion",
+				"nombres",
+				"fecha de nacimiento",
+				"sexo",
+				"genero",
+				"nacionalidad",
+				"interculturalidad",
+				"ocupacion",
+				"instruccion",
+				"capacidad especial",
+				"legalidad",
+				"telefono",
+				"email",
+				"centro educativo"
+		);
 	}
 	
+	/**
+	 *
+	 * @return string
+	 */
 	public static function getNombreEntidad() {
 		return "vulnerado";
 	}
+	
+	/**
+	 *
+	 * {@inheritdoc}
+	 *
+	 * @see \AppBundle\Entity\EntidadBase::__toString()
+	 */
 	public function __toString() {
 		return $this->nombres;
 	}
+	/**
+	 * @return mixed
+	 */
+	public function getIdentificacion() {
+		return $this->identificacion;
+	}
 
-    /**
-     * Set nombres
-     *
-     * @param string $nombres
-     *
-     * @return Vulnerado
-     */
-    public function setNombres($nombres)
-    {
-        $this->nombres = $nombres;
+	/**
+	 * @param mixed $identificacion
+	 */
+	public function setIdentificacion($identificacion) {
+		$this->identificacion = $identificacion;
+	}
 
-        return $this;
-    }
+	/**
+	 * @return mixed
+	 */
+	public function getNombres() {
+		return $this->nombres;
+	}
 
-    /**
-     * Get nombres
-     *
-     * @return string
-     */
-    public function getNombres()
-    {
-        return $this->nombres;
-    }
+	/**
+	 * @param mixed $nombres
+	 */
+	public function setNombres($nombres) {
+		$this->nombres = $nombres;
+	}
 
-    /**
-     * Set nombresPadre
-     *
-     * @param string $nombresPadre
-     *
-     * @return Vulnerado
-     */
-    public function setNombresPadre($nombresPadre)
-    {
-        $this->nombresPadre = $nombresPadre;
+	/**
+	 * @return mixed
+	 */
+	public function getFechaNacimiento() {
+		return $this->fechaNacimiento;
+	}
 
-        return $this;
-    }
+	/**
+	 * @param mixed $fechaNacimiento
+	 */
+	public function setFechaNacimiento($fechaNacimiento) {
+		$this->fechaNacimiento = $fechaNacimiento;
+	}
 
-    /**
-     * Get nombresPadre
-     *
-     * @return string
-     */
-    public function getNombresPadre()
-    {
-        return $this->nombresPadre;
-    }
+	/**
+	 * @return mixed
+	 */
+	public function getSexo() {
+		return $this->sexo;
+	}
 
-    /**
-     * Set nombresMadre
-     *
-     * @param string $nombresMadre
-     *
-     * @return Vulnerado
-     */
-    public function setNombresMadre($nombresMadre)
-    {
-        $this->nombresMadre = $nombresMadre;
+	/**
+	 * @param mixed $sexo
+	 */
+	public function setSexo($sexo) {
+		$this->sexo = $sexo;
+	}
 
-        return $this;
-    }
+	/**
+	 * @return mixed
+	 */
+	public function getGenero() {
+		return $this->genero;
+	}
 
-    /**
-     * Get nombresMadre
-     *
-     * @return string
-     */
-    public function getNombresMadre()
-    {
-        return $this->nombresMadre;
-    }
+	/**
+	 * @param mixed $genero
+	 */
+	public function setGenero($genero) {
+		$this->genero = $genero;
+	}
 
-    /**
-     * Set fechaNacimiento
-     *
-     * @param \DateTime $fechaNacimiento
-     *
-     * @return Vulnerado
-     */
-    public function setFechaNacimiento($fechaNacimiento)
-    {
-        $this->fechaNacimiento = $fechaNacimiento;
+	/**
+	 * @return mixed
+	 */
+	public function getNacionalidad() {
+		return $this->nacionalidad;
+	}
 
-        return $this;
-    }
+	/**
+	 * @param mixed $nacionalidad
+	 */
+	public function setNacionalidad($nacionalidad) {
+		$this->nacionalidad = $nacionalidad;
+	}
 
-    /**
-     * Get fechaNacimiento
-     *
-     * @return \DateTime
-     */
-    public function getFechaNacimiento()
-    {
-        return $this->fechaNacimiento;
-    }
+	/**
+	 * @return mixed
+	 */
+	public function getInterculturalidad() {
+		return $this->interculturalidad;
+	}
 
-    /**
-     * Set cedula
-     *
-     * @param string $cedula
-     *
-     * @return Vulnerado
-     */
-    public function setCedula($cedula)
-    {
-        $this->cedula = $cedula;
+	/**
+	 * @param mixed $interculturalidad
+	 */
+	public function setInterculturalidad($interculturalidad) {
+		$this->interculturalidad = $interculturalidad;
+	}
 
-        return $this;
-    }
+	/**
+	 * @return mixed
+	 */
+	public function getOcupacion() {
+		return $this->ocupacion;
+	}
 
-    /**
-     * Get cedula
-     *
-     * @return string
-     */
-    public function getCedula()
-    {
-        return $this->cedula;
-    }
+	/**
+	 * @param mixed $ocupacion
+	 */
+	public function setOcupacion($ocupacion) {
+		$this->ocupacion = $ocupacion;
+	}
 
-    /**
-     * Set nacionalidad
-     *
-     * @param string $nacionalidad
-     *
-     * @return Vulnerado
-     */
-    public function setNacionalidad($nacionalidad)
-    {
-        $this->nacionalidad = $nacionalidad;
+	/**
+	 * @return mixed
+	 */
+	public function getInstruccion() {
+		return $this->instruccion;
+	}
 
-        return $this;
-    }
+	/**
+	 * @param mixed $instruccion
+	 */
+	public function setInstruccion($instruccion) {
+		$this->instruccion = $instruccion;
+	}
 
-    /**
-     * Get nacionalidad
-     *
-     * @return string
-     */
-    public function getNacionalidad()
-    {
-        return $this->nacionalidad;
-    }
+	/**
+	 * @return mixed
+	 */
+	public function getCapacidadEspecial() {
+		return $this->capacidadEspecial;
+	}
 
-    /**
-     * Set centroEducativo
-     *
-     * @param \AppBundle\Entity\CentroEducativo $centroEducativo
-     *
-     * @return Vulnerado
-     */
-    public function setCentroEducativo(\AppBundle\Entity\CentroEducativo $centroEducativo = null)
-    {
-        $this->centroEducativo = $centroEducativo;
+	/**
+	 * @param mixed $capacidadEspecial
+	 */
+	public function setCapacidadEspecial($capacidadEspecial) {
+		$this->capacidadEspecial = $capacidadEspecial;
+	}
 
-        return $this;
-    }
+	/**
+	 * @return mixed
+	 */
+	public function getLegalidad() {
+		return $this->legalidad;
+	}
 
-    /**
-     * Get centroEducativo
-     *
-     * @return \AppBundle\Entity\CentroEducativo
-     */
-    public function getCentroEducativo()
-    {
-        return $this->centroEducativo;
-    }
+	/**
+	 * @param mixed $legalidad
+	 */
+	public function setLegalidad($legalidad) {
+		$this->legalidad = $legalidad;
+	}
 
-    /**
-     * Set tieneCapacidadEspecial
-     *
-     * @param boolean $tieneCapacidadEspecial
-     *
-     * @return Vulnerado
-     */
-    public function setTieneCapacidadEspecial($tieneCapacidadEspecial)
-    {
-        $this->tieneCapacidadEspecial = $tieneCapacidadEspecial;
+	/**
+	 * @return mixed
+	 */
+	public function getTelefono() {
+		return $this->telefono;
+	}
 
-        return $this;
-    }
+	/**
+	 * @param mixed $telefono
+	 */
+	public function setTelefono($telefono) {
+		$this->telefono = $telefono;
+	}
 
-    /**
-     * Get tieneCapacidadEspecial
-     *
-     * @return boolean
-     */
-    public function getTieneCapacidadEspecial()
-    {
-        return $this->tieneCapacidadEspecial;
-    }
+	/**
+	 * @return mixed
+	 */
+	public function getEmail() {
+		return $this->email;
+	}
+
+	/**
+	 * @param mixed $email
+	 */
+	public function setEmail($email) {
+		$this->email = $email;
+	}
+
+	/**
+	 * @return mixed
+	 */
+	public function getCentroEducativo() {
+		return $this->centroEducativo;
+	}
+
+	/**
+	 * @param mixed $centroEducativo
+	 */
+	public function setCentroEducativo($centroEducativo) {
+		$this->centroEducativo = $centroEducativo;
+	}
 }
