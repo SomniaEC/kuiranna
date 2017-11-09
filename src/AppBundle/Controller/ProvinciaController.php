@@ -12,8 +12,8 @@ class ProvinciaController extends Controller {
 	 */
 	public function createAction() {
 		$provincia = new Provincia ();
-		$provincia->setCodigo("01");
-		$provincia->setNombre ( "Provincia del Azuay" );
+		$provincia->setCodigo("22");
+		$provincia->setNombre ( "Orellana" );
 		
 		$em = $this->getDoctrine ()->getManager ();
 		$em->persist ( $provincia );

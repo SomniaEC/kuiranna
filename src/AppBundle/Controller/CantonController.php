@@ -14,18 +14,18 @@ class CantonController extends Controller {
 	public function createAction() {
 		$canton = new Canton ();
 		$canton->setCodigo ( "01" );
-		$canton->setNombre ( "Tulcan" );
+		$canton->setNombre ( "Canton Orellana" );
 		
 		$em = $this->getDoctrine ()->getManager ();
 		
 		$provincia = $em->getRepository ( 'AppBundle:Provincia' )->findOneBy ( array (
-				'codigo' => '04' 
+				'codigo' => '22' 
 		) );
 		
 		if (empty ( $provincia )) {
 			$provincia = new Provincia ();
-			$provincia->setCodigo ( "04" );
-			$provincia->setNombre ( "Carchi" );
+			$provincia->setCodigo ( "22" );
+			$provincia->setNombre ( "Orellana" );
 		}
 		
 		$canton->setProvincia ( $provincia );

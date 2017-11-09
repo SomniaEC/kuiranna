@@ -14,23 +14,29 @@ class ParroquiaController extends Controller {
 	 */
 	public function createAction() {
 		$parroquia = new Parroquia ();
-		$parroquia->setCodigo ( "50" );
-		$parroquia->setNombre ( "Riobamba" );
+		$parroquia->setCodigo ( '50' );
+		$parroquia->setNombre ( 'Pto Francisco de Orellana' );
 		
 		$em = $this->getDoctrine ()->getManager ();
 		
 		$canton = $em->getRepository ( 'AppBundle:Canton' )->findOneBy ( array (
-				'codigo' => '01', 'nombre' => 'Canton Riobamba'
+				'codigo' => '01', 'nombre' => 'Canton Orellana'
 		) );
 		
 		if (empty ( $canton )) {
 			$canton = new Canton ();
-			$canton->setCodigo ( "01" );
-			$canton->setNombre ( "Canton Riobamba" );
+			$canton->setCodigo ( '01' );
+			$canton->setNombre ( 'Canton Orellana' );
 			
-			$provincia = new Provincia();
-			$provincia->setCodigo("06");
-			$provincia->setNombre("Chimborazo");
+			$provincia = $em->getRepository ( 'AppBundle:Provincia' )->findOneBy ( array (
+					'codigo' => '22'
+			) );
+			
+			if (empty ( $provincia )) {
+				$provincia = new Provincia();
+				$provincia->setCodigo('22');
+				$provincia->setNombre('Orellana');
+			}
 			
 			$canton->setProvincia($provincia);
 		}

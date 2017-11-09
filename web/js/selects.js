@@ -11,8 +11,8 @@ function bindSelects ($parentSelect, $childSelect, $optionsArray, $dataName) {
 }
 
 function updateSelects ($parentSelect, $childSelect, $optionsArray, $dataName) {
-	var $selectedParent = $parentSelect.find(':selected').data($dataName);
-	var $selectedChild = $childSelect.find(':selected').data($dataName);
+	var $selectedParent = $parentSelect.find(':selected').attr('data-'+$dataName);
+	var $selectedChild = $childSelect.find(':selected').attr('data-'+$dataName);
 	$childSelect.empty();
 	$.each($optionsArray, function (key, options) {
 		if(key === $selectedParent) {
