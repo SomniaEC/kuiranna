@@ -1,7 +1,7 @@
 <?php
-namespace AppBundle;
+namespace AppBundle\Utils;
 
-class ConstantesDeOperaciones {
+abstract class ConstantesDeOperaciones  extends ConstantesAbstractas {
 	const CREAR = "guardar";
 	const LISTAR = "listar";
 	const MODIFICAR = "guardar";

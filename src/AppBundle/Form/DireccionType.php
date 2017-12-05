@@ -9,8 +9,7 @@ use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\FormEvents;
-use Symfony\Component\Form\FormEvent;
+use AppBundle\Utils\ConstantesDeZona;
 
 class DireccionType extends AbstractType {
 	private $em;
@@ -60,7 +59,9 @@ class DireccionType extends AbstractType {
 				'attr' => array (
 						'class' => 'select_direccion_parroquia' 
 				) 
-		) )->add ( 'sector' )->add ( 'zona' )->add ( 'callePrincipal' )->add ( 'calleSecundaria' )->add ( 'numero' )->add ( 'referencia' );
+				) )->add ( 'sector' )->add ( 'zona' , ChoiceType::class, array (
+						'choices' => ConstantesDeZona::getConstants ()
+				))->add ( 'callePrincipal' )->add ( 'calleSecundaria' )->add ( 'numero' )->add ( 'referencia' );
 	}
 	public function getProvincias() {
 		$provincias = $this->em->getRepository ( 'AppBundle:Provincia' )->findAll ();

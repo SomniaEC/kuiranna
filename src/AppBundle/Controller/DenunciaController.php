@@ -2,8 +2,8 @@
 
 namespace AppBundle\Controller;
 
-use AppBundle\ConstantesDeOperaciones;
-use AppBundle\ConstantesDeRolActor;
+use AppBundle\Utils\ConstantesDeOperaciones;
+use AppBundle\Utils\ConstantesDeRolActor;
 use AppBundle\Entity\Denuncia;
 use AppBundle\Entity\ActorDireccion;
 use AppBundle\Entity\VulneradoDireccion;
@@ -60,10 +60,10 @@ class DenunciaController extends Controller {
 			$denuncia = new Denuncia ();
 			$denuncia->setCreacion ( new \DateTime ( date ( "d-m-Y" ) ) );
 			$denunciante = new ActorDireccion ();
-			$denunciante->setRol ( ConstantesDeRolActor::DENUNCIANTE );
+			$denunciante->setRol ( ConstantesDeRolActor::Denunciante );
 			$denuncia->addActoresDireccion ( $denunciante );
 			$denunciado = new ActorDireccion ();
-			$denunciado->setRol ( ConstantesDeRolActor::DENUNCIADO );
+			$denunciado->setRol ( ConstantesDeRolActor::Denunciado );
 			$denuncia->addActoresDireccion ( $denunciado );
 			$vulnerado = new VulneradoDireccion ();
 			$denuncia->addVulneradosDireccion ( $vulnerado );

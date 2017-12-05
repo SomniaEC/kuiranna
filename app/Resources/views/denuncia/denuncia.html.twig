@@ -1,29 +1,45 @@
 {% extends 'entidadBase/mostrarEntidad.html.twig' %}
 
 {% block form %}
-
-    {{ dump(form) }}
-
-    {{ form_row(form.creacion, t_options) }}
-    {{ form_row(form.hechos, t_options) }}
-    {{ form_row(form.recursoImpugnacion, t_options) }}
-    {{ form_row(form.tipoMaltrato, t_options) }}
-    {{ form_row(form.ambitoMaltrato, t_options) }}
-    {{ form_row(form.vulneradoresDerechos, t_options) }}
-    {{ form_row(form.derechos, t_options) }}
-    {{ form_row(form.junta, t_options) }}
-    {{ form_row(form.vulneradosDireccion, t_options) }}
-    {{ form_row(form.actoresDireccion, t_options) }}
+	<div id="tabs_denuncia">
+		<ul>
+			<li><a href="#atributos_denuncia">Denuncia</a></li>
+			<li><a href="#vulnerados_denuncia">Vulnerados</a></li>
+			<li><a href="#actores_denuncia">Denunciantes/Denunciados</a></li>
+		</ul>
+    	<div id="atributos_denuncia">
+        {{ form_row(form.creacion, t_options) }}
+        {{ form_row(form.hechos, t_options) }}
+        {{ form_row(form.recursoImpugnacion, t_options) }}
+        {{ form_row(form.tipoMaltrato, t_options) }}
+        {{ form_row(form.ambitoMaltrato, t_options) }}
+        {{ form_row(form.vulneradoresDerechos, t_options) }}
+        {{ form_row(form.derechos, t_options) }}
+        {{ form_row(form.junta, t_options) }}
+        </div>
+        <div id="vulnerados_denuncia">
+        {{ form_row(form.vulneradosDireccion, t_options) }}
+        </div>
+        <div id="actores_denuncia">
+        {{ form_row(form.actoresDireccion, t_options) }}
+    	</div>
+    </div>
 	
 <script type="text/javascript">
 
 jQuery(document).ready(function() {
 
+	//tabs denuncia
+	$("#tabs_denuncia").tabs();
+	
     var $provincia_canton = JSON.parse('{{ form.children.vulneradosDireccion.children.0.children.direccion.vars.provincia_canton|raw }}');
     var $canton_parroquia = JSON.parse('{{ form.children.vulneradosDireccion.children.0.children.direccion.vars.canton_parroquia|raw }}');
-    $.each($('.elementos_direccion'), function (key, value) {
+    $.each($('.elementos_direccion .row'), function (key, value) {
         bindSelects($(value).find('select.select_direccion_provincia').first(), $(value).find('select.select_direccion_canton').first(), $provincia_canton, 'codigo');
         bindSelects($(value).find('select.select_direccion_canton').first(), $(value).find('select.select_direccion_parroquia').first(), $canton_parroquia, 'codigo');
+    });
+    $.each($('.actores_direccion .actor_direccion_row'), function (key, value) {
+    	actorSelect($(value));
     });
 
 	

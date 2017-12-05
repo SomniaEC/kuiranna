@@ -1,37 +1,37 @@
+{%- block form_rows -%}
+	{%- set row_attr = [] -%}
+	{%- for attrname, attrvalue in attr -%}
+		{%- if attrname == 'element_row_class' -%}
+            {% set row_attr = row_attr|merge({'row_class': attrvalue}) %}
+        {%- endif -%}
+	{%- endfor -%}
+    {%- for attrname, attrvalue in label_attr -%}
+		{%- if attrname == 'label_row_class' -%}
+            {% set row_attr = row_attr|merge({'label_row_class': attrvalue}) %}
+        {%- endif -%}
+	{%- endfor -%}
+    {% for child in form %}
+        {{- form_row(child, {"container_row_attr" : row_attr}) -}}
+    {% endfor %}
+{%- endblock form_rows -%}
+
 {%- block form_row -%}
     <div {{ block('row_attributes') }}>
-        {{- form_label(form) -}}
+    	{% if container_row_attr is defined %}
+    		{%- set container_label_attr = [] -%}
+    		{%- for attrname, attrvalue in container_row_attr -%}
+                {%- if attrname == 'label_row_class' -%}
+                    {%- set container_label_attr = container_label_attr|merge({'label_class' : attrvalue}) %}
+                {%- endif -%}
+            {%- endfor -%}
+            {{- form_label(form, null, container_label_attr) -}}
+        {%- else -%}
+        	{{- form_label(form) -}}
+        {%- endif -%}
         {{- form_errors(form) -}}
         {{- form_widget(form) -}}
     </div>
 {%- endblock form_row -%}
-
-{%- block date_widget -%}
-    {%- if widget == 'single_text' -%}
-        {{ block('form_widget_simple') }}
-    {%- else -%}
-        <div {{ block('date_widget_container_attributes') }}>
-            {{- date_pattern|replace({
-                '{{ year }}':  form_widget(form.year),
-                '{{ month }}': form_widget(form.month),
-                '{{ day }}':   form_widget(form.day),
-            })|raw -}}
-        </div>
-    {%- endif -%}
-{%- endblock date_widget -%}
-
-{%- block datetime_widget -%}
-    {% if widget == 'single_text' %}
-        {{- block('form_widget_simple') -}}
-    {%- else -%}
-        <div {{ block('date_widget_container_attributes') }}>
-            {{- form_errors(form.date) -}}
-            {{- form_errors(form.time) -}}
-            {{- form_widget(form.date) -}}
-            {{- form_widget(form.time) -}}
-        </div>
-    {%- endif -%}
-{%- endblock datetime_widget -%}
 
 {%- block row_attributes -%}
     {%- set attrClass = "" -%}
@@ -40,8 +40,40 @@
             {%- set attrClass = ' ' ~ attrvalue -%}
         {%- endif -%}
     {%- endfor -%}
+    {% if container_row_attr is defined %}
+    	{%- for attrname, attrvalue in container_row_attr -%}
+            {%- if attrname == 'row_class' -%}
+                {%- set attrClass = ' ' ~ attrvalue -%}
+            {%- endif -%}
+        {%- endfor -%}
+    {% endif %}
     class="row{{ attrClass }}"
 {%- endblock row_attributes -%}
+
+{%- block form_label -%}
+    {% if label is not same as(false) -%}
+        {% if not compound -%}
+            {% set label_attr = label_attr|merge({'for': id}) %}
+        {%- endif -%}
+        {% if required -%}
+            {% set label_attr = label_attr|merge({'class': (label_attr.class|default('') ~ ' required')|trim}) %}
+        {%- endif -%}
+        {% if label_class is defined %}
+        	{% set label_attr = label_attr|merge({'class': label_attr.class ~ ' ' ~ label_class}) %}
+        {%- endif -%}
+        {% if label is empty -%}
+            {%- if label_format is not empty -%}
+                {% set label = label_format|replace({
+                    '%name%': name,
+                    '%id%': id,
+                }) %}
+            {%- else -%}
+                {% set label = name|humanize %}
+            {%- endif -%}
+        {%- endif -%}
+        <label{% for attrname, attrvalue in label_attr %} {{ attrname }}="{{ attrvalue }}"{% endfor %}>{{ translation_domain is same as(false) ? label : label|trans({}, translation_domain) }}</label>
+    {%- endif -%}
+{%- endblock form_label -%}
 
 {%- block widget_attributes -%}
     id="{{ id }}" name="{{ full_name }}"
@@ -77,13 +109,40 @@
         {%- elseif attrvalue is not same as(false) -%}
             {%- if attrname == 'class' -%}
                 {%- set attrClass = ' ' ~ attrvalue -%}
-            {%- elseif attrname != 'row_class' -%}
+            {%- elseif (attrname != 'row_class' and attrname != 'element_row_class') -%}
                 {{- attrname }}="{{ attrvalue }}"
             {%- endif -%}
         {%- endif -%}
     {%- endfor -%}
     class="container_value{{ attrClass }}" 
 {%- endblock widget_container_attributes -%}
+
+{%- block date_widget -%}
+    {%- if widget == 'single_text' -%}
+        {{ block('form_widget_simple') }}
+    {%- else -%}
+        <div {{ block('date_widget_container_attributes') }}>
+            {{- date_pattern|replace({
+                '{{ year }}':  form_widget(form.year),
+                '{{ month }}': form_widget(form.month),
+                '{{ day }}':   form_widget(form.day),
+            })|raw -}}
+        </div>
+    {%- endif -%}
+{%- endblock date_widget -%}
+
+{%- block datetime_widget -%}
+    {% if widget == 'single_text' %}
+        {{- block('form_widget_simple') -}}
+    {%- else -%}
+        <div {{ block('date_widget_container_attributes') }}>
+            {{- form_errors(form.date) -}}
+            {{- form_errors(form.time) -}}
+            {{- form_widget(form.date) -}}
+            {{- form_widget(form.time) -}}
+        </div>
+    {%- endif -%}
+{%- endblock datetime_widget -%}
 
 {%- block date_widget_container_attributes -%}
     {%- if id is not empty %}id="{{ id }}"{% endif -%}
@@ -104,15 +163,3 @@
     {%- endfor -%}
     class="date_value{{ attrClass }}" 
 {%- endblock date_widget_container_attributes -%}
-
-{%- block form_rows -%}
-	{%- set row_attr = [] -%}
-	{%- for attrname, attrvalue in attr -%}
-		{%- if attrname == 'row_class' -%}
-            {% set row_attr = row_attr|merge({'row_class': attrvalue ~ '_row'}) %}
-        {%- endif -%}
-	{%- endfor -%}
-    {% for child in form %}
-        {{- form_row(child, {"container_row_attr" : row_attr}) -}}
-    {% endfor %}
-{%- endblock form_rows -%}
