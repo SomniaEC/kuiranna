@@ -8,7 +8,7 @@ use AppBundle\Entity\Actor;
 use AppBundle\Entity\ActorDireccion;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use AppBundle\ConstantesDeRolActor;
+use AppBundle\Utils\ConstantesDeRolActor;
 
 class ActorDireccionController extends Controller {
 	/**
@@ -16,7 +16,7 @@ class ActorDireccionController extends Controller {
 	 */
 	public function createAction() {
 		$actorDireccion = new ActorDireccion ();
-		$actorDireccion->setRol ( ConstantesDeRolActor::DENUNCIANTE );
+		$actorDireccion->setRol ( ConstantesDeRolActor::Denunciante);
 		
 		$direccion = new Direccion ();
 		$direccion->setProvincia ( "Pichincha" );

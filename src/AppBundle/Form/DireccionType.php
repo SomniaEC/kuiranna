@@ -2,15 +2,15 @@
 
 namespace AppBundle\Form;
 
+use AppBundle\Utils\ConstantesDeZona;
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\FormEvents;
-use Symfony\Component\Form\FormEvent;
 
 class DireccionType extends AbstractType {
 	private $em;
@@ -60,7 +60,19 @@ class DireccionType extends AbstractType {
 				'attr' => array (
 						'class' => 'select_direccion_parroquia' 
 				) 
-		) )->add ( 'sector' )->add ( 'zona' )->add ( 'callePrincipal' )->add ( 'calleSecundaria' )->add ( 'numero' )->add ( 'referencia' );
+		) )->add ( 'sector', TextType::class, array (
+				'required' => false 
+		) )->add ( 'zona', ChoiceType::class, array (
+				'choices' => ConstantesDeZona::getConstants () 
+		) )->add ( 'callePrincipal', TextType::class, array (
+				'required' => false 
+		) )->add ( 'calleSecundaria', TextType::class, array (
+				'required' => false 
+		) )->add ( 'numero', TextType::class, array (
+				'required' => false 
+		) )->add ( 'referencia', TextType::class, array (
+				'required' => false 
+		) );
 	}
 	public function getProvincias() {
 		$provincias = $this->em->getRepository ( 'AppBundle:Provincia' )->findAll ();

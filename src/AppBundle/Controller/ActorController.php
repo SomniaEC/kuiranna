@@ -5,8 +5,8 @@ namespace AppBundle\Controller;
 use AppBundle\Entity\Actor;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use AppBundle\ConstantesDeRolActor;
 use AppBundle\Entity\ActividadEconomica;
+use AppBundle\Utils\ConstantesDeRolActor;
 
 class ActorController extends Controller {
 	/**
@@ -32,6 +32,7 @@ class ActorController extends Controller {
 		$actor->setCapacidadEspecial ( false );
 		$actor->setRelacion ( "Vecino" );
 		$actor->setTipo ( "Persona" );
+		$actor->setRol(ConstantesDeRolActor::DENUNCIADO);
 		
 		$em = $this->getDoctrine ()->getManager ();
 		

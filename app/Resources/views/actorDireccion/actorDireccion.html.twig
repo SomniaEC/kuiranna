@@ -9,6 +9,8 @@ jQuery(document).ready(function() {
         bindSelects($(value).find('select.select_direccion_provincia').first(), $(value).find('select.select_direccion_canton').first(), $provincia_canton, 'codigo');
         bindSelects($(value).find('select.select_direccion_canton').first(), $(value).find('select.select_direccion_parroquia').first(), $canton_parroquia, 'codigo');
     });
+
+    actorSelect($('.formulario'));
 });
 </script>
 

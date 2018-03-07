@@ -2,9 +2,9 @@
 
 namespace AppBundle\Entity;
 
-use AppBundle\ConstantesDeEstado;
-use AppBundle\ConstantesDeOperaciones;
+use AppBundle\Utils\ConstantesDeOperaciones;
 use Doctrine\ORM\Mapping as ORM;
+use AppBundle\Utils\ConstantesDeEstado;
 
 /**
  * @ORM\MappedSuperclass
@@ -20,7 +20,7 @@ abstract class EntidadBase {
 	/**
 	 * @ORM\Column(type="string", length=30)
 	 */
-	protected $estado = ConstantesDeEstado::ACTIVO;
+	protected $estado = ConstantesDeEstado::Activo;
 	
 	/**
 	 * Set id
