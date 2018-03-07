@@ -218,3 +218,24 @@ label.container_label {
     padding-left: 0;
     color: #00004d;
 }
+
+/* denuncia CSS */
+#tabs_denuncia .container_value {
+	padding-left: 0px;
+}
+
+.vulnerados_label {
+	display: none;
+}
+
+.actores_label {
+	display: none;
+}
+
+.vulnerado_label {
+	display: none;
+}
+
+.actor_label {
+	display: none;
+}

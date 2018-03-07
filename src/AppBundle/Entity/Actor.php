@@ -13,6 +13,12 @@ class Actor extends EntidadBase {
 	
 	/**
 	 * @ORM\Column(type="string", length=13)
+	 * @Assert\Length(
+	 * 		min = 10,
+	 * 		max = 13,
+	 * 		minMessage= "Este campo debe tener de al menos 10 caracteres",
+	 * 		maxMessage= "Este campo no puede tener mas de 13 caracteres",
+	 * )
 	 */
 	private $identificacion;
 	
@@ -54,6 +60,11 @@ class Actor extends EntidadBase {
 	private $emailContacto;
 	
 	/**
+	 * @ORM\Column(type="string", length=100)
+	 */
+	private $telefonoContacto;
+	
+	/**
 	 * @ORM\Column(type="date")
 	 */
 	private $fechaNacimiento;
@@ -92,7 +103,7 @@ class Actor extends EntidadBase {
 	/**
 	 * @ORM\Column(type="string", length=100)
 	 */
-	private $institucion;
+	private $instruccion;
 	
 	/**
 	 * @ORM\Column(type="boolean")
@@ -121,6 +132,7 @@ class Actor extends EntidadBase {
 				$this->nombresContacto,
 				$this->cargoContacto,
 				$this->emailContacto,
+				$this->telefonoContacto,
 				$this->fechaNacimiento->format ( 'd-m-Y' ),
 				$this->sexo,
 				$this->genero,
@@ -128,7 +140,7 @@ class Actor extends EntidadBase {
 				$this->interculturalidad,
 				$this->actividadEconomica,
 				$this->lugarTrabajo,
-				$this->institucion,
+				$this->instruccion,
 				$this->capacidadEspecial,
 				$this->relacion
 		);
@@ -145,6 +157,7 @@ class Actor extends EntidadBase {
 				"nombres del contacto",
 				"cargo del contacto",
 				"email del contacto",
+				"telefono del contacto",
 				"fecha de nacimiento",
 				"sexo",
 				"genero",
@@ -152,7 +165,7 @@ class Actor extends EntidadBase {
 				"interculturalidad",
 				"actividad economica",
 				"lugarTrabajo",
-				"institucion",
+				"instruccion",
 				"capacidad especial",
 				"relacion"
 		);
@@ -281,6 +294,20 @@ class Actor extends EntidadBase {
 	/**
 	 * @return mixed
 	 */
+	public function getTelefonoContacto() {
+		return $this->telefonoContacto;
+	}
+
+	/**
+	 * @param mixed $telefonoContacto
+	 */
+	public function setTelefonoContacto($telefonoContacto) {
+		$this->telefonoContacto = $telefonoContacto;
+	}
+
+	/**
+	 * @return mixed
+	 */
 	public function getFechaNacimiento() {
 		return $this->fechaNacimiento;
 	}
@@ -379,15 +406,15 @@ class Actor extends EntidadBase {
 	/**
 	 * @return mixed
 	 */
-	public function getInstitucion() {
-		return $this->institucion;
+	public function getInstruccion() {
+		return $this->instruccion;
 	}
 
 	/**
-	 * @param mixed $institucion
+	 * @param mixed $instruccion
 	 */
-	public function setInstitucion($institucion) {
-		$this->institucion = $institucion;
+	public function setInstruccion($instruccion) {
+		$this->instruccion = $instruccion;
 	}
 
 	/**

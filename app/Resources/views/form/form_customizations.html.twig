@@ -1,10 +1,131 @@
+{%- block form_rows -%}
+	{%- set row_attr = [] -%}
+	{%- for attrname, attrvalue in attr -%}
+		{%- if attrname == 'element_row_class' -%}
+            {% set row_attr = row_attr|merge({'row_class': attrvalue}) %}
+        {%- endif -%}
+        {%- if attrname == 'element_row_id' -%}
+            {% set row_attr = row_attr|merge({'row_id': attrvalue}) %}
+        {%- endif -%}
+	{%- endfor -%}
+    {%- for attrname, attrvalue in label_attr -%}
+		{%- if attrname == 'label_row_class' -%}
+            {% set row_attr = row_attr|merge({'label_row_class': attrvalue}) %}
+        {%- endif -%}
+	{%- endfor -%}
+    {% for child in form %}
+        {{- form_row(child, {"container_row_attr" : row_attr}) -}}
+    {% endfor %}
+{%- endblock form_rows -%}
+
 {%- block form_row -%}
     <div {{ block('row_attributes') }}>
-        {{- form_label(form) -}}
+    	{% if container_row_attr is defined %}
+    		{%- set container_label_attr = [] -%}
+    		{%- for attrname, attrvalue in container_row_attr -%}
+                {%- if attrname == 'label_row_class' -%}
+                    {%- set container_label_attr = container_label_attr|merge({'label_class' : attrvalue}) %}
+                {%- endif -%}
+            {%- endfor -%}
+            {{- form_label(form, null, container_label_attr) -}}
+        {%- else -%}
+        	{{- form_label(form) -}}
+        {%- endif -%}
         {{- form_errors(form) -}}
         {{- form_widget(form) -}}
     </div>
 {%- endblock form_row -%}
+
+{%- block row_attributes -%}
+    {%- set attrClass = "" -%}
+    {%- set attrId = "" -%}
+    {%- for attrname, attrvalue in attr -%}
+        {%- if attrname == 'row_class' -%}
+            {%- set attrClass = ' ' ~ attrvalue -%}
+        {%- endif -%}
+        {%- if attrname == 'row_id' -%}
+            {%- set attrId = attrvalue -%}
+        {%- endif -%}
+    {%- endfor -%}
+    {% if container_row_attr is defined %}
+    	{%- for attrname, attrvalue in container_row_attr -%}
+            {%- if attrname == 'row_class' -%}
+                {%- set attrClass = ' ' ~ attrvalue -%}
+            {%- endif -%}
+            {%- if attrname == 'row_id' -%}
+                {%- set attrId = attrvalue -%}
+            {%- endif -%}
+        {%- endfor -%}
+    {% endif %}
+    id="{{ attrId }}_{{ name }}" class="row{{ attrClass }}"
+{%- endblock row_attributes -%}
+
+{%- block form_label -%}
+    {% if label is not same as(false) -%}
+        {% if not compound -%}
+            {% set label_attr = label_attr|merge({'for': id}) %}
+        {%- endif -%}
+        {% if required -%}
+            {% set label_attr = label_attr|merge({'class': (label_attr.class|default('') ~ ' required')|trim}) %}
+        {%- endif -%}
+        {% if label_class is defined %}
+        	{% set label_attr = label_attr|merge({'class': label_attr.class ~ ' ' ~ label_class}) %}
+        {%- endif -%}
+        {% if label is empty -%}
+            {%- if label_format is not empty -%}
+                {% set label = label_format|replace({
+                    '%name%': name,
+                    '%id%': id,
+                }) %}
+            {%- else -%}
+                {% set label = name|humanize %}
+            {%- endif -%}
+        {%- endif -%}
+        <label{% for attrname, attrvalue in label_attr %} {{ attrname }}="{{ attrvalue }}"{% endfor %}>{{ translation_domain is same as(false) ? label : label|trans({}, translation_domain) }}</label>
+    {%- endif -%}
+{%- endblock form_label -%}
+
+{%- block widget_attributes -%}
+    id="{{ id }}" name="{{ full_name }}"
+    {%- if disabled %} disabled="disabled"{% endif -%}
+    {%- if required %} required="required"{% endif -%}
+    {%- set attrClass = "" -%}
+    {%- for attrname, attrvalue in attr -%}
+        {{- " " -}}
+        {%- if attrname in ['placeholder', 'title'] -%}
+            {{- attrname }}="{{ translation_domain is same as(false) ? attrvalue : attrvalue|trans({}, translation_domain) }}"
+        {%- elseif attrvalue is same as(true) -%}
+            {{- attrname }}="{{ attrname }}"
+        {%- elseif attrvalue is not same as(false) -%}
+        	{%- if attrname == 'class' -%}
+                {%- set attrClass = ' ' ~ attrvalue -%}
+            {%- elseif (attrname != 'row_class' and attrname != 'row_id') -%}
+            	{{- attrname }}="{{ attrvalue }}"
+            {%- endif -%}
+        {%- endif -%}
+    {%- endfor -%}
+    class="value{{ attrClass }}" 
+{%- endblock widget_attributes -%}
+
+{%- block widget_container_attributes -%}
+    {%- if id is not empty %}id="{{ id }}"{% endif -%}
+    {%- set attrClass = "" -%}
+    {%- for attrname, attrvalue in attr -%}
+        {{- " " -}}
+        {%- if attrname in ['placeholder', 'title'] -%}
+            {{- attrname }}="{{ translation_domain is same as(false) ? attrvalue : attrvalue|trans({}, translation_domain) }}"
+        {%- elseif attrvalue is same as(true) -%}
+            {{- attrname }}="{{ attrname }}"
+        {%- elseif attrvalue is not same as(false) -%}
+            {%- if attrname == 'class' -%}
+                {%- set attrClass = ' ' ~ attrvalue -%}
+            {%- elseif (attrname != 'row_class' and attrname != 'row_id' and attrname != 'element_row_class' and attrname != 'element_row_id') -%}
+                {{- attrname }}="{{ attrvalue }}"
+            {%- endif -%}
+        {%- endif -%}
+    {%- endfor -%}
+    class="container_value{{ attrClass }}" 
+{%- endblock widget_container_attributes -%}
 
 {%- block date_widget -%}
     {%- if widget == 'single_text' -%}
@@ -33,58 +154,6 @@
     {%- endif -%}
 {%- endblock datetime_widget -%}
 
-{%- block row_attributes -%}
-    {%- set attrClass = "" -%}
-    {%- for attrname, attrvalue in attr -%}
-        {%- if attrname == 'row_class' -%}
-            {%- set attrClass = ' ' ~ attrvalue -%}
-        {%- endif -%}
-    {%- endfor -%}
-    class="row{{ attrClass }}"
-{%- endblock row_attributes -%}
-
-{%- block widget_attributes -%}
-    id="{{ id }}" name="{{ full_name }}"
-    {%- if disabled %} disabled="disabled"{% endif -%}
-    {%- if required %} required="required"{% endif -%}
-    {%- set attrClass = "" -%}
-    {%- for attrname, attrvalue in attr -%}
-        {{- " " -}}
-        {%- if attrname in ['placeholder', 'title'] -%}
-            {{- attrname }}="{{ translation_domain is same as(false) ? attrvalue : attrvalue|trans({}, translation_domain) }}"
-        {%- elseif attrvalue is same as(true) -%}
-            {{- attrname }}="{{ attrname }}"
-        {%- elseif attrvalue is not same as(false) -%}
-        	{%- if attrname == 'class' -%}
-                {%- set attrClass = ' ' ~ attrvalue -%}
-            {%- elseif attrname != 'row_class' -%}
-            	{{- attrname }}="{{ attrvalue }}"
-            {%- endif -%}
-        {%- endif -%}
-    {%- endfor -%}
-    class="value{{ attrClass }}" 
-{%- endblock widget_attributes -%}
-
-{%- block widget_container_attributes -%}
-    {%- if id is not empty %}id="{{ id }}"{% endif -%}
-    {%- set attrClass = "" -%}
-    {%- for attrname, attrvalue in attr -%}
-        {{- " " -}}
-        {%- if attrname in ['placeholder', 'title'] -%}
-            {{- attrname }}="{{ translation_domain is same as(false) ? attrvalue : attrvalue|trans({}, translation_domain) }}"
-        {%- elseif attrvalue is same as(true) -%}
-            {{- attrname }}="{{ attrname }}"
-        {%- elseif attrvalue is not same as(false) -%}
-            {%- if attrname == 'class' -%}
-                {%- set attrClass = ' ' ~ attrvalue -%}
-            {%- elseif attrname != 'row_class' -%}
-                {{- attrname }}="{{ attrvalue }}"
-            {%- endif -%}
-        {%- endif -%}
-    {%- endfor -%}
-    class="container_value{{ attrClass }}" 
-{%- endblock widget_container_attributes -%}
-
 {%- block date_widget_container_attributes -%}
     {%- if id is not empty %}id="{{ id }}"{% endif -%}
     {%- set attrClass = "" -%}
@@ -104,15 +173,3 @@
     {%- endfor -%}
     class="date_value{{ attrClass }}" 
 {%- endblock date_widget_container_attributes -%}
-
-{%- block form_rows -%}
-	{%- set row_attr = [] -%}
-	{%- for attrname, attrvalue in attr -%}
-		{%- if attrname == 'row_class' -%}
-            {% set row_attr = row_attr|merge({'row_class': attrvalue ~ '_row'}) %}
-        {%- endif -%}
-	{%- endfor -%}
-    {% for child in form %}
-        {{- form_row(child, {"container_row_attr" : row_attr}) -}}
-    {% endfor %}
-{%- endblock form_rows -%}
