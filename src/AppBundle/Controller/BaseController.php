@@ -63,7 +63,7 @@ class BaseController extends Controller {
 	
 	/**
 	 * @Route("{nombreEntidad}/guardar", name="guardar_entidad", 
-	 * requirements={"nombreEntidad" : "actor|direccion|centroEducativo|derecho|vulnerado|junta|actorDireccion|vulneradoDireccion|archivo|actividadEconomica|plantilla|operacionDenuncia|auditoria|provincia|canton|parroquia"})
+	 * requirements={"nombreEntidad" : "actor|direccion|centroEducativo|derecho|vulnerado|junta|actorDireccion|vulneradoDireccion|archivo|actividadEconomica|plantilla|operacionDenuncia|auditoria|provincia|canton|parroquia|domicilio|usuario|persona"})
 	 */
 	public function guardarEntidadAction(Request $request, $nombreEntidad) {
 		// 1) build the form
