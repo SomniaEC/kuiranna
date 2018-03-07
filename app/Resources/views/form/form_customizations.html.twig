@@ -4,6 +4,9 @@
 		{%- if attrname == 'element_row_class' -%}
             {% set row_attr = row_attr|merge({'row_class': attrvalue}) %}
         {%- endif -%}
+        {%- if attrname == 'element_row_id' -%}
+            {% set row_attr = row_attr|merge({'row_id': attrvalue}) %}
+        {%- endif -%}
 	{%- endfor -%}
     {%- for attrname, attrvalue in label_attr -%}
 		{%- if attrname == 'label_row_class' -%}
@@ -35,9 +38,13 @@
 
 {%- block row_attributes -%}
     {%- set attrClass = "" -%}
+    {%- set attrId = "" -%}
     {%- for attrname, attrvalue in attr -%}
         {%- if attrname == 'row_class' -%}
             {%- set attrClass = ' ' ~ attrvalue -%}
+        {%- endif -%}
+        {%- if attrname == 'row_id' -%}
+            {%- set attrId = attrvalue -%}
         {%- endif -%}
     {%- endfor -%}
     {% if container_row_attr is defined %}
@@ -45,9 +52,12 @@
             {%- if attrname == 'row_class' -%}
                 {%- set attrClass = ' ' ~ attrvalue -%}
             {%- endif -%}
+            {%- if attrname == 'row_id' -%}
+                {%- set attrId = attrvalue -%}
+            {%- endif -%}
         {%- endfor -%}
     {% endif %}
-    class="row{{ attrClass }}"
+    id="{{ attrId }}_{{ name }}" class="row{{ attrClass }}"
 {%- endblock row_attributes -%}
 
 {%- block form_label -%}
@@ -89,7 +99,7 @@
         {%- elseif attrvalue is not same as(false) -%}
         	{%- if attrname == 'class' -%}
                 {%- set attrClass = ' ' ~ attrvalue -%}
-            {%- elseif attrname != 'row_class' -%}
+            {%- elseif (attrname != 'row_class' and attrname != 'row_id') -%}
             	{{- attrname }}="{{ attrvalue }}"
             {%- endif -%}
         {%- endif -%}
@@ -109,7 +119,7 @@
         {%- elseif attrvalue is not same as(false) -%}
             {%- if attrname == 'class' -%}
                 {%- set attrClass = ' ' ~ attrvalue -%}
-            {%- elseif (attrname != 'row_class' and attrname != 'element_row_class') -%}
+            {%- elseif (attrname != 'row_class' and attrname != 'row_id' and attrname != 'element_row_class' and attrname != 'element_row_id') -%}
                 {{- attrname }}="{{ attrvalue }}"
             {%- endif -%}
         {%- endif -%}

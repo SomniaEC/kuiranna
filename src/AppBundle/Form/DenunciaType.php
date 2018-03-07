@@ -49,7 +49,8 @@ class DenunciaType extends AbstractType {
 				),
 				'attr' => array (
 						'row_class' => 'container_container_row actores_direccion',
-						'element_row_class' => 'actor_direccion_row' 
+						'element_row_class' => 'actor_direccion_row',
+						'element_row_id' => 'actor_direccion_id'
 				) 
 		) );
 	}

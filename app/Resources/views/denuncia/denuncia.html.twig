@@ -2,10 +2,9 @@
 
 {% block form %}
 	<div id="tabs_denuncia">
-		<ul>
+		<ul id="list_tabs_denuncia">
 			<li><a href="#atributos_denuncia">Denuncia</a></li>
 			<li><a href="#vulnerados_denuncia">Vulnerados</a></li>
-			<li><a href="#actores_denuncia">Denunciantes/Denunciados</a></li>
 		</ul>
     	<div id="atributos_denuncia">
         {{ form_row(form.creacion, t_options) }}
@@ -30,7 +29,10 @@
 jQuery(document).ready(function() {
 
 	//tabs denuncia
-	$("#tabs_denuncia").tabs();
+	var tabs_denuncia = $("#tabs_denuncia").tabs();
+
+	//tabs actor
+
 	
     var $provincia_canton = JSON.parse('{{ form.children.vulneradosDireccion.children.0.children.direccion.vars.provincia_canton|raw }}');
     var $canton_parroquia = JSON.parse('{{ form.children.vulneradosDireccion.children.0.children.direccion.vars.canton_parroquia|raw }}');
@@ -56,9 +58,19 @@ jQuery(document).ready(function() {
 	});
 	
 	addLinkToForm($vulneradoHolder, $addVulneradoLink);
-	addDenunciadoDenuncianteLinkToForm();
+	//addDenunciadoDenuncianteLinkToForm();
 	
 });
+
+function addToTabs($elementHolder, $option) {
+	if($option == 'vulnerado') {
+	} else if ($option == 'actor') {
+		var nbrLiElem = ($('ul#list_tabs_denuncia li .tab_actor').length);
+		$li = $('<li><a class="tab_actor" href="#actor_direccion_id_' + nbrLiElem + '">Actor ' + (nbrLiElem + 1) + '</a>');
+		$('ul#list_tabs_denuncia li:last-child').after($li);
+		$("#tabs_denuncia").tabs( "refresh" );
+	}
+}
 
 function addRemoveLink($elementHolder) {
 	var $removeLink = $('<a href="#" class="remove_element_link">Quitar</a>');
