@@ -5,6 +5,7 @@ namespace AppBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 class ActividadEconomicaType extends AbstractType
 {
@@ -13,7 +14,11 @@ class ActividadEconomicaType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('nombre');
+    	$builder->add('codigo', TextType::class, array (
+    			'required' => false
+    	) )->add('nombre', TextType::class, array (
+    			'required' => false
+    	));
     }
     
     /**

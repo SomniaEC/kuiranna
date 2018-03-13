@@ -26,7 +26,7 @@ class Direccion extends EntidadBase {
 	private $parroquia;
 	
 	/**
-	 * @ORM\Column(type="string", length=100)
+	 * @ORM\Column(type="string", length=100, nullable=true)
 	 */
 	private $sector;
 	
@@ -36,22 +36,22 @@ class Direccion extends EntidadBase {
 	private $zona;
 	
 	/**
-	 * @ORM\Column(type="string", length=120)
+	 * @ORM\Column(type="string", length=120, nullable=true)
 	 */
 	private $callePrincipal;
 	
 	/**
-	 * @ORM\Column(type="string", length=120)
+	 * @ORM\Column(type="string", length=120, nullable=true)
 	 */
 	private $calleSecundaria;
 	
 	/**
-	 * @ORM\Column(type="string", length=50)
+	 * @ORM\Column(type="string", length=50, nullable=true)
 	 */
 	private $numero;
 	
 	/**
-	 * @ORM\Column(type="string", length=250)
+	 * @ORM\Column(type="string", length=250, nullable=true)
 	 */
 	private $referencia;
 	
@@ -110,7 +110,7 @@ class Direccion extends EntidadBase {
 	 * @see \AppBundle\Entity\EntidadBase::__toString()
 	 */
 	public function __toString() {
-		return $this->callePrincipal . " " . $this->numero;
+		return ($this->callePrincipal == null ? "" : $this->callePrincipal) . " " . ($this->numero == null ? "" : $this->numero);
 	}
 	/**
 	 * @return 

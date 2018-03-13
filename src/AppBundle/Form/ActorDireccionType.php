@@ -22,7 +22,8 @@ class ActorDireccionType extends AbstractType {
 				),
 				'attr' => array (
 						'row_class' => 'rol' 
-				) 
+				),
+				'required' => false
 		) )->add ( 'actor', ActorType::class, array (
 				'label_attr' => array (
 						'class' => 'container_label' 

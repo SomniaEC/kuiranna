@@ -17,23 +17,23 @@ class Junta extends EntidadBase {
 	private $nombre;
 	
 	/**
-	 * @ORM\Column(type="string", length=13)
+	 * @ORM\Column(type="string", length=13, nullable=true)
 	 */
 	private $ruc;
 	
 	/**
-	 * @ORM\Column(type="string", length=100)
+	 * @ORM\Column(type="string", length=100, nullable=true)
 	 */
 	private $telefono;
 	
 	/**
-	 * @ORM\Column(type="string", length=100)
+	 * @ORM\Column(type="string", length=100, nullable=true)
 	 * @Assert\Email(message = "El email '{{ value }}' no es valido.")
 	 */
 	private $email;
 	
 	/**
-	 * @ORM\Column(type="string", length=250)
+	 * @ORM\Column(type="string", length=250, nullable=true)
 	 */
 	private $logo;
 	

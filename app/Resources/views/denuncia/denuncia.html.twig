@@ -4,7 +4,9 @@
 	<div id="tabs_denuncia">
 		<ul id="list_tabs_denuncia">
 			<li><a href="#atributos_denuncia">Denuncia</a></li>
-			<li><a href="#vulnerados_denuncia">Vulnerados</a></li>
+			<li><a id="addVulnerado" href="#vulnerados">+ Vulnerado</a></li>
+			<li><a id="addDenunciado" href="#denunciados">+ Denunciado</a></li>
+			<li><a id="addDenunciante" href="#denunciantes">+ Denunciante</a></li>
 		</ul>
     	<div id="atributos_denuncia">
         {{ form_row(form.creacion, t_options) }}
@@ -16,12 +18,11 @@
         {{ form_row(form.derechos, t_options) }}
         {{ form_row(form.junta, t_options) }}
         </div>
-        <div id="vulnerados_denuncia">
+        <div id="vulnerados"></div>
+        <div id="denunciados"></div>
+        <div id="denunciantes"></div>
         {{ form_row(form.vulneradosDireccion, t_options) }}
-        </div>
-        <div id="actores_denuncia">
         {{ form_row(form.actoresDireccion, t_options) }}
-    	</div>
     </div>
 	
 <script type="text/javascript">
@@ -31,8 +32,15 @@ jQuery(document).ready(function() {
 	//tabs denuncia
 	var tabs_denuncia = $("#tabs_denuncia").tabs();
 
+	//tabs vulnerados
+	$('#denuncia_vulneradosDireccion').children().each(function() {
+		addToTabs(this, 'vulnerado');
+	});	
+	
 	//tabs actor
-
+	$('#denuncia_actoresDireccion').children().each(function() {
+		addToTabs(this, 'actor');
+	});
 	
     var $provincia_canton = JSON.parse('{{ form.children.vulneradosDireccion.children.0.children.direccion.vars.provincia_canton|raw }}');
     var $canton_parroquia = JSON.parse('{{ form.children.vulneradosDireccion.children.0.children.direccion.vars.canton_parroquia|raw }}');
@@ -44,26 +52,38 @@ jQuery(document).ready(function() {
     	actorSelect($(value));
     });
 
-	
 	// setup an "add a tag" link
-	var $addVulneradoLink = $('<a href="#" class="add_element_link add_vulnerado">Agregar Vulnerado</a>');
-	var $vulneradoHolder = $('#bloque_denuncia_vulneradosDireccion');
+	var $vulneradoHolder = $('#denuncia_vulneradosDireccion');
+	addIndexToHolder($vulneradoHolder);
+	$('#addVulnerado').on('click', function(e) {
+		e.preventDefault();
+		$newElement = addNewElementToForm($vulneradoHolder);
+		addToTabs($newElement, 'vulnerado');
+    });
+	
+
 	
 	//Add remove link to vulnerados and denunciantes/denunciados
-	$('#bloque_denuncia_vulneradosDireccion div.vulnerados_direccion_row').each(function(){
-		addRemoveLink($(this));
+	$('#denuncia_vulneradosDireccion div.vulnerados_direccion_row').each(function(){
+		//addRemoveLink($(this));
 	});
-	$('#bloque_denuncia_actoresDireccion div.actores_direccion_row').each(function(){
-		addRemoveLink($(this));
+	$('#denuncia_actoresDireccion div.actores_direccion_row').each(function(){
+		//addRemoveLink($(this));
 	});
 	
-	addLinkToForm($vulneradoHolder, $addVulneradoLink);
+	addIndexToHolder($vulneradoHolder);
 	//addDenunciadoDenuncianteLinkToForm();
+
+	var index = $vulneradoHolder.data('index');
 	
 });
 
 function addToTabs($elementHolder, $option) {
 	if($option == 'vulnerado') {
+		var nbrLiElem = ($('ul#list_tabs_denuncia li .tab_vulnerado').length);
+		$li = $('<li><a class="tab_vulnerado" href="#vulnerado_direccion_id_' + nbrLiElem + '">Vulnerado ' + (nbrLiElem + 1) + '</a>');
+		$('ul#list_tabs_denuncia li:last-child').after($li);
+		$("#tabs_denuncia").tabs( "refresh" );
 	} else if ($option == 'actor') {
 		var nbrLiElem = ($('ul#list_tabs_denuncia li .tab_actor').length);
 		$li = $('<li><a class="tab_actor" href="#actor_direccion_id_' + nbrLiElem + '">Actor ' + (nbrLiElem + 1) + '</a>');
@@ -72,37 +92,12 @@ function addToTabs($elementHolder, $option) {
 	}
 }
 
-function addRemoveLink($elementHolder) {
-	var $removeLink = $('<a href="#" class="remove_element_link">Quitar</a>');
-	var $removeLinkHolder = $('<div class="remove_link"></div>').append($removeLink);
-	$elementHolder.prepend($removeLinkHolder);
-	$removeLink.on('click', function(e) {
-		e.preventDefault();
-		$elementHolder.remove();
-    });
-}
-
-function addLinkToForm($elementHolder, $addElementLink) {
-	var $newLink = $('<div class="row add_link"></div>').append($addElementLink);
+function addIndexToHolder($elementHolder) {
 	var $startIndex = $elementHolder.children().length;
-
-	// add the "add a tag" anchor and li to the tags ul
-	$elementHolder.append($newLink);
-
-	// count the current form inputs we have (e.g. 2), use that as the new
-	// index when inserting a new item (e.g. 2)
 	$elementHolder.data('index', $startIndex);
-
-	$addElementLink.on('click', function(e) {
-		// prevent the link from creating a "#" on the URL
-		e.preventDefault();
-
-		// add a new tag form
-        addNewElementToForm($elementHolder, $newLink);
-    });
 }
 	
-function addNewElementToForm($collectionHolder, $newLink) {
+function addNewElementToForm($collectionHolder) {
     // Get the data-prototype explained earlier
     var prototype = $collectionHolder.data('prototype');
     // get the new index
@@ -117,14 +112,23 @@ function addNewElementToForm($collectionHolder, $newLink) {
 	$collectionHolder.data('index', index + 1);
 
 	$element = $(newForm);
-	addRemoveLink($element);
-	// Display the form in the page in an li, before the "Add a tag" link li
-	$newLink.before($element);
+	$collectionHolder.append($element);
+	return $element;
+}
+
+function addRemoveLink($elementHolder) {
+	var $removeLink = $('<a href="#" class="remove_element_link">Quitar</a>');
+	var $removeLinkHolder = $('<div class="remove_link"></div>').append($removeLink);
+	$elementHolder.prepend($removeLinkHolder);
+	$removeLink.on('click', function(e) {
+		e.preventDefault();
+		$elementHolder.remove();
+    });
 }
 
 function addDenunciadoDenuncianteLinkToForm() {
-	var $elementsHolder = $('#bloque_denuncia_actoresDireccion');
-	var $denuncianteLastElement = $('#bloque_denuncia_actoresDireccion :input.rol_actor[value="DENUNCIANTE"]').last().closest('div.actores_direccion_row');
+	var $elementsHolder = $('#denuncia_actoresDireccion');
+	var $denuncianteLastElement = $('#denuncia_actoresDireccion :input.rol_actor[value="DENUNCIANTE"]').last().closest('div.actores_direccion_row');
 
 	var $addDenuncianteLink = $('<a href="#" class="add_element_link add_denunciante">Agregar Denunciante</a>');
 	var $addDenunciadoLink = $('<a href="#" class="add_element_link add_denunciado">Agregar Denunciado</a>');
