@@ -13,19 +13,13 @@ class VulneradoDireccionTodoType extends AbstractType {
 	 *
 	 */
 	public function buildForm(FormBuilderInterface $builder, array $options) {
-		$builder->add ( 'vulnerado', VulneradoType::class, array (
+		$builder->add ( 'vulnerado', VulneradoType::class)
+		->add ( 'direccion', DireccionType::class, array (
 				'label_attr' => array (
 						'class' => 'container_label' 
 				),
 				'attr' => array (
-						'row_class' => 'container_row' 
-				) 
-		) )->add ( 'direccion', DireccionType::class, array (
-				'label_attr' => array (
-						'class' => 'container_label' 
-				),
-				'attr' => array (
-						'row_class' => 'container_row elementos_direccion' 
+						'class' => 'container_value' 
 				) 
 		) );
 	}
@@ -47,6 +41,6 @@ class VulneradoDireccionTodoType extends AbstractType {
 	 *
 	 */
 	public function getBlockPrefix() {
-		return 'bloque_vulneradodireccion';
+		return 'vulneradodireccion';
 	}
 }

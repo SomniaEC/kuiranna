@@ -30,6 +30,6 @@ class AuditoriaType extends AbstractType {
 	 * {@inheritdoc}
 	 */
 	public function getBlockPrefix() {
-		return 'bloque_auditoria';
+		return 'auditoria';
 	}
 }

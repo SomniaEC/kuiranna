@@ -21,7 +21,7 @@ class Derecho extends EntidadBase {
 	private $nombre;
 	
 	/**
-	 * @ORM\Column(type="string", length=200)
+	 * @ORM\Column(type="string", length=200, nullable=true)
 	 */
 	private $descripcion;
 	

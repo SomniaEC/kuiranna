@@ -76,7 +76,7 @@ class VulneradoDireccion extends EntidadBase {
 	 * @see \AppBundle\Entity\EntidadBase::__toString()
 	 */
 	public function __toString() {
-		return $this->nombres;
+		return $this->vulnerado . " " . $this->direccion;
 	}
 	
 	/**

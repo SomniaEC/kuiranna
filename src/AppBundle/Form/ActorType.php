@@ -24,164 +24,53 @@ class ActorType extends AbstractType {
 	 */
 	public function buildForm(FormBuilderInterface $builder, array $options) {
 		$builder->add ( 'tipo', ChoiceType::class, array (
-				'choices' => ConstantesDeTipoActor::getConstants (),
-				'label_attr' => array (
-						'class' => 'label'
-				),
-				'attr' => array (
-						'row_class' => 'tipo'
-				)
+				'choices' => ConstantesDeTipoActor::getConstants ()
 		) )->add ( 'identificacion', TextType::class, array (
-				'label_attr' => array (
-						'class' => 'label'
-				),
 				'attr' => array (
-						'maxlength' => '13',
-						'row_class' => 'identificacion'
-				)
+						'maxlength' => '13'
+				),
+				'required' => false 
 		) )->add ( 'nombres', TextType::class, array (
-				'label_attr' => array (
-						'class' => 'label'
-				),
-				'attr' => array (
-						'row_class' => 'nombres'
-				)
+				'required' => false 
 		) )->add ( 'telefono', TextType::class, array (
-				'label_attr' => array (
-						'class' => 'label'
-				),
-				'attr' => array (
-						'row_class' => 'telefono'
-				)
+				'required' => false 
 		) )->add ( 'email', EmailType::class, array (
-				'label_attr' => array (
-						'class' => 'label'
-				),
-				'attr' => array (
-						'row_class' => 'email'
-				)
+				'required' => false 
 		) )->add ( 'identificacionContacto', TextType::class, array (
-				'label_attr' => array (
-						'class' => 'label'
-				),
-				'attr' => array (
-						'row_class' => 'identificacion_contacto'
-				)
+				'required' => false 
 		) )->add ( 'nombresContacto', TextType::class, array (
-				'label_attr' => array (
-						'class' => 'label'
-				),
-				'attr' => array (
-						'row_class' => 'nombres_contacto'
-				)
+				'required' => false 
 		) )->add ( 'cargoContacto', TextType::class, array (
-				'label_attr' => array (
-						'class' => 'label'
-				),
-				'attr' => array (
-						'row_class' => 'cargo_contacto'
-				)
+				'required' => false 
 		) )->add ( 'emailContacto', EmailType::class, array (
-				'label_attr' => array (
-						'class' => 'label'
-				),
-				'attr' => array (
-						'row_class' => 'email_contacto'
-				)
+				'required' => false 
 		) )->add ( 'telefonoContacto', TextType::class, array (
-				'label_attr' => array (
-						'class' => 'label'
-				),
-				'attr' => array (
-						'row_class' => 'telefono_contacto'
-				)
+				'required' => false 
 		) )->add ( 'fechaNacimiento', DateType::class, array (
 				'widget' => 'single_text',
-				'label_attr' => array (
-						'class' => 'label'
-				),
-				'attr' => array (
-						'row_class' => 'fecha_nacimiento'
-				)
+				'required' => false 
 		) )->add ( 'edad', TextType::class, array (
 				'mapped' => false,
-				'required' => false,
-				'label_attr' => array (
-						'class' => 'label'
-				),
-				'attr' => array (
-						'row_class' => 'edad'
-				)
+				'required' => false 
 		) )->add ( 'sexo', ChoiceType::class, array (
-				'choices' => ConstantesDeSexo::getConstants (),
-				'label_attr' => array (
-						'class' => 'label'
-				),
-				'attr' => array (
-						'row_class' => 'sexo'
-				)
+				'choices' => ConstantesDeSexo::getConstants ()
 		) )->add ( 'genero', ChoiceType::class, array (
-				'choices' => ConstantesDeGenero::getConstants (),
-				'label_attr' => array (
-						'class' => 'label'
-				),
-				'attr' => array (
-						'row_class' => 'genero'
-				)
+				'choices' => ConstantesDeGenero::getConstants ()
 		) )->add ( 'nacionalidad', TextType::class, array (
-				'label_attr' => array (
-						'class' => 'label'
-				),
-				'attr' => array (
-						'row_class' => 'nacionalidad'
-				)
+				'required' => false 
 		) )->add ( 'interculturalidad', ChoiceType::class, array (
 				'choices' => ConstantesDeInterculturalidad::getConstants (),
-				'label_attr' => array (
-						'class' => 'label'
-				),
-				'attr' => array (
-						'row_class' => 'interculturalidad'
-				)
-		) )->add ( 'actividadEconomica', ActividadEconomicaType::class, array (
-				'label_attr' => array (
-						'class' => 'container_label'
-				),
-				'attr' => array (
-						'row_class' => 'container_row actividad_economica'
-				)
-		) )->add ( 'lugarTrabajo', TextType::class, array (
-				'label_attr' => array (
-						'class' => 'label'
-				),
-				'attr' => array (
-						'row_class' => 'lugar_trabajo'
-				)
+				'required' => true 
+		) )->add ( 'actividadEconomica'
+		)->add ( 'lugarTrabajo', TextType::class, array (
+				'required' => false 
 		) )->add ( 'instruccion', ChoiceType::class, array (
-				'choices' => array_flip ( ConstantesDeNivelInstruccion::getConstants () ),
-				'label_attr' => array (
-						'class' => 'label'
-				),
-				'attr' => array (
-						'row_class' => 'instruccion'
-				)
+				'choices' => array_flip ( ConstantesDeNivelInstruccion::getConstants () )
 		) )->add ( 'capacidadEspecial', CheckboxType::class, array (
-				'required' => false,
-				'label_attr' => array (
-						'class' => 'label'
-				),
-				'attr' => array (
-						'row_class' => 'capacidad_especial'
-				)
+				'required' => false 
 		) )->add ( 'relacion', ChoiceType::class, array (
 				'choices' => array_flip ( ConstantesDeRelacion::getConstants () ),
-				'label_attr' => array (
-						'class' => 'label'
-				),
-				'attr' => array (
-						'row_class' => 'relacion'
-				)
-				
+				'required' => true
 		) );
 	}
 	
@@ -191,7 +80,7 @@ class ActorType extends AbstractType {
 	 */
 	public function configureOptions(OptionsResolver $resolver) {
 		$resolver->setDefaults ( array (
-				'data_class' => 'AppBundle\Entity\Actor'
+				'data_class' => 'AppBundle\Entity\Actor' 
 		) );
 	}
 	
@@ -200,6 +89,6 @@ class ActorType extends AbstractType {
 	 * {@inheritdoc}
 	 */
 	public function getBlockPrefix() {
-		return 'bloque_actor';
+		return 'actor';
 	}
 }

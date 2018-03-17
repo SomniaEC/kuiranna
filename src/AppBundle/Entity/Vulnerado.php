@@ -12,67 +12,67 @@ use Symfony\Component\Validator\Constraints as Assert;
 class Vulnerado extends EntidadBase {
 	
 	/**
-	 * @ORM\Column(type="string", length=13)
+	 * @ORM\Column(type="string", length=13, nullable=true)
 	 */
 	private $identificacion;
 	
 	/**
-	 * @ORM\Column(type="string", length=150)
+	 * @ORM\Column(type="string", length=150, nullable=true)
 	 */
 	private $nombres;
 	
 	/**
-	 * @ORM\Column(type="date")
+	 * @ORM\Column(type="date", nullable=true)
 	 */
 	private $fechaNacimiento;
 	
 	/**
-	 * @ORM\Column(type="string", length=10)
+	 * @ORM\Column(type="string", length=10, nullable=true)
 	 */
 	private $sexo;
 	
 	/**
-	 * @ORM\Column(type="string", length=10)
+	 * @ORM\Column(type="string", length=10, nullable=true)
 	 */
 	private $genero;
 	
 	/**
-	 * @ORM\Column(type="string", length=80)
+	 * @ORM\Column(type="string", length=80, nullable=true)
 	 */
 	private $nacionalidad;
 	
 	/**
-	 * @ORM\Column(type="string", length=20)
+	 * @ORM\Column(type="string", length=20, nullable=true)
 	 */
 	private $interculturalidad;
 	
 	/**
-	 * @ORM\Column(type="string", length=25)
+	 * @ORM\Column(type="string", length=25, nullable=true)
 	 */
 	private $ocupacion;
 	
 	/**
-	 * @ORM\Column(type="string", length=25)
+	 * @ORM\Column(type="string", length=25, nullable=true)
 	 */
 	private $instruccion;
 	
 	/**
-	 * @ORM\Column(type="boolean")
+	 * @ORM\Column(type="boolean", nullable=true)
 	 */
 	private $capacidadEspecial;
 	
 	/**
-	 * @ORM\Column(type="string", length=20)
+	 * @ORM\Column(type="string", length=20, nullable=true)
 	 */
 	private $legalidad;
 	
 	/**
-	 * @ORM\Column(type="string", length=100)
+	 * @ORM\Column(type="string", length=100, nullable=true)
 	 */
 	private $telefono;
 	
 	/**
-	 * @ORM\Column(type="string", length=100)
+	 * @ORM\Column(type="string", length=100, nullable=true)
 	 * @Assert\Email(message = "El email '{{ value }}' no es valido.")
 	 */
 	private $email;
@@ -88,7 +88,7 @@ class Vulnerado extends EntidadBase {
 				$this->id,
 				$this->identificacion,
 				$this->nombres,
-				$this->fechaNacimiento->format ( 'd-m-Y' ),
+				$this->fechaNacimiento == null ? '' : $this->fechaNacimiento->format ( 'd-m-Y' ),
 				$this->sexo,
 				$this->genero,
 				$this->nacionalidad,
@@ -137,7 +137,7 @@ class Vulnerado extends EntidadBase {
 	 * @see \AppBundle\Entity\EntidadBase::__toString()
 	 */
 	public function __toString() {
-		return $this->nombres;
+		return $this->nombres == null ? "" : $this->nombres;
 	}
 	/**
 	 * @return mixed
