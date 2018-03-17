@@ -17,14 +17,14 @@ class VulneradoDireccionType extends AbstractType {
 						'class' => 'container_label' 
 				),
 				'attr' => array (
-						'row_class' => 'container_row' 
+						'class' => 'container_value' 
 				) 
 		) )->add ( 'direccion', DireccionType::class, array (
 				'label_attr' => array (
 						'class' => 'container_label' 
 				),
 				'attr' => array (
-						'row_class' => 'container_row elementos_direccion' 
+						'class' => 'container_value' 
 				) 
 		) )->add ( 'denuncia' )->add ( 'junta' );
 	}
@@ -44,6 +44,6 @@ class VulneradoDireccionType extends AbstractType {
 	 * {@inheritdoc}
 	 */
 	public function getBlockPrefix() {
-		return 'bloque_vulneradodireccion';
+		return 'vulneradodireccion';
 	}
 }

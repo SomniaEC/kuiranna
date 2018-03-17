@@ -34,7 +34,7 @@ class DerechoType extends AbstractType
      */
     public function getBlockPrefix()
     {
-        return 'bloque_derecho';
+        return 'derecho';
     }
 
 

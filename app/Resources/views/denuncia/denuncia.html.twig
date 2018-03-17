@@ -1,12 +1,12 @@
 {% extends 'entidadBase/mostrarEntidad.html.twig' %}
 
 {% block form %}
-	<div id="tabs_denuncia">
+	<div id="tabs_denuncia" class="denuncia">
 		<ul id="list_tabs_denuncia">
 			<li><a href="#atributos_denuncia">Denuncia</a></li>
-			<li><a id="addVulnerado" href="#vulnerados">+ Vulnerado</a></li>
-			<li><a id="addDenunciado" href="#denunciados">+ Denunciado</a></li>
-			<li><a id="addDenunciante" href="#denunciantes">+ Denunciante</a></li>
+			<li><a id="addVulnerado" onclick="addVulnerado(event); $(this).blur();" href="#vulnerados"><span class="glyphicon glyphicon-plus-sign"></span></a></li>
+			<li><a id="addDenunciante" onclick="addDenun(event, 'Denunciante'); $(this).blur();" href="#denunciantes"><span class="glyphicon glyphicon-plus-sign"></a></li>
+			<li><a id="addDenunciado" onclick="addDenun(event, 'Denunciado'); $(this).blur();" href="#denunciados"><span class="glyphicon glyphicon-plus-sign"></a></li>
 		</ul>
     	<div id="atributos_denuncia">
         {{ form_row(form.creacion, t_options) }}
@@ -16,87 +16,145 @@
         {{ form_row(form.ambitoMaltrato, t_options) }}
         {{ form_row(form.vulneradoresDerechos, t_options) }}
         {{ form_row(form.derechos, t_options) }}
-        {{ form_row(form.junta, t_options) }}
         </div>
+        {{ form_row(form.vulneradosDireccion, t_options) }}
+        {{ form_row(form.actoresDireccion, t_options) }}
         <div id="vulnerados"></div>
         <div id="denunciados"></div>
         <div id="denunciantes"></div>
-        {{ form_row(form.vulneradosDireccion, t_options) }}
-        {{ form_row(form.actoresDireccion, t_options) }}
     </div>
 	
 <script type="text/javascript">
 
+var $provincia_canton = JSON.parse('{{ form.children.vulneradosDireccion.children.0.children.direccion.vars.provincia_canton|raw }}');
+var $canton_parroquia = JSON.parse('{{ form.children.vulneradosDireccion.children.0.children.direccion.vars.canton_parroquia|raw }}');
+
 jQuery(document).ready(function() {
 
+	//selects direccion
+    $.each($('.direccion'), function (key, value) {
+        bindSelects($(value).find('.provincia select').first(), $(value).find('.canton select').first(), $provincia_canton, 'codigo');
+        bindSelects($(value).find('.canton select').first(), $(value).find('.parroquia select').first(), $canton_parroquia, 'codigo');
+    });
+
+    //selects actor
+	$.each($('.actor_direccion'), function (key, value) {
+    	actorSelect($(value));
+    });
+	
 	//tabs denuncia
 	var tabs_denuncia = $("#tabs_denuncia").tabs();
 
 	//tabs vulnerados
-	$('#denuncia_vulneradosDireccion').children().each(function() {
-		addToTabs(this, 'vulnerado');
-	});	
+	var vulnerados_index = 0;
+	var $vulneradoHolder = $('#denuncia_vulneradosDireccion');
+	$vulneradoHolder.children().each(function() {
+		addToTabs(this, 'Vulnerado', vulnerados_index);
+		vulnerados_index++;
+	});
+	addIndexToHolder($vulneradoHolder);
 	
 	//tabs actor
-	$('#denuncia_actoresDireccion').children().each(function() {
-		addToTabs(this, 'actor');
+	var actores_index = 0;
+	var denunciante_index = 0;
+	var denunciado_index = 0;
+	var $actoresHolder = $('#denuncia_actoresDireccion');
+	$actoresHolder.children().each(function() {
+		var $actor_type = $(this).find('.rol select').val();
+		if($actor_type == 'Denunciante') {
+			addToTabs(this, $actor_type, actores_index, denunciante_index);
+			denunciante_index++;
+		} else {
+			addToTabs(this, $actor_type, actores_index, denunciado_index);
+			denunciado_index++;
+		}
+		actores_index++;
 	});
-	
-    var $provincia_canton = JSON.parse('{{ form.children.vulneradosDireccion.children.0.children.direccion.vars.provincia_canton|raw }}');
-    var $canton_parroquia = JSON.parse('{{ form.children.vulneradosDireccion.children.0.children.direccion.vars.canton_parroquia|raw }}');
-    $.each($('.elementos_direccion'), function (key, value) {
-        bindSelects($(value).find('select.select_direccion_provincia').first(), $(value).find('select.select_direccion_canton').first(), $provincia_canton, 'codigo');
-        bindSelects($(value).find('select.select_direccion_canton').first(), $(value).find('select.select_direccion_parroquia').first(), $canton_parroquia, 'codigo');
-    });
-    $.each($('.actores_direccion .actor_direccion_row'), function (key, value) {
-    	actorSelect($(value));
-    });
-
-	// setup an "add a tag" link
-	var $vulneradoHolder = $('#denuncia_vulneradosDireccion');
-	addIndexToHolder($vulneradoHolder);
-	$('#addVulnerado').on('click', function(e) {
-		e.preventDefault();
-		$newElement = addNewElementToForm($vulneradoHolder);
-		addToTabs($newElement, 'vulnerado');
-    });
-	
-
-	
-	//Add remove link to vulnerados and denunciantes/denunciados
-	$('#denuncia_vulneradosDireccion div.vulnerados_direccion_row').each(function(){
-		//addRemoveLink($(this));
-	});
-	$('#denuncia_actoresDireccion div.actores_direccion_row').each(function(){
-		//addRemoveLink($(this));
-	});
-	
-	addIndexToHolder($vulneradoHolder);
-	//addDenunciadoDenuncianteLinkToForm();
-
-	var index = $vulneradoHolder.data('index');
-	
+	addIndexToHolder($actoresHolder);
+	$actoresHolder.data('denunciante_index', denunciante_index);
+	$actoresHolder.data('denunciado_index', denunciado_index);
 });
 
-function addToTabs($elementHolder, $option) {
-	if($option == 'vulnerado') {
-		var nbrLiElem = ($('ul#list_tabs_denuncia li .tab_vulnerado').length);
-		$li = $('<li><a class="tab_vulnerado" href="#vulnerado_direccion_id_' + nbrLiElem + '">Vulnerado ' + (nbrLiElem + 1) + '</a>');
-		$('ul#list_tabs_denuncia li:last-child').after($li);
-		$("#tabs_denuncia").tabs( "refresh" );
-	} else if ($option == 'actor') {
-		var nbrLiElem = ($('ul#list_tabs_denuncia li .tab_actor').length);
-		$li = $('<li><a class="tab_actor" href="#actor_direccion_id_' + nbrLiElem + '">Actor ' + (nbrLiElem + 1) + '</a>');
-		$('ul#list_tabs_denuncia li:last-child').after($li);
-		$("#tabs_denuncia").tabs( "refresh" );
+function addToTabs($elementHolder, $option, $index, $tab_index) {
+	if($option == 'Vulnerado') {
+		$id = 'denuncia_vulneradosDireccion_' + $index;
+		$link = $('');
+		if($index != 0) {
+			$link = $('<a class="delete_vulnerado delete_btn"><span class="glyphicon glyphicon-trash"></span></a>');
+		}
+		$tab = $('<a class="tab_vulnerado '+ $id +'" href="#' + $id + '">Vulnerado ' + ($index + 1) + '</a>');
+		$li = $('<li></li>').append($tab).append($link);
+		$('#addVulnerado').parent().before($li);
+	} else if ($option == 'Denunciante') {
+		$id = 'denuncia_actoresDireccion_' + $index;
+		$link = $('');
+		if($index > 1) {
+			$link = $('<a class="delete_actor delete_denunciante delete_btn"><span class="glyphicon glyphicon-trash"></a>');
+		}
+		$tab = $('<a class="tab_actor '+ $id +'" href="#' + $id + '">Denunciante ' + ($tab_index + 1) + '</a>');
+		$li = $('<li></li>').append($tab).append($link);
+		$('#addDenunciante').parent().before($li);
+	} else if ($option == 'Denunciado') {
+		$id = 'denuncia_actoresDireccion_' + $index;
+		$link = $('');
+		if($index > 1) {
+			$link = $('<a class="delete_actor delete_denunciado delete_btn"><span class="glyphicon glyphicon-trash"></a>');
+		}
+		$tab = $('<a class="tab_actor '+ $id +'" href="#' + $id + '">Denunciado ' + ($tab_index + 1) + '</a>');
+		$li = $('<li></li>').append($tab).append($link);
+		$('#addDenunciado').parent().before($li);
 	}
+	if($index != 0) {
+		addRemoveLink($link, $li, $('#' + $id));
+	}
+	$("#tabs_denuncia").tabs( "refresh" );
+	return $id;
 }
 
 function addIndexToHolder($elementHolder) {
 	var $startIndex = $elementHolder.children().length;
 	$elementHolder.data('index', $startIndex);
 }
+
+function addVulnerado(e) {
+	e.preventDefault();
+	$newElement = addNewElementToForm($('#denuncia_vulneradosDireccion'));
+	var index = $('#denuncia_vulneradosDireccion').data('index') - 1;
+	$id = addToTabs($newElement, 'Vulnerado', index);
+	var index = $('#tabs_denuncia a[href="#' + $id + '"]').parent().index();
+	$("#tabs_denuncia").tabs("option", "active", index);
+
+	//direccion selects
+	$.each($newElement.find('.direccion'), function (key, value) {
+		bindSelects($(value).find('.provincia select').first(), $(value).find('.canton select').first(), $provincia_canton, 'codigo');
+		bindSelects($(value).find('.canton select').first(), $(value).find('.parroquia select').first(), $canton_parroquia, 'codigo');
+	});
+}
+
+function addDenun(e, $option) {
+	e.preventDefault();
+	$newElement = addNewDenunElementToForm($('#denuncia_actoresDireccion'), $option);
+	var index = $('#denuncia_actoresDireccion').data('index') - 1;
+	var tab_index = 0;
+	if($option == 'Denunciante') {
+		tab_index = $('#denuncia_actoresDireccion').data('denunciante_index') - 1;
+	} else {
+		tab_index = $('#denuncia_actoresDireccion').data('denunciado_index') - 1;
+	}
+	$id = addToTabs($newElement, $option, index, tab_index);
+	var index = $('#tabs_denuncia a[href="#' + $id + '"]').parent().index();
+	$("#tabs_denuncia").tabs("option", "active", index);
+}
 	
+function addRemoveLink($link, $li, $elementHolder) {
+	$link.on('click', function(e) {
+		e.preventDefault();
+		$elementHolder.parent().remove();
+		$li.remove();
+		$("#tabs_denuncia").tabs( "refresh" );
+    });
+}
+
 function addNewElementToForm($collectionHolder) {
     // Get the data-prototype explained earlier
     var prototype = $collectionHolder.data('prototype');
@@ -116,61 +174,7 @@ function addNewElementToForm($collectionHolder) {
 	return $element;
 }
 
-function addRemoveLink($elementHolder) {
-	var $removeLink = $('<a href="#" class="remove_element_link">Quitar</a>');
-	var $removeLinkHolder = $('<div class="remove_link"></div>').append($removeLink);
-	$elementHolder.prepend($removeLinkHolder);
-	$removeLink.on('click', function(e) {
-		e.preventDefault();
-		$elementHolder.remove();
-    });
-}
-
-function addDenunciadoDenuncianteLinkToForm() {
-	var $elementsHolder = $('#denuncia_actoresDireccion');
-	var $denuncianteLastElement = $('#denuncia_actoresDireccion :input.rol_actor[value="DENUNCIANTE"]').last().closest('div.actores_direccion_row');
-
-	var $addDenuncianteLink = $('<a href="#" class="add_element_link add_denunciante">Agregar Denunciante</a>');
-	var $addDenunciadoLink = $('<a href="#" class="add_element_link add_denunciado">Agregar Denunciado</a>');
-	
-	var $newDenuncianteLink = $('<div class="row add_link"></div>').append($addDenuncianteLink);
-	var $newDenunciadoLink = $('<div class="row add_link"></div>').append($addDenunciadoLink);
-
-	var $startIndex = $elementsHolder.children().length;
-
-	if($denuncianteLastElement.length == 0) {
-		$elementsHolder.append($newDenuncianteLink);
-	} else {
-		$denuncianteLastElement.after($newDenuncianteLink);
-	}
-	
-	$elementsHolder.append($newDenunciadoLink);
-
-	// count the current form inputs we have (e.g. 2), use that as the new
-	// index when inserting a new item (e.g. 2)
-	$elementsHolder.data('index', $startIndex);
-
-	$addDenuncianteLink.on('click', function(e) {
-
-		// prevent the link from creating a "#" on the URL
-		e.preventDefault();
-
-		// add a new tag form
-		addNewDenunElementToForm($elementsHolder, $newDenuncianteLink, 'DENUNCIANTE');
-	});
-
-	$addDenunciadoLink.on('click', function(e) {
-
-		// prevent the link from creating a "#" on the URL
-		e.preventDefault();
-
-		// add a new tag form
-		addNewDenunElementToForm($elementsHolder, $newDenunciadoLink, 'DENUNCIADO');
-	});
-}
-
-
-function addNewDenunElementToForm($collectionHolder, $newLink, $value) {
+function addNewDenunElementToForm($collectionHolder, $value) {
     // Get the data-prototype explained earlier
     var prototype = $collectionHolder.data('prototype');
     // get the new index
@@ -183,12 +187,20 @@ function addNewDenunElementToForm($collectionHolder, $newLink, $value) {
 
 	// increase the index with one for the next item
 	$collectionHolder.data('index', index + 1);
+	if($value == 'Denunciante') {
+		$collectionHolder.data('denunciante_index', $collectionHolder.data('denunciante_index') + 1);
+	} else {
+		$collectionHolder.data('denunciado_index', $collectionHolder.data('denunciado_index') + 1);
+	}
 
 	// Display the form in the page in an li, before the "Add a tag" link li
 	var $element = $(newForm)
-	$element.find('.rol_actor').val($value);
-	addRemoveLink($element);
-	$newLink.before($element);
+	$element.find('.rol select').val($value);
+	$collectionHolder.append($element);
+
+	//selects actor
+    actorSelect($element);
+	return $element;
 }
 </script>
 	

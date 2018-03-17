@@ -31,7 +31,7 @@ class PlantillaType extends AbstractType
      */
     public function getBlockPrefix()
     {
-        return 'bloque_plantilla';
+        return 'plantilla';
     }
 
 

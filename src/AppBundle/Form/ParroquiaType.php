@@ -31,7 +31,7 @@ class ParroquiaType extends AbstractType
      */
     public function getBlockPrefix()
     {
-        return 'bloque_parroquia';
+        return 'parroquia';
     }
 
 

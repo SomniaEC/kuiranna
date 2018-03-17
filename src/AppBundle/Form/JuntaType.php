@@ -27,7 +27,7 @@ class JuntaType extends AbstractType {
 						'class' => 'container_label' 
 				),
 				'attr' => array (
-						'row_class' => 'container_row' 
+						'class' => 'container_value' 
 				) 
 		) );
 	}
@@ -49,6 +49,6 @@ class JuntaType extends AbstractType {
 	 *
 	 */
 	public function getBlockPrefix() {
-		return 'bloque_junta';
+		return 'junta';
 	}
 }

@@ -31,7 +31,7 @@ class OperacionDenunciaType extends AbstractType
      */
     public function getBlockPrefix()
     {
-        return 'bloque_operaciondenuncia';
+        return 'operaciondenuncia';
     }
 
 

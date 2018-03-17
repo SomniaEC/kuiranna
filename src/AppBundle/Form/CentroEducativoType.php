@@ -24,7 +24,7 @@ class CentroEducativoType extends AbstractType {
 						'class' => 'container_label' 
 				),
 				'attr' => array (
-						'row_class' => 'container_row' 
+						'class' => 'container_value' 
 				) 
 		) );
 	}
@@ -44,6 +44,6 @@ class CentroEducativoType extends AbstractType {
 	 * {@inheritdoc}
 	 */
 	public function getBlockPrefix() {
-		return 'bloque_centroeducativo';
+		return 'centroeducativo';
 	}
 }

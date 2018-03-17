@@ -36,7 +36,7 @@ class ActividadEconomicaType extends AbstractType
      */
     public function getBlockPrefix()
     {
-        return 'bloque_actividadeconomica';
+        return 'actividadeconomica';
     }
 
 

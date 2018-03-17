@@ -31,7 +31,7 @@ class ProvinciaType extends AbstractType
      */
     public function getBlockPrefix()
     {
-        return 'bloque_provincia';
+        return 'provincia';
     }
 
 

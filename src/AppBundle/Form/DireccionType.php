@@ -169,6 +169,6 @@ class DireccionType extends AbstractType {
 	 * {@inheritdoc}
 	 */
 	public function getBlockPrefix() {
-		return 'bloque_direccion';
+		return 'direccion';
 	}
 }

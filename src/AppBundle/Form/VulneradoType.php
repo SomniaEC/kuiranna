@@ -28,33 +28,21 @@ class VulneradoType extends AbstractType {
 				'required' => false
 		) )->add ( 'fechaNacimiento', DateType::class, array (
 				'widget' => 'single_text',
-				'label_attr' => array (
-						'class' => 'label'
-				),
-				'attr' => array (
-						'row_class' => 'fecha_nacimiento'
-				),
 				'required' => false
 		))->add ( 'sexo', ChoiceType::class, array (
-				'choices' => ConstantesDeSexo::getConstants (),
-				'required' => false
+				'choices' => ConstantesDeSexo::getConstants ()
 		) )->add ( 'genero', ChoiceType::class, array (
-				'choices' => ConstantesDeGenero::getConstants (),
-				'required' => false
+				'choices' => ConstantesDeGenero::getConstants ()
 		) )->add ( 'nacionalidad' , TextType::class, array (
 				'required' => false
 		) )->add ( 'interculturalidad', ChoiceType::class, array (
-				'choices' => ConstantesDeInterculturalidad::getConstants (),
-				'required' => false
+				'choices' => ConstantesDeInterculturalidad::getConstants ()
 		) )->add ( 'ocupacion', ChoiceType::class, array (
-				'choices' => array_flip ( ConstantesDeOcupacion::getConstants () ),
-				'required' => false
+				'choices' => array_flip ( ConstantesDeOcupacion::getConstants () )
 		) )->add ( 'instruccion', ChoiceType::class, array (
-				'choices' => array_flip ( ConstantesDeNivelInstruccion::getConstants () ),
-				'required' => false
+				'choices' => array_flip ( ConstantesDeNivelInstruccion::getConstants () )
 		) )->add ( 'capacidadEspecial' )->add ( 'legalidad', ChoiceType::class, array (
-				'choices' => ConstantesDeLegalidad::getConstants (),
-				'required' => false
+				'choices' => ConstantesDeLegalidad::getConstants ()
 		) )->add ( 'telefono' , TextType::class, array (
 				'required' => false
 		) )->add ( 'email' , TextType::class, array (
@@ -79,6 +67,6 @@ class VulneradoType extends AbstractType {
 	 *
 	 */
 	public function getBlockPrefix() {
-		return 'bloque_vulnerado';
+		return 'vulnerado';
 	}
 }

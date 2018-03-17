@@ -16,33 +16,27 @@ class ActorDireccionTodoType extends AbstractType {
 	 */
 	public function buildForm(FormBuilderInterface $builder, array $options) {
 		$builder->add ( 'rol', ChoiceType::class, array (
-				'choices' => ConstantesDeRolActor::getConstants (),
-				'label_attr' => array (
-						'class' => 'label' 
-				),
-				'attr' => array (
-						'row_class' => 'rol' 
-				)
+				'choices' => ConstantesDeRolActor::getConstants () 
 		) )->add ( 'actor', ActorType::class, array (
 				'label_attr' => array (
 						'class' => 'container_label' 
 				),
 				'attr' => array (
-						'row_class' => 'container_row' 
+						'class' => 'container_value' 
 				) 
 		) )->add ( 'direccion', DireccionType::class, array (
 				'label_attr' => array (
 						'class' => 'container_label' 
 				),
 				'attr' => array (
-						'row_class' => 'container_row elementos_direccion direccion' 
+						'class' => 'container_value' 
 				) 
 		) )->add ( 'direccionTrabajo', DireccionType::class, array (
 				'label_attr' => array (
 						'class' => 'container_label' 
 				),
 				'attr' => array (
-						'row_class' => 'container_row elementos_direccion direccion_trabajo' 
+						'class' => 'container_value' 
 				) 
 		) );
 	}
@@ -64,6 +58,6 @@ class ActorDireccionTodoType extends AbstractType {
 	 *
 	 */
 	public function getBlockPrefix() {
-		return 'bloque_actordireccion';
+		return 'actordireccion';
 	}
 }
