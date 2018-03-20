@@ -5,6 +5,7 @@ namespace AppBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 class DerechoType extends AbstractType
 {
@@ -13,7 +14,9 @@ class DerechoType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-    	$builder->add('tipo')->add('nombre')->add('descripcion');
+    	$builder->add('tipo')->add('nombre')->add('descripcion', TextType::class, array (
+    			'required' => false
+    	) );
     }
     
     /**
@@ -31,7 +34,7 @@ class DerechoType extends AbstractType
      */
     public function getBlockPrefix()
     {
-        return 'bloque_derecho';
+        return 'derecho';
     }
 
 

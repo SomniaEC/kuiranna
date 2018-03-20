@@ -5,6 +5,7 @@ namespace AppBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 class JuntaType extends AbstractType {
 	/**
@@ -13,15 +14,22 @@ class JuntaType extends AbstractType {
 	 *
 	 */
 	public function buildForm(FormBuilderInterface $builder, array $options) {
-		$builder->add ( 'nombre' )->add ( 'ruc' )->add ( 'telefono' )->add ( 'email' )->add ( 'logo' )->add ( 'direccion', DireccionType::class, array (
+		$builder->add ( 'nombre' )->add ( 'ruc' , TextType::class, array (
+				'required' => false
+		) )->add ( 'telefono' , TextType::class, array (
+				'required' => false
+		) )->add ( 'email' , TextType::class, array (
+				'required' => false
+		) )->add ( 'logo' , TextType::class, array (
+				'required' => false
+		) )->add ( 'direccion', DireccionType::class, array (
 				'label_attr' => array (
 						'class' => 'container_label' 
 				),
 				'attr' => array (
-						'row_class' => 'container_row' 
+						'class' => 'container_value' 
 				) 
 		) );
-		;
 	}
 	
 	/**
@@ -41,6 +49,6 @@ class JuntaType extends AbstractType {
 	 *
 	 */
 	public function getBlockPrefix() {
-		return 'bloque_junta';
+		return 'junta';
 	}
 }

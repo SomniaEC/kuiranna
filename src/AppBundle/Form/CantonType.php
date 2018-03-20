@@ -31,7 +31,7 @@ class CantonType extends AbstractType
      */
     public function getBlockPrefix()
     {
-        return 'appbundle_canton';
+        return 'canton';
     }
 
 

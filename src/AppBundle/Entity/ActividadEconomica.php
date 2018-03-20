@@ -11,7 +11,12 @@ use Doctrine\ORM\Mapping as ORM;
 class ActividadEconomica extends EntidadBase {
 
 	/**
-	 * @ORM\Column(type="string", length=100)
+	 * @ORM\Column(type="string", length=50, nullable=true)
+	 */
+	private $codigo;
+	
+	/**
+	 * @ORM\Column(type="string", length=100, nullable=true)
 	 */
 	private $nombre;
 	
@@ -24,6 +29,7 @@ class ActividadEconomica extends EntidadBase {
 	public function getMostrarDetalles() {
 		return array (
 				$this->id,
+				$this->codigo,
 				$this->nombre
 		);
 	}
@@ -35,6 +41,7 @@ class ActividadEconomica extends EntidadBase {
 	public static function getMostrarCabeceras() {
 		return array (
 				"id",
+				"codigo",
 				"nombre"
 		);
 	}
@@ -53,8 +60,22 @@ class ActividadEconomica extends EntidadBase {
 	 * @see \AppBundle\Entity\EntidadBase::__toString()
 	 */
 	public function __toString() {
-		return $this->nombre;
+		return $this->codigo == null ? "" : $this->codigo . " - " . $this->nombre == null ? "" : $this->nombre;
 	}
+	/**
+	 * @return mixed
+	 */
+	public function getCodigo() {
+		return $this->codigo;
+	}
+
+	/**
+	 * @param mixed $codigo
+	 */
+	public function setCodigo($codigo) {
+		$this->codigo = $codigo;
+	}
+
 	/**
 	 * @return mixed
 	 */

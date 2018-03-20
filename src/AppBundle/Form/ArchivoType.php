@@ -31,7 +31,7 @@ class ArchivoType extends AbstractType
      */
     public function getBlockPrefix()
     {
-        return 'bloque_archivo';
+        return 'archivo';
     }
 
 

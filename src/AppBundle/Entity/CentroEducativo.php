@@ -11,17 +11,17 @@ use Doctrine\ORM\Mapping as ORM;
 class CentroEducativo extends EntidadBase {
 	
 	/**
-	 * @ORM\Column(type="string", length=13)
+	 * @ORM\Column(type="string", length=13, nullable=true)
 	 */
 	private $identificacion;
 	
 	/**
-	 * @ORM\Column(type="string", length=250)
+	 * @ORM\Column(type="string", length=250, nullable=true)
 	 */
 	private $nombre;
 	
 	/**
-	 * @ORM\Column(type="string", length=100)
+	 * @ORM\Column(type="string", length=100, nullable=true)
 	 */
 	private $telefono;
 	
@@ -78,7 +78,7 @@ class CentroEducativo extends EntidadBase {
 	 * @see \AppBundle\Entity\EntidadBase::__toString()
 	 */
 	public function __toString() {
-		return $this->nombre;
+		return $this->nombre == null ? "" : $this->nombre;
 	}
 	/**
 	 * @return mixed

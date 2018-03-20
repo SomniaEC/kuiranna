@@ -11,7 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
 class ActorDireccion extends EntidadBase {
 	
 	/**
-	 * @ORM\Column(type="string", length=45)
+	 * @ORM\Column(type="string", length=45, nullable=true)
 	 */
 	private $rol;
 	

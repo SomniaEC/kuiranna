@@ -38,22 +38,22 @@ function actorSelect ($contenedor) {
 	$elementos['nombres'] = $contenedor.find('.nombres');
 	$elementos['telefono'] = $contenedor.find('.telefono');
 	$elementos['email'] = $contenedor.find('.email');
-	$elementos['identificacion_contacto'] = $contenedor.find('.identificacion_contacto');
-	$elementos['nombres_contacto'] = $contenedor.find('.nombres_contacto');
-	$elementos['cargo_contacto'] = $contenedor.find('.cargo_contacto');
-	$elementos['email_contacto'] = $contenedor.find('.email_contacto');
-	$elementos['telefono_contacto'] = $contenedor.find('.telefono_contacto');
-	$elementos['fecha_nacimiento'] = $contenedor.find('.fecha_nacimiento');
+	$elementos['identificacionContacto'] = $contenedor.find('.identificacionContacto');
+	$elementos['nombresContacto'] = $contenedor.find('.nombresContacto');
+	$elementos['cargoContacto'] = $contenedor.find('.cargoContacto');
+	$elementos['emailContacto'] = $contenedor.find('.emailContacto');
+	$elementos['telefonoContacto'] = $contenedor.find('.telefonoContacto');
+	$elementos['fechaNacimiento'] = $contenedor.find('.fechaNacimiento');
 	$elementos['edad'] = $contenedor.find('.edad');
 	$elementos['sexo'] = $contenedor.find('.sexo');
 	$elementos['genero'] = $contenedor.find('.genero');
 	$elementos['nacionalidad'] = $contenedor.find('.nacionalidad');
 	$elementos['interculturalidad'] = $contenedor.find('.interculturalidad');
-	$elementos['actividad_economica'] = $contenedor.find('.actividad_economica');
-	$elementos['lugar_trabajo'] = $contenedor.find('.lugar_trabajo');
-	$elementos['direccion_trabajo'] = $contenedor.find('.direccion_trabajo');
+	$elementos['actividadEconomica'] = $contenedor.find('.actividad_economica');
+	$elementos['lugarTrabajo'] = $contenedor.find('.lugarTrabajo');
+	$elementos['direccionTrabajo'] = $contenedor.find('.direccion_trabajo');
 	$elementos['instruccion'] = $contenedor.find('.instruccion');
-	$elementos['capacidad_especial'] = $contenedor.find('.capacidad_especial');
+	$elementos['capacidadEspecial'] = $contenedor.find('.capacidadEspecial');
 	$elementos['relacion'] = $contenedor.find('.relacion');
 	$rolSelect.change(function() {
 		changeActor ($rolSelect, $tipoSelect, $elementos);
@@ -66,44 +66,44 @@ function actorSelect ($contenedor) {
 
 function changeActor ($rolSelect, $tipoSelect, $elementos) {
 	if($tipoSelect.val() == 'Entidad') {
-		$elementos['identificacion_contacto'].show();
-		$elementos['nombres_contacto'].show();
-		$elementos['cargo_contacto'].show();
-		$elementos['email_contacto'].show();
-		$elementos['telefono_contacto'].show();
-		$elementos['fecha_nacimiento'].hide();
+		$elementos['identificacionContacto'].show();
+		$elementos['nombresContacto'].show();
+		$elementos['cargoContacto'].show();
+		$elementos['emailContacto'].show();
+		$elementos['telefonoContacto'].show();
+		$elementos['fechaNacimiento'].hide();
 		$elementos['edad'].hide();
 		$elementos['sexo'].hide();
 		$elementos['genero'].hide();
 		$elementos['nacionalidad'].hide();
 		$elementos['interculturalidad'].hide();
-		$elementos['actividad_economica'].hide();
-		$elementos['lugar_trabajo'].hide();
-		$elementos['direccion_trabajo'].hide();
+		$elementos['actividadEconomica'].hide();
+		$elementos['lugarTrabajo'].hide();
+		$elementos['direccionTrabajo'].hide();
 		$elementos['instruccion'].hide();
-		$elementos['capacidad_especial'].hide();
+		$elementos['capacidadEspecial'].hide();
 		$elementos['relacion'].hide();
 	} else {
-		$elementos['identificacion_contacto'].hide();
-		$elementos['nombres_contacto'].hide();
-		$elementos['cargo_contacto'].hide();
-		$elementos['email_contacto'].hide();
-		$elementos['telefono_contacto'].hide();
-		$elementos['fecha_nacimiento'].show();
+		$elementos['identificacionContacto'].hide();
+		$elementos['nombresContacto'].hide();
+		$elementos['cargoContacto'].hide();
+		$elementos['emailContacto'].hide();
+		$elementos['telefonoContacto'].hide();
+		$elementos['fechaNacimiento'].show();
 		$elementos['edad'].show();
 		$elementos['sexo'].show();
 		$elementos['genero'].show();
 		$elementos['nacionalidad'].show();
 		$elementos['interculturalidad'].show();
-		$elementos['actividad_economica'].show();
-		$elementos['lugar_trabajo'].show();
+		$elementos['actividadEconomica'].show();
+		$elementos['lugarTrabajo'].show();
 		$elementos['instruccion'].show();
-		$elementos['capacidad_especial'].show();
+		$elementos['capacidadEspecial'].show();
 		$elementos['relacion'].show();
 		if($rolSelect.val() == 'Denunciante') {
-			$elementos['direccion_trabajo'].show();
+			$elementos['direccionTrabajo'].show();
 		} else {
-			$elementos['direccion_trabajo'].hide();
+			$elementos['direccionTrabajo'].hide();
 		}
 	}
 }

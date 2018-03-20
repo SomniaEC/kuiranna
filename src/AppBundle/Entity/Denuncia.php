@@ -16,29 +16,29 @@ class Denuncia extends EntidadBase {
 	private $creacion;
 	
 	/**
-	 * @ORM\Column(type="string", length=500)
+	 * @ORM\Column(type="string", length=500, nullable=true)
 	 */
 	private $hechos;
 	
 	/**
-	 * @ORM\Column(type="string", length=15)
+	 * @ORM\Column(type="string", length=15, nullable=true)
 	 */
 	private $recursoImpugnacion;
 	
 	/**
-	 * @ORM\Column(type="string", length=30)
+	 * @ORM\Column(type="string", length=30, nullable=true)
 	 */
 	private $tipoMaltrato;
 	
 	/**
-	 * @ORM\Column(type="string", length=30)
+	 * @ORM\Column(type="string", length=30, nullable=true)
 	 */
 	private $ambitoMaltrato;
 	
 	/**
 	 * Vulneradores de derechos separados por punto y coma
-	 * 
-	 * @ORM\Column(type="string", length=300)
+	 *
+	 * @ORM\Column(type="string", length=300, nullable=true)
 	 */
 	private $vulneradoresDerechos;
 	
@@ -126,13 +126,13 @@ class Denuncia extends EntidadBase {
 	 * @see \AppBundle\Entity\EntidadBase::__toString()
 	 */
 	public function __toString() {
-		return $this->hechos;
+		return $this->hechos == null ? "" : $this->hechos;
 	}
 	
 	/**
 	 * Set creacion
 	 *
-	 * @param \DateTime $creacion        	
+	 * @param \DateTime $creacion
 	 *
 	 * @return Denuncia
 	 */
@@ -154,7 +154,7 @@ class Denuncia extends EntidadBase {
 	/**
 	 * Set hechos
 	 *
-	 * @param string $hechos        	
+	 * @param string $hechos
 	 *
 	 * @return Denuncia
 	 */
@@ -174,61 +174,69 @@ class Denuncia extends EntidadBase {
 	}
 	
 	/**
+	 *
 	 * @return mixed
 	 */
 	public function getRecursoImpugnacion() {
 		return $this->recursoImpugnacion;
 	}
-
+	
 	/**
+	 *
 	 * @param mixed $recursoImpugnacion
 	 */
 	public function setRecursoImpugnacion($recursoImpugnacion) {
 		$this->recursoImpugnacion = $recursoImpugnacion;
 	}
-
+	
 	/**
+	 *
 	 * @return mixed
 	 */
 	public function getTipoMaltrato() {
 		return $this->tipoMaltrato;
 	}
-
+	
 	/**
+	 *
 	 * @param mixed $tipoMaltrato
 	 */
 	public function setTipoMaltrato($tipoMaltrato) {
 		$this->tipoMaltrato = $tipoMaltrato;
 	}
-
+	
 	/**
+	 *
 	 * @return mixed
 	 */
 	public function getAmbitoMaltrato() {
 		return $this->ambitoMaltrato;
 	}
-
+	
 	/**
+	 *
 	 * @param mixed $ambitoMaltrato
 	 */
 	public function setAmbitoMaltrato($ambitoMaltrato) {
 		$this->ambitoMaltrato = $ambitoMaltrato;
 	}
-
+	
 	/**
+	 *
 	 * @return mixed
 	 */
 	public function getVulneradoresDerechos() {
-		return $this->vulneradoresDerechos;
+		return explode(';', $this->vulneradoresDerechos);
 	}
-
+	
 	/**
+	 *
 	 * @param mixed $vulneradoresDerechos
 	 */
 	public function setVulneradoresDerechos($vulneradoresDerechos) {
-		$this->vulneradoresDerechos = $vulneradoresDerechos;
+		$this->vulneradoresDerechos = implode(';',$vulneradoresDerechos);
 	}
-
+	
 	/**
 	 * Constructor
 	 */
@@ -242,7 +250,7 @@ class Denuncia extends EntidadBase {
 	/**
 	 * Add derecho
 	 *
-	 * @param \AppBundle\Entity\Derecho $derecho        	
+	 * @param \AppBundle\Entity\Derecho $derecho
 	 *
 	 * @return Denuncia
 	 */
@@ -255,7 +263,7 @@ class Denuncia extends EntidadBase {
 	/**
 	 * Remove derecho
 	 *
-	 * @param \AppBundle\Entity\Derecho $derecho        	
+	 * @param \AppBundle\Entity\Derecho $derecho
 	 */
 	public function removeDerecho(\AppBundle\Entity\Derecho $derecho) {
 		$this->derechos->removeElement ( $derecho );
@@ -273,7 +281,7 @@ class Denuncia extends EntidadBase {
 	/**
 	 * Set junta
 	 *
-	 * @param \AppBundle\Entity\Junta $junta        	
+	 * @param \AppBundle\Entity\Junta $junta
 	 *
 	 * @return Denuncia
 	 */
@@ -295,7 +303,7 @@ class Denuncia extends EntidadBase {
 	/**
 	 * Add actoresDireccion
 	 *
-	 * @param \AppBundle\Entity\ActorDireccion $actoresDireccion        	
+	 * @param \AppBundle\Entity\ActorDireccion $actoresDireccion
 	 *
 	 * @return Denuncia
 	 */
@@ -308,7 +316,7 @@ class Denuncia extends EntidadBase {
 	/**
 	 * Remove actoresDireccion
 	 *
-	 * @param \AppBundle\Entity\ActorDireccion $actoresDireccion        	
+	 * @param \AppBundle\Entity\ActorDireccion $actoresDireccion
 	 */
 	public function removeActoresDireccion(\AppBundle\Entity\ActorDireccion $actoresDireccion) {
 		$this->actoresDireccion->removeElement ( $actoresDireccion );
@@ -326,7 +334,7 @@ class Denuncia extends EntidadBase {
 	/**
 	 * Add vulneradosDireccion
 	 *
-	 * @param \AppBundle\Entity\VulneradoDireccion $vulneradosDireccion        	
+	 * @param \AppBundle\Entity\VulneradoDireccion $vulneradosDireccion
 	 *
 	 * @return Denuncia
 	 */
@@ -339,7 +347,7 @@ class Denuncia extends EntidadBase {
 	/**
 	 * Remove vulneradosDireccion
 	 *
-	 * @param \AppBundle\Entity\VulneradoDireccion $vulneradosDireccion        	
+	 * @param \AppBundle\Entity\VulneradoDireccion $vulneradosDireccion
 	 */
 	public function removeVulneradosDireccion(\AppBundle\Entity\VulneradoDireccion $vulneradosDireccion) {
 		$this->vulneradosDireccion->removeElement ( $vulneradosDireccion );
@@ -355,28 +363,29 @@ class Denuncia extends EntidadBase {
 	}
 	
 	/**
-         * Add operacionesDenuncia
-         *
-         * @param \AppBundle\Entity\OperacionDenuncia $operacionesDenuncia
-         *
-         * @return Denuncia
-         */
-        public function addOperacionesDenuncia(\AppBundle\Entity\OperacionDenuncia $operacionesDenuncia) {
-                $this->operacionesDenuncia [] = $operacionesDenuncia;
-
-                return $this;
-        }
-
-        /**
-         * Remove operacionesDenuncia
-         *
-         * @param \AppBundle\Entity\OperacionesDenuncia $operacionesDenuncia
-         */
-        public function removeOperacionesDenuncia(\AppBundle\Entity\OperacionDenuncia $operacionesDenuncia) {
-                $this->operacionesDenuncia->removeElement ( $operacionesDenuncia );
-        }
-
+	 * Add operacionesDenuncia
+	 *
+	 * @param \AppBundle\Entity\OperacionDenuncia $operacionesDenuncia
+	 *
+	 * @return Denuncia
+	 */
+	public function addOperacionesDenuncia(\AppBundle\Entity\OperacionDenuncia $operacionesDenuncia) {
+		$this->operacionesDenuncia [] = $operacionesDenuncia;
+		
+		return $this;
+	}
+	
 	/**
+	 * Remove operacionesDenuncia
+	 *
+	 * @param \AppBundle\Entity\OperacionesDenuncia $operacionesDenuncia
+	 */
+	public function removeOperacionesDenuncia(\AppBundle\Entity\OperacionDenuncia $operacionesDenuncia) {
+		$this->operacionesDenuncia->removeElement ( $operacionesDenuncia );
+	}
+	
+	/**
+	 *
 	 * @return \Doctrine\Common\Collections\ArrayCollection
 	 */
 	public function getOperacionesDenuncia() {
