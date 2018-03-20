@@ -221,27 +221,6 @@ body {
   background: #b3b3b3;
 }
 
-.container_container_row {
-    background: #aca586;
-    position: relative;
-}
-
-.container_container_row:nth-of-type(odd) {
-  background: #c1bba4;
-}
-
-/*
-.remove_link {
-	position: absolute;
-    right: 8px;
-    top: 5px;
-}
-
-.remove_link + label{
-	position: absolute;
-    top: 5px;
-} */
-
 label.container_label {
     text-align: center;
     width: 100%;
@@ -250,25 +229,28 @@ label.container_label {
     color: #00004d;
 }
 
-/* denuncia CSS */
-#tabs_denuncia .container_value {
-	padding-left: 0px;
-}
-
-.vulnerados_label {
+.denuncia .rol {
 	display: none;
 }
 
-.actores_label {
-	display: none;
-}
-
-.vulnerado_label {
-	display: none;
-}
-
-.actor_label {
-	display: none;
+.delete_btn  {
+	display: inline-block;
+	margin-bottom: 0;
+	font-weight: normal;
+	text-align: center;
+	vertical-align: middle;
+	cursor: pointer;
+	background-image: none;
+	border: 1px solid transparent;
+	white-space: nowrap;
+	padding: 6px 5px 0px 0px;
+	font-size: 14px;
+	line-height: 1.42857143;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	-o-user-select: none;
+	user-select: none;
 }
 
 /* user_profile CSS */
