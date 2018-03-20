@@ -69,16 +69,20 @@ class BaseController extends Controller {
 		// 1) build the form
 		$idEntidad = $request->query->get ( 'id' );
 		if ($idEntidad == null) {
+			$operacion = ConstantesDeOperaciones::CREAR;
 			$className = "AppBundle\Entity\\" . ucfirst ( $nombreEntidad );
 			$entidad = new $className ();
 			$mensaje = ucfirst ( $nombreEntidad ) . " creada correctamente";
+			$form = $this->createForm ($this->getCrearType($nombreEntidad), $entidad );
 		} else {
+			$operacion = ConstantesDeOperaciones::MODIFICAR;
 			$em = $this->getDoctrine ()->getManager ();
 			$entidad = $em->getRepository ( 'AppBundle:' . ucfirst ( $nombreEntidad ) )->find ( $idEntidad );
 			$mensaje = ucfirst ( $nombreEntidad ) . " modificada correctamente";
+			$form = $this->createForm ($this->getModificarType($nombreEntidad), $entidad );
 		}
 		
-		$form = $this->createForm ( 'AppBundle\Form\\' . ucfirst ( $nombreEntidad ) . 'Type', $entidad );
+		
 		
 		// 2) handle the submit (will only happen on POST)
 		$form->handleRequest ( $request );
@@ -100,8 +104,16 @@ class BaseController extends Controller {
 		return $this->render ( $nombreEntidad . '/' . $nombreEntidad . '.html.twig', array (
 				'form' => $form->createView (),
 				'nombreEntidad' => $nombreEntidad,
-				'operacion' => ConstantesDeOperaciones::CREAR
+				'operacion' => $operacion
 		) );
+	}
+	
+	public function getCrearType($nombreEntidad){
+		return 'AppBundle\Form\\' . ucfirst ( $nombreEntidad ) . 'Type';
+	}
+	
+	public function getModificarType($nombreEntidad){
+		return $this->getCrearType($nombreEntidad);
 	}
 	
 	/**
