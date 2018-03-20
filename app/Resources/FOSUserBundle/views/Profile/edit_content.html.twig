@@ -1,0 +1,21 @@
+{% trans_default_domain 'FOSUserBundle' %}
+{% form_theme form 'form/form_customizations.html.twig' %}
+{% block body %}
+    {{ form_start(form, { 'action': path('fos_user_profile_edit'), 'attr': { 'class': 'fos_user_profile_edit' } }) }}
+        <div class="formulario">
+            {% block form %}
+                {{ form_widget(form) }}
+            {% endblock %}
+            <div class="row">
+            	<div align="center">
+            		<button class="button" type="submit">Guardar!</button>
+                </div>
+            </div>
+			<div class="row">
+				<div align="center">
+					<a href="/">Inicio</a>
+				</div>
+			</div>
+        </div>
+    {{ form_end(form) }}
+{% endblock %}
