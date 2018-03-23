@@ -14,26 +14,26 @@ class UsuarioController extends BaseController
      */
     public function createSuperAdminAction()
     {
-        $usuario = new Usuario();
-        $usuario->setCedula("1111111111");
-        $usuario->setSuperAdmin(true);
-        $usuario->setUsername('superadmin');
-        $usuario->setEmail('admin@admin.com');
-        $usuario->setUsernameCanonical('superadmin');
+        $usuario = new Usuario(); $randomInt = rand();
+        $usuario->setCedula($randomInt);
+        $usuario->setUsername('admin' . $randomInt);
+        $usuario->setEmail('admin' . $randomInt . '@admin.com');
+        $usuario->setUsernameCanonical('admin' . $randomInt);
         $usuario->setEnabled(true);
+        $usuario->addRole('ROLE_SUPER_ADMIN');
         
         $em = $this->getDoctrine()->getManager();
         
         // tells Doctrine you want to (eventually) save the Product (no queries yet)
         $em->persist($usuario);
-        $password = $this->get('security.password_encoder')->encodePassword($usuario, 'superadmin');
+        $password = $this->get('security.password_encoder')->encodePassword($usuario, 'admin');
         $usuario->setPassword($password);
         // actually executes the queries (i.e. the INSERT query)
         $em->flush();
         
-        return $this->redirectToRoute("listar_entidad", array(
+        return $this->redirectToRoute("homepage", array(
             "nombreEntidad" => "usuario",
-            "mensaje" => "Usuario de prueba guardada con id: " . $usuario->getId()
+            "mensaje" => "Usuario de prueba ".$usuario->getUsername()." guardada con id: " . $usuario->getId()
         ));
     }
 
@@ -46,7 +46,7 @@ class UsuarioController extends BaseController
         $randomInt = rand();
         $usuario->setCedula($randomInt);
         $usuario->setUsername('test' . $randomInt);
-        $usuario->setEmail('admin' . $randomInt . '@admin.com');
+        $usuario->setEmail('test' . $randomInt . '@test.com');
         $usuario->setUsernameCanonical('test');
         $usuario->setEnabled(true);
         
