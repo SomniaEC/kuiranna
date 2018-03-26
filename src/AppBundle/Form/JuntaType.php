@@ -6,6 +6,8 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 
 class JuntaType extends AbstractType {
 	/**
@@ -17,14 +19,20 @@ class JuntaType extends AbstractType {
 		$builder->add ( 'nombre' , TextType::class, array (
 				'attr' => array('class'=>'uppercase')
 		))->add ( 'ruc' , TextType::class, array (
-				'required' => false
+				'required' => false,
+				'attr' => array (
+						'maxlength' => '13'
+				)
 		) )->add ( 'telefono' , TextType::class, array (
 				'required' => false,
-				'attr' => array('class'=>'solo_numeros')
-		) )->add ( 'email' , TextType::class, array (
+				'attr' => array (
+						'maxlength' => '10'
+				)
+		) )->add ( 'email' , EmailType::class, array (
 				'required' => false
-		) )->add ( 'logo' , TextType::class, array (
-				'required' => false
+		) )->add ( 'logo_img' , FileType::class, array (
+				'required' => false,
+				'mapped' => false
 		) )->add ( 'direccion', DireccionType::class, array (
 				'label_attr' => array (
 						'class' => 'container_label' 

@@ -28,9 +28,17 @@
     class="value{{ attrClass }}" 
 {%- endblock widget_attributes -%}
 
+{%- block form_errors -%}
+    {%- if errors|length > 0 -%}
+    <div class="error_container">
+        {%- for error in errors -%}
+            <label class="error">{{ error.message }}</label>
+        {%- endfor -%}
+    </div>
+    {%- endif -%}
+{%- endblock form_errors -%}
+
 {# Actor #}
-
-
 {% block _centroeducativo_direccion_row %}
 	<div class="direccion container_row row">
 	    {{ form_label(form) }}

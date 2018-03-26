@@ -44,8 +44,8 @@ security:
         #auditoria
         - { path: /auditoria/listar, roles: [ROLE_SECRETARIO, ROLE_MIEMBRO_DE_JUNTA, ROLE_PSICOLOGO, ROLE_ADMIN_JUNTA, ROLE_SUPER_ADMIN] }
         - { path: /auditoria/mostrar, roles: [ROLE_SECRETARIO, ROLE_MIEMBRO_DE_JUNTA, ROLE_PSICOLOGO, ROLE_ADMIN_JUNTA, ROLE_SUPER_ADMIN] }
-        - { path: /auditoria/guardar, roles: ROLE_NO_ACCESS }
-        - { path: /auditoria/eliminar, roles: ROLE_NO_ACCESS }
+        - { path: /auditoria/guardar, roles: ROLE_SUPER_ADMIN }
+        - { path: /auditoria/eliminar, roles: ROLE_SUPER_ADMIN }
         #junta
         - { path: /junta/listar, roles: [ROLE_SECRETARIO, ROLE_MIEMBRO_DE_JUNTA, ROLE_PSICOLOGO, ROLE_ADMIN_JUNTA, ROLE_SUPER_ADMIN] }
         - { path: /junta/mostrar, roles: [ROLE_SECRETARIO, ROLE_MIEMBRO_DE_JUNTA, ROLE_PSICOLOGO, ROLE_ADMIN_JUNTA, ROLE_SUPER_ADMIN] }
@@ -79,30 +79,30 @@ security:
         - { path: /actividadEconomica/guardar, roles: [ROLE_SECRETARIO, ROLE_MIEMBRO_DE_JUNTA, ROLE_PSICOLOGO, ROLE_ADMIN_JUNTA, ROLE_SUPER_ADMIN] }
         - { path: /actividadEconomica/eliminar, roles: [ROLE_SUPER_ADMIN, ROLE_ADMIN_JUNTA] }
         #actor        
-        - { path: /actor/listar, roles: [ROLE_NO_ACCESS] }
-        - { path: /actor/mostrar, roles: [ROLE_NO_ACCESS] }
-        - { path: /actor/guardar, roles: [ROLE_NO_ACCESS] }
-        - { path: /actor/eliminar, roles: [ROLE_NO_ACCESS] }
+        - { path: /actor/listar, roles: [ROLE_SUPER_ADMIN] }
+        - { path: /actor/mostrar, roles: [ROLE_SUPER_ADMIN] }
+        - { path: /actor/guardar, roles: [ROLE_SUPER_ADMIN] }
+        - { path: /actor/eliminar, roles: [ROLE_SUPER_ADMIN] }
         #actorDireccion        
-        - { path: /actorDireccion/listar, roles: [ROLE_NO_ACCESS] }
-        - { path: /actorDireccion/mostrar, roles: [ROLE_NO_ACCESS] }
-        - { path: /actorDireccion/guardar, roles: [ROLE_NO_ACCESS] }
-        - { path: /actorDireccion/eliminar, roles: [ROLE_NO_ACCESS] }
+        - { path: /actorDireccion/listar, roles: [ROLE_SUPER_ADMIN] }
+        - { path: /actorDireccion/mostrar, roles: [ROLE_SUPER_ADMIN] }
+        - { path: /actorDireccion/guardar, roles: [ROLE_SUPER_ADMIN] }
+        - { path: /actorDireccion/eliminar, roles: [ROLE_SUPER_ADMIN] }
         #archivo        
-        - { path: /archivo/listar, roles: [ROLE_NO_ACCESS] }
-        - { path: /archivo/mostrar, roles: [ROLE_NO_ACCESS] }
-        - { path: /archivo/guardar, roles: [ROLE_NO_ACCESS] }
-        - { path: /archivo/eliminar, roles: [ROLE_NO_ACCESS] }
+        - { path: /archivo/listar, roles: [ROLE_SUPER_ADMIN] }
+        - { path: /archivo/mostrar, roles: [ROLE_SUPER_ADMIN] }
+        - { path: /archivo/guardar, roles: [ROLE_SUPER_ADMIN] }
+        - { path: /archivo/eliminar, roles: [ROLE_SUPER_ADMIN] }
         #direccion        
-        - { path: /direccion/listar, roles: [ROLE_NO_ACCESS] }
-        - { path: /direccion/mostrar, roles: [ROLE_NO_ACCESS] }
-        - { path: /direccion/guardar, roles: [ROLE_NO_ACCESS] }
-        - { path: /direccion/eliminar, roles: [ROLE_NO_ACCESS] }
+        - { path: /direccion/listar, roles: [ROLE_SUPER_ADMIN] }
+        - { path: /direccion/mostrar, roles: [ROLE_SUPER_ADMIN] }
+        - { path: /direccion/guardar, roles: [ROLE_SUPER_ADMIN] }
+        - { path: /direccion/eliminar, roles: [ROLE_SUPER_ADMIN] }
         #operacionDenuncia        
-        - { path: /operacionDenuncia/listar, roles: [ROLE_NO_ACCESS] }
-        - { path: /operacionDenuncia/mostrar, roles: [ROLE_NO_ACCESS] }
-        - { path: /operacionDenuncia/guardar, roles: [ROLE_NO_ACCESS] }
-        - { path: /operacionDenuncia/eliminar, roles: [ROLE_NO_ACCESS] }
+        - { path: /operacionDenuncia/listar, roles: [ROLE_SUPER_ADMIN] }
+        - { path: /operacionDenuncia/mostrar, roles: [ROLE_SUPER_ADMIN] }
+        - { path: /operacionDenuncia/guardar, roles: [ROLE_SUPER_ADMIN] }
+        - { path: /operacionDenuncia/eliminar, roles: [ROLE_SUPER_ADMIN] }
         #plantilla        
         - { path: /plantilla/listar, roles: [ROLE_SECRETARIO, ROLE_MIEMBRO_DE_JUNTA, ROLE_PSICOLOGO, ROLE_ADMIN_JUNTA, ROLE_SUPER_ADMIN] }
         - { path: /plantilla/mostrar, roles: [ROLE_SECRETARIO, ROLE_MIEMBRO_DE_JUNTA, ROLE_PSICOLOGO, ROLE_ADMIN_JUNTA, ROLE_SUPER_ADMIN] }

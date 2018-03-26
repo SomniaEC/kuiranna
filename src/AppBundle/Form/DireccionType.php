@@ -11,6 +11,7 @@ use Symfony\Component\Form\FormView;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 
 class DireccionType extends AbstractType {
 	private $em;
@@ -73,6 +74,9 @@ class DireccionType extends AbstractType {
 				'required' => false 
 		) )->add ( 'referencia', TextType::class, array (
 				'required' => false 
+		) )->add('hiddentoken', HiddenType::class, array(
+				'data' => json_encode ( $this->cantones ['prov_canton'] ),
+				'mapped' => false,
 		) );
 	}
 	public function getProvincias() {
@@ -161,7 +165,8 @@ class DireccionType extends AbstractType {
 	 */
 	public function configureOptions(OptionsResolver $resolver) {
 		$resolver->setDefaults ( array (
-				'data_class' => 'AppBundle\Entity\Direccion' 
+				'data_class' => 'AppBundle\Entity\Direccion',
+				'var_provincia_canton' => array()
 		) );
 	}
 	

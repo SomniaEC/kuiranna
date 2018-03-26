@@ -26,14 +26,47 @@
 
 <script type="text/javascript">
 jQuery(document).ready(function() {
-
+	//form validation
 	$("form").validate({
 		rules: {
-			"actor[identificacion]": "digits",
-			"actor[telefono]": "digits",
-			"actor[telefonoContacto]": "digits",
-			"actor[edad]": "digits",
-			"actor[identificacionContacto]": "digits"
+			"actor[identificacion]": {
+				digits: true
+			},
+			"actor[telefono]": {
+				digits: true,
+				minlength: 6,
+				maxlength: 10
+			},
+			"actor[telefonoContacto]": {
+				digits: true,
+				minlength: 6,
+				maxlength: 10
+			},
+			"actor[edad]": {
+				digits: true,
+				maxlength: 3
+			},
+			"actor[identificacionContacto]": {
+				digits: true,
+				minlength: 10
+			}
+		},
+		messages: {
+			"actor[telefono]": {
+				maxlength: jQuery.validator.format("Por favor, no escriba mas de {0} digitos."),
+				minlength: jQuery.validator.format("Por favor, no escriba menos de {0} digitos.")
+			},
+			"actor[telefonoContacto]": {
+				maxlength: jQuery.validator.format("Por favor, no escriba mas de {0} digitos."),
+				minlength: jQuery.validator.format("Por favor, no escriba menos de {0} digitos.")
+			},
+			"actor[edad]": {
+				maxlength: jQuery.validator.format("Por favor, no escriba mas de {0} digitos.")
+			},
+			"actor[identificacionContacto]": {
+				minlength: jQuery.validator.format("Por favor, no escriba menos de {0} digitos.")
+			},
+			
 		}
 	});
 	
