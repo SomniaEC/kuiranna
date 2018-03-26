@@ -59,6 +59,11 @@ class Usuario extends BaseUser {
 	 */
 	protected $junta;
 	
+	/**
+	 * @ORM\Column(type="string", length=50, nullable=true)
+	 */
+	protected $rol;
+	
 	// TODO: add direccion
 	// protected $direccion;
 	
@@ -232,7 +237,7 @@ class Usuario extends BaseUser {
     }
 
     /**
-     * Get estadoActividad
+     * Get estadoActividadactor
      *
      * @return string
      */
@@ -263,5 +268,46 @@ class Usuario extends BaseUser {
     public function getJunta()
     {
         return $this->junta;
+    }
+    
+    /**
+     * Set rol
+     *
+     * @param string $rol
+     *
+     * @return Usuario
+     */
+    public function setRol($rol)
+    {
+    	$this->rol = $rol;
+    	$this->setRoles(array($rol));
+    	return $this;
+    }
+    
+    /**
+     * Get rol
+     *
+     * @return string
+     */
+    public function getRol()
+    {
+    	return $this->rol;
+    }
+    
+    public function getMostrarDetalles() {
+    	return array (
+    			$this->cedula,
+    			$this->username,
+    	);
+    }
+    public static function getMostrarCabeceras() {
+    	return array (
+    			"Cédula",
+    			"Username",
+    	);
+    }
+    
+    public static function getNombreEntidad() {
+    	return "usuario";
     }
 }
