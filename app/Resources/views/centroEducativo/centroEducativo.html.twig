@@ -15,5 +15,30 @@ jQuery(document).ready(function() {
     {{ form_row(form.telefono, t_options) }}
     {{ form_row(form.junta, t_options) }}
     {{ form_row(form.direccion, t_options) }}
-    
+
+<script type="text/javascript">
+jQuery(document).ready(function() {
+	$("form").validate({
+		rules: {
+			"centroeducativo[identificacion]": {
+				digits: true,
+				minlength: 13
+			}
+		},
+		messages: {
+			"centroeducativo[identificacion]": {
+				minlength: jQuery.validator.format("Por favor, no escriba menos de {0} digitos.")
+			}
+		}
+	});
+	
+    //upercase
+    $.each($('.uppercase'), function (key, value) {
+        $(value).keyup(function () {
+			$(this).val($(this).val().toUpperCase());
+      	});
+    });
+});
+</script>
+
 {% endblock %}

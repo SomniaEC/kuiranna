@@ -1,8 +1,27 @@
 {% extends 'entidadBase/mostrarEntidad.html.twig' %}
 
 {% block form %}
+
+	{{ form_row(form.rol, t_options) }}
+    {{ form_row(form.actor, t_options) }}
+    {{ form_row(form.direccion, t_options) }}
+    {{ form_row(form.direccionTrabajo, t_options) }}
+    {{ form_row(form.denuncia, t_options) }}
+    {{ form_row(form.junta, t_options) }}
+
 <script type="text/javascript">
 jQuery(document).ready(function() {
+	//form validation
+	$("form").validate({
+		rules: {
+			"actordireccion[actor][identificacion]": "digits",
+			"actordireccion[actor][telefono]": "digits",
+			"actordireccion[actor][telefonoContacto]": "digits",
+			"actordireccion[actor][edad]": "digits",
+		}
+	});
+
+	//direction select
     var $provincia_canton = JSON.parse('{{ form.children.direccion.vars.provincia_canton|raw }}');
     var $canton_parroquia = JSON.parse('{{ form.children.direccion.vars.canton_parroquia|raw }}');
     $.each($('.elementos_direccion'), function (key, value) {
@@ -11,14 +30,19 @@ jQuery(document).ready(function() {
     });
 
     actorSelect($('.formulario'));
+
+    //upercase
+	$.each($('.uppercase'), function (key, value) {
+		$(value).keyup(function () {
+			$(this).val($(this).val().toUpperCase());
+		});
+	});
+
+    //edad
+    $('.fechaNacimiento input').change(function () {
+        $(this).parents('.actor').find('.edad input').val(getAge($(this).val()));
+	});
 });
 </script>
-
-	{{ form_row(form.rol, t_options) }}
-    {{ form_row(form.actor, t_options) }}
-    {{ form_row(form.direccion, t_options) }}
-    {{ form_row(form.direccionTrabajo, t_options) }}
-    {{ form_row(form.denuncia, t_options) }}
-    {{ form_row(form.junta, t_options) }}
 
 {% endblock %}

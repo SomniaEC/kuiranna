@@ -26,7 +26,7 @@ class DenunciaType extends AbstractType {
 		) )->add ( 'tipoMaltrato', ChoiceType::class, array (
 				'choices' => array_flip ( ConstantesDeTipoMaltrato::getConstants () ) 
 		) )->add ( 'ambitoMaltrato', ChoiceType::class, array (
-				'choices' => ConstantesDeAmbitoMaltrato::getConstants () 
+				'choices' => array_flip ( ConstantesDeAmbitoMaltrato::getConstants () )
 		) )->add ( 'vulneradoresDerechos', ChoiceType::class, array (
 				'choices' => array_flip ( ConstantesDeVulneradorDerecho::getConstants () ),
 				'multiple' => true,

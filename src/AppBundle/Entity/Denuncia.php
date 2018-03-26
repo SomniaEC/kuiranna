@@ -3,6 +3,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity
@@ -60,11 +61,13 @@ class Denuncia extends EntidadBase {
 	
 	/**
 	 * @ORM\OneToMany(targetEntity="ActorDireccion", mappedBy="denuncia", cascade={"persist", "remove"})
+	 * @Assert\Valid
 	 */
 	private $actoresDireccion;
 	
 	/**
 	 * @ORM\OneToMany(targetEntity="VulneradoDireccion", mappedBy="denuncia", cascade={"persist", "remove"})
+	 * @Assert\Valid
 	 */
 	private $vulneradosDireccion;
 	

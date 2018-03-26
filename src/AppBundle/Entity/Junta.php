@@ -23,6 +23,10 @@ class Junta extends EntidadBase {
 	
 	/**
 	 * @ORM\Column(type="string", length=100, nullable=true)
+     * @Assert\Regex(
+     *     pattern="/^[0-9]*$/",
+     *     message="Telefono debe contener numeros solamente"
+     * ) 
 	 */
 	private $telefono;
 	

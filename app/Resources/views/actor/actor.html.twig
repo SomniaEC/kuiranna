@@ -7,11 +7,6 @@
         {{ form_row(form.nombres, t_options) }}
         {{ form_row(form.telefono, t_options) }}
         {{ form_row(form.email, t_options) }}
-        {{ form_row(form.identificacionContacto, t_options) }}
-        {{ form_row(form.nombresContacto, t_options) }}
-        {{ form_row(form.cargoContacto, t_options) }}
-        {{ form_row(form.emailContacto, t_options) }}
-        {{ form_row(form.telefonoContacto, t_options) }}
         {{ form_row(form.fechaNacimiento, t_options) }}
         {{ form_row(form.edad, t_options) }}
         {{ form_row(form.sexo, t_options) }}
@@ -23,5 +18,40 @@
         {{ form_row(form.instruccion, t_options) }}
         {{ form_row(form.capacidadEspecial, t_options) }}
         {{ form_row(form.relacion, t_options) }}
+        {{ form_row(form.identificacionContacto, t_options) }}
+        {{ form_row(form.nombresContacto, t_options) }}
+        {{ form_row(form.cargoContacto, t_options) }}
+        {{ form_row(form.emailContacto, t_options) }}
+        {{ form_row(form.telefonoContacto, t_options) }}
+
+<script type="text/javascript">
+jQuery(document).ready(function() {
+
+	$("form").validate({
+		rules: {
+			"actor[identificacion]": "digits",
+			"actor[telefono]": "digits",
+			"actor[telefonoContacto]": "digits",
+			"actor[edad]": "digits",
+			"actor[identificacionContacto]": "digits"
+		}
+	});
+	
+    //selects actor
+	actorSelect($('.formulario'));
+
+    //upercase
+    $.each($('.uppercase'), function (key, value) {
+        $(value).keyup(function () {
+			$(this).val($(this).val().toUpperCase());
+      	});
+    });
+
+    //edad
+    $('#actor_fechaNacimiento').change(function () {
+        $('#actor_edad').val(getAge($(this).val()));
+	});
+});
+</script>
 
 {% endblock %}

@@ -4,6 +4,8 @@ namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Context\ExecutionContextInterface;
+use AppBundle\Utils\ConstantesDeTipoActor;
 
 /**
  * @ORM\Entity
@@ -13,12 +15,10 @@ class Actor extends EntidadBase {
 	
 	/**
 	 * @ORM\Column(type="string", length=13, nullable=true)
-	 * @Assert\Length(
-	 * min = 10,
-	 * max = 13,
-	 * minMessage= "Este campo debe tener de al menos 10 caracteres",
-	 * maxMessage= "Este campo no puede tener mas de 13 caracteres",
-	 * )
+     * @Assert\Regex(
+     *     pattern="/^[0-9]*$/",
+     *     message="Cedula/RUC debe contener numeros solamente"
+     * )
 	 */
 	private $identificacion;
 	
@@ -29,6 +29,16 @@ class Actor extends EntidadBase {
 	
 	/**
 	 * @ORM\Column(type="string", length=100, nullable=true)
+     * @Assert\Regex(
+     *     pattern="/^[0-9]*$/",
+     *     message="Telefono debe contener numeros solamente"
+     * )
+     * @Assert\Length(
+     *      min = 6,
+     *      max = 10,
+     *      minMessage = "Telefono debe tener al menos {{ limit }} digitos",
+     *      maxMessage = "Telefono no puede tener mas de {{ limit }} digitos"
+     * )
 	 */
 	private $telefono;
 	
@@ -40,6 +50,15 @@ class Actor extends EntidadBase {
 	
 	/**
 	 * @ORM\Column(type="string", length=13, nullable=true)
+     * @Assert\Regex(
+     *     pattern="/^[0-9]*$/",
+     *     message="Cedula debe contener numeros solamente"
+     * )
+     * @Assert\Length(
+     *      min = 10,
+     *      max = 10,
+     *      exactMessage = "Cedula debe tener {{ limit }} digitos"
+     * )
 	 */
 	private $identificacionContacto;
 	
@@ -61,6 +80,16 @@ class Actor extends EntidadBase {
 	
 	/**
 	 * @ORM\Column(type="string", length=100, nullable=true)
+     * @Assert\Regex(
+     *     pattern="/^[0-9]*$/",
+     *     message="Telefono de contacto debe contener numeros solamente"
+     * )
+     * @Assert\Length(
+     *      min = 6,
+     *      max = 10,
+     *      minMessage = "Telefono debe tener al menos {{ limit }} digitos",
+     *      maxMessage = "Telefono no puede tener mas de {{ limit }} digitos"
+     * )
 	 */
 	private $telefonoContacto;
 	
@@ -114,6 +143,27 @@ class Actor extends EntidadBase {
 	 * @ORM\Column(type="string", length=60, nullable=true)
 	 */
 	private $relacion;
+	
+	/**
+	 * @Assert\Callback
+	 */
+	public function validate(ExecutionContextInterface $context, $payload) {
+		//validacion identificacion persona > cedula, entidad > ruc
+		$longitud = strlen($this->identificacion);
+		if ($this->tipo == ConstantesDeTipoActor::Persona) {
+			if($longitud != 10 && $longitud != 0) {
+				$context->buildViolation("Cedula debe tener 10 numeros")
+				->atPath('identificacion')
+				->addViolation();
+			}
+		} else {
+			if($longitud != 13 && $longitud != 0) {
+				$context->buildViolation("RUC debe tener 13 numeros")
+				->atPath('identificacion')
+				->addViolation();
+			}
+		}
+	}
 	
 	/**
 	 * @ORM\Column(type="string", length=30, nullable=true)

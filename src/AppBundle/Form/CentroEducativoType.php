@@ -14,11 +14,16 @@ class CentroEducativoType extends AbstractType {
 	 */
 	public function buildForm(FormBuilderInterface $builder, array $options) {
 		$builder->add ( 'identificacion' , TextType::class, array (
-				'required' => false
+				'required' => false,
+				'attr' => array (
+						'maxlength' => '13'
+				)
 		) )->add ( 'nombre' , TextType::class, array (
-				'required' => true
+				'required' => true,
+				'attr' => array('class'=>'uppercase')
 		) )->add ( 'telefono' , TextType::class, array (
-				'required' => false
+				'required' => false,
+				'attr' => array('class'=>'solo_numeros')
 		) )->add ( 'junta' )->add ( 'direccion', DireccionType::class, array (
 				'label_attr' => array (
 						'class' => 'container_label' 

@@ -1,15 +1,6 @@
 {% extends 'entidadBase/mostrarEntidad.html.twig' %}
 
 {% block form %}
-<script type="text/javascript">
-jQuery(document).ready(function() {
-    var $provincia_canton = JSON.parse('{{ form.children.direccion.vars.provincia_canton|raw }}');
-    var $canton_parroquia = JSON.parse('{{ form.children.direccion.vars.canton_parroquia|raw }}');
-    bindSelects($('#bloque_junta_direccion_provincia'), $('#bloque_junta_direccion_canton'), $provincia_canton, 'codigo');
-    bindSelects($('#bloque_junta_direccion_canton'), $('#bloque_junta_direccion_parroquia'), $canton_parroquia, 'codigo');
-});
-</script>
-
     {{ form_row(form.nombre, t_options) }}
     {{ form_row(form.ruc, t_options) }}
     {{ form_row(form.telefono, t_options) }}
@@ -17,4 +8,19 @@ jQuery(document).ready(function() {
     {{ form_row(form.logo, t_options) }}
     {{ form_row(form.direccion, t_options) }}
 
+<script type="text/javascript">
+jQuery(document).ready(function() {
+    var $provincia_canton = JSON.parse('{{ form.children.direccion.vars.provincia_canton|raw }}');
+    var $canton_parroquia = JSON.parse('{{ form.children.direccion.vars.canton_parroquia|raw }}');
+    bindSelects($('#bloque_junta_direccion_provincia'), $('#bloque_junta_direccion_canton'), $provincia_canton, 'codigo');
+    bindSelects($('#bloque_junta_direccion_canton'), $('#bloque_junta_direccion_parroquia'), $canton_parroquia, 'codigo');
+
+    //upercase
+    $.each($('.uppercase'), function (key, value) {
+        $(value).keyup(function () {
+			$(this).val($(this).val().toUpperCase());
+      	});
+    });
+});
+</script>
 {% endblock %}

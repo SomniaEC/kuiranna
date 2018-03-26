@@ -61,9 +61,10 @@ class DireccionType extends AbstractType {
 						'class' => 'select_direccion_parroquia' 
 				) 
 		) )->add ( 'sector', TextType::class, array (
-				'required' => false 
+				'required' => false,
+				'attr' => array('class'=>'uppercase')
 		) )->add ( 'zona', ChoiceType::class, array (
-				'choices' => ConstantesDeZona::getConstants () 
+				'choices' => array_flip ( ConstantesDeZona::getConstants () )
 		) )->add ( 'callePrincipal', TextType::class, array (
 				'required' => false 
 		) )->add ( 'calleSecundaria', TextType::class, array (

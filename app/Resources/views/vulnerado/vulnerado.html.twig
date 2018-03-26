@@ -16,5 +16,38 @@
         {{ form_row(form.telefono, t_options) }}
         {{ form_row(form.email, t_options) }}
         {{ form_row(form.centroEducativo, t_options) }}
-
+<script type="text/javascript">
+jQuery(document).ready(function() {
+	//form validation
+	$("form").validate({
+		rules: {
+			"vulnerado[identificacion]": {
+				digits: true,
+				minlength: 10
+			},
+			"vulnerado[telefono]": {
+				digits: true,
+				minlength: 6,
+				maxlength: 10
+			}
+		},
+		messages: {
+			"vulnerado[identificacion]": {
+				minlength: jQuery.validator.format("Por favor, no escriba menos de {0} digitos.")
+			},
+			"vulnerado[telefono]": {
+				maxlength: jQuery.validator.format("Por favor, no escriba mas de {0} digitos."),
+				minlength: jQuery.validator.format("Por favor, no escriba menos de {0} digitos.")
+			}
+		}
+	});
+	
+    //upercase
+	$.each($('.uppercase'), function (key, value) {
+		$(value).keyup(function () {
+			$(this).val($(this).val().toUpperCase());
+		});
+	});
+});
+</script>
 {% endblock %}

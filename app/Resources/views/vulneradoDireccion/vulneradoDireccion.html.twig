@@ -1,6 +1,11 @@
 {% extends 'entidadBase/mostrarEntidad.html.twig' %}
 
 {% block form %}
+    {{ form_row(form.vulnerado, t_options) }}
+    {{ form_row(form.direccion, t_options) }}
+    {{ form_row(form.denuncia, t_options) }}
+    {{ form_row(form.junta, t_options) }}
+
 <script type="text/javascript">
 jQuery(document).ready(function() {
     var $provincia_canton = JSON.parse('{{ form.children.direccion.vars.provincia_canton|raw }}');
@@ -9,12 +14,37 @@ jQuery(document).ready(function() {
         bindSelects($(value).find('select.select_direccion_provincia').first(), $(value).find('select.select_direccion_canton').first(), $provincia_canton, 'codigo');
         bindSelects($(value).find('select.select_direccion_canton').first(), $(value).find('select.select_direccion_parroquia').first(), $canton_parroquia, 'codigo');
     });
+
+  //form validation
+	$("form").validate({
+		rules: {
+			"vulneradodireccion[vulnerado][identificacion]": {
+				digits: true,
+				minlength: 10
+			},
+			"vulneradodireccion[vulnerado][telefono]": {
+				digits: true,
+				minlength: 6,
+				maxlength: 10
+			}
+		},
+		messages: {
+			"vulneradodireccion[vulnerado][identificacion]": {
+				minlength: jQuery.validator.format("Por favor, no escriba menos de {0} digitos.")
+			},
+			"vulneradodireccion[vulnerado][telefono]": {
+				minlength: jQuery.validator.format("Por favor, no escriba menos de {0} digitos."),
+				maxlength: jQuery.validator.format("Por favor, no escriba mas de {0} digitos.")
+			}
+		}
+	});
+    
+    //upercase
+	$.each($('.uppercase'), function (key, value) {
+		$(value).keyup(function () {
+			$(this).val($(this).val().toUpperCase());
+		});
+	});
 });
 </script>
-
-    {{ form_row(form.vulnerado, t_options) }}
-    {{ form_row(form.direccion, t_options) }}
-    {{ form_row(form.denuncia, t_options) }}
-    {{ form_row(form.junta, t_options) }}
-
 {% endblock %}

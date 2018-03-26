@@ -3,6 +3,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity
@@ -13,6 +14,7 @@ class VulneradoDireccion extends EntidadBase {
 	/**
 	 * @ORM\ManyToOne(targetEntity="Vulnerado", cascade={"persist"})
 	 * @ORM\JoinColumn(name="vulnerado_id", referencedColumnName="id")
+	 * @Assert\Valid
 	 */
 	private $vulnerado;
 	

@@ -14,10 +14,13 @@ class JuntaType extends AbstractType {
 	 *
 	 */
 	public function buildForm(FormBuilderInterface $builder, array $options) {
-		$builder->add ( 'nombre' )->add ( 'ruc' , TextType::class, array (
+		$builder->add ( 'nombre' , TextType::class, array (
+				'attr' => array('class'=>'uppercase')
+		))->add ( 'ruc' , TextType::class, array (
 				'required' => false
 		) )->add ( 'telefono' , TextType::class, array (
-				'required' => false
+				'required' => false,
+				'attr' => array('class'=>'solo_numeros')
 		) )->add ( 'email' , TextType::class, array (
 				'required' => false
 		) )->add ( 'logo' , TextType::class, array (

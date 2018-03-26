@@ -3,6 +3,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity
@@ -18,6 +19,7 @@ class ActorDireccion extends EntidadBase {
 	/**
 	 * @ORM\ManyToOne(targetEntity="Actor", cascade={"persist"})
 	 * @ORM\JoinColumn(name="actor_id", referencedColumnName="id")
+	 * @Assert\Valid
 	 */
 	private $actor;
 	
