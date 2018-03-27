@@ -67,10 +67,11 @@ security:
         - { path: /parroquia/guardar, roles: [ROLE_SUPER_ADMIN] }
         - { path: /parroquia/eliminar, roles: [ROLE_SUPER_ADMIN] }
         #usuario
-        - { path: /usuario/listar, roles: [ROLE_SUPER_ADMIN, ROLE_ADMIN_JUNTA] }
-        - { path: /usuario/mostrar, roles: [ROLE_SUPER_ADMIN, ROLE_ADMIN_JUNTA] }
-        - { path: /usuario/guardar, roles: [ROLE_SUPER_ADMIN, ROLE_ADMIN_JUNTA] }
-        - { path: /usuario/eliminar, roles: [ROLE_SUPER_ADMIN] }
+        # temporalmente desabilitado para crear usuarios
+        #- { path: /usuario/listar, roles: [ROLE_SUPER_ADMIN, ROLE_ADMIN_JUNTA] }
+        #- { path: /usuario/mostrar, roles: [ROLE_SUPER_ADMIN, ROLE_ADMIN_JUNTA] }
+        #- { path: /usuario/guardar, roles: [ROLE_SUPER_ADMIN, ROLE_ADMIN_JUNTA] }
+        #- { path: /usuario/eliminar, roles: [ROLE_SUPER_ADMIN] }
         #comando
         - { path: /comando/*, roles: ROLE_SUPER_ADMIN }
         #actividadEconomica        
