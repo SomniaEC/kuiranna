@@ -7,7 +7,7 @@ function bindSelects ($parentSelect, $childSelect, $optionsArray, $dataName) {
 		updateSelects ($parentSelect, $childSelect, $optionsArray, $dataName);
 		$childSelect.trigger("change");
 	});
-	updateSelects ($parentSelect, $childSelect, $optionsArray, $dataName)
+	updateSelects ($parentSelect, $childSelect, $optionsArray, $dataName);
 }
 
 function updateSelects ($parentSelect, $childSelect, $optionsArray, $dataName) {
@@ -27,6 +27,20 @@ function updateSelects ($parentSelect, $childSelect, $optionsArray, $dataName) {
 				}
 			});
 		}
+	});
+}
+
+function juntaCentroSelect ($parentSelect, $container, $optionsArray) {
+	$parentSelect.change(function() {
+		$provincia = $container.find('.provincia select');
+		$canton = $container.find('.canton select');
+		$parroquia = $container.find('.parroquia select');
+		$options = $optionsArray[$(this).val()];
+		$provincia.val($options['0']);
+		$provincia.trigger("change");
+		$canton.val($options['1']);
+		$canton.trigger("change");
+		$parroquia.val($options['2']);
 	});
 }
 

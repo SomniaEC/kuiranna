@@ -17,16 +17,31 @@ jQuery(document).ready(function() {
         bindSelects($(value).find('.provincia select').first(), $(value).find('.canton select').first(), $provincia_canton, 'codigo');
         bindSelects($(value).find('.canton select').first(), $(value).find('.parroquia select').first(), $canton_parroquia, 'codigo');
     });
+
+    //select junta
+    var $junta_direccion = JSON.parse('{{ form.vars.junta_direccion|raw }}');
+    if($junta_direccion.length !== 0) {
+        juntaCentroSelect($('.junta select'), $('.direccion'), $junta_direccion);
+    }
 	
 	$("form").validate({
 		rules: {
 			"centroeducativo[identificacion]": {
 				digits: true,
 				minlength: 13
+			},
+			"centroeducativo[telefono]": {
+				digits: true,
+				minlength: 6,
+				maxlength: 10
 			}
 		},
 		messages: {
 			"centroeducativo[identificacion]": {
+				minlength: jQuery.validator.format("Por favor, no escriba menos de {0} digitos.")
+			},
+			"centroeducativo[telefono]": {
+				maxlength: jQuery.validator.format("Por favor, no escriba mas de {0} digitos."),
 				minlength: jQuery.validator.format("Por favor, no escriba menos de {0} digitos.")
 			}
 		}
@@ -38,6 +53,7 @@ jQuery(document).ready(function() {
 			$(this).val($(this).val().toUpperCase());
       	});
     });
+    
 });
 </script>
 
