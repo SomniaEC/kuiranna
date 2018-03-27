@@ -176,6 +176,37 @@ body {
     display: block;
 }
 
+.menu_level_2 {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    z-index: 1;
+    list-style-type: none;
+}
+
+.menu_level_2 li {
+    float: none;
+    color: black;
+    text-decoration: none;
+}
+
+.menu_level_2 a {
+    float: none;
+    color: black;
+    text-decoration: none;
+    display: block;
+    text-align: left;
+}
+
+.menu_level_2 li:hover {
+    background-color: #b9b9b9;
+}
+
+.dropdown:hover .menu_level_2 {
+    display: block;
+}
+
 .container_value {
 	clear: both;
 	padding-left: 5px;
@@ -198,6 +229,26 @@ label.container_label {
     color: #00004d;
 }
 
+.uppercase {
+	text-transform: uppercase;
+}
+
+/* forms */
+input.error {
+	border-color: red;
+	border-width: 1px;
+}
+
+input.error:focus {
+	border-color: red;
+	border-width: 1px;
+}
+
+label.error {
+	color: red;
+}
+
+/* denuncia */
 .denuncia .rol {
 	display: none;
 }
@@ -220,4 +271,16 @@ label.container_label {
 	-ms-user-select: none;
 	-o-user-select: none;
 	user-select: none;
+}
+
+/* user_profile CSS */
+.fos_user_profile_edit .container_value {
+	padding-left: 0px;
+	padding-bottom: 0px;
+}
+
+/* user_change_password CSS */
+.fos_user_change_password .container_value {
+	padding-left: 0px;
+	padding-bottom: 0px;
 }

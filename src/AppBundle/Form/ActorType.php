@@ -31,35 +31,32 @@ class ActorType extends AbstractType {
 				),
 				'required' => false 
 		) )->add ( 'nombres', TextType::class, array (
-				'required' => false 
+				'required' => false,
+				'attr' => array('class'=>'uppercase')
 		) )->add ( 'telefono', TextType::class, array (
-				'required' => false 
+				'required' => false,
+				'attr' => array (
+						'maxlength' => '10'
+				)
 		) )->add ( 'email', EmailType::class, array (
-				'required' => false 
-		) )->add ( 'identificacionContacto', TextType::class, array (
-				'required' => false 
-		) )->add ( 'nombresContacto', TextType::class, array (
-				'required' => false 
-		) )->add ( 'cargoContacto', TextType::class, array (
-				'required' => false 
-		) )->add ( 'emailContacto', EmailType::class, array (
-				'required' => false 
-		) )->add ( 'telefonoContacto', TextType::class, array (
-				'required' => false 
+				'required' => false
 		) )->add ( 'fechaNacimiento', DateType::class, array (
 				'widget' => 'single_text',
 				'required' => false 
 		) )->add ( 'edad', TextType::class, array (
 				'mapped' => false,
+				'attr' => array (
+						'maxlength' => '3'
+				),
 				'required' => false 
 		) )->add ( 'sexo', ChoiceType::class, array (
-				'choices' => ConstantesDeSexo::getConstants ()
+				'choices' => array_flip ( ConstantesDeSexo::getConstants () )
 		) )->add ( 'genero', ChoiceType::class, array (
-				'choices' => ConstantesDeGenero::getConstants ()
+				'choices' => array_flip ( ConstantesDeGenero::getConstants () )
 		) )->add ( 'nacionalidad', TextType::class, array (
 				'required' => false 
 		) )->add ( 'interculturalidad', ChoiceType::class, array (
-				'choices' => ConstantesDeInterculturalidad::getConstants (),
+				'choices' => array_flip ( ConstantesDeInterculturalidad::getConstants () ),
 				'required' => true 
 		) )->add ( 'actividadEconomica'
 		)->add ( 'lugarTrabajo', TextType::class, array (
@@ -71,6 +68,23 @@ class ActorType extends AbstractType {
 		) )->add ( 'relacion', ChoiceType::class, array (
 				'choices' => array_flip ( ConstantesDeRelacion::getConstants () ),
 				'required' => true
+		) )->add ( 'identificacionContacto', TextType::class, array (
+				'required' => false,
+				'attr' => array (
+						'maxlength' => '10'
+				),
+		) )->add ( 'nombresContacto', TextType::class, array (
+				'required' => false,
+				'attr' => array('class'=>'uppercase')
+		) )->add ( 'cargoContacto', TextType::class, array (
+				'required' => false
+		) )->add ( 'emailContacto', EmailType::class, array (
+				'required' => false
+		) )->add ( 'telefonoContacto', TextType::class, array (
+				'required' => false,
+				'attr' => array (
+						'maxlength' => '10'
+				)
 		) );
 	}
 	

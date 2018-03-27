@@ -5,8 +5,8 @@
 		<ul id="list_tabs_denuncia">
 			<li><a href="#atributos_denuncia">Denuncia</a></li>
 			<li><a id="addVulnerado" onclick="addVulnerado(event); $(this).blur();" href="#vulnerados"><span class="glyphicon glyphicon-plus-sign"></span></a></li>
-			<li><a id="addDenunciante" onclick="addDenun(event, 'Denunciante'); $(this).blur();" href="#denunciantes"><span class="glyphicon glyphicon-plus-sign"></a></li>
-			<li><a id="addDenunciado" onclick="addDenun(event, 'Denunciado'); $(this).blur();" href="#denunciados"><span class="glyphicon glyphicon-plus-sign"></a></li>
+			<li><a id="addDenunciante" onclick="addActor(event, 'Denunciante'); $(this).blur();" href="#denunciantes"><span class="glyphicon glyphicon-plus-sign"></a></li>
+			<li><a id="addDenunciado" onclick="addActor(event, 'Denunciado'); $(this).blur();" href="#denunciados"><span class="glyphicon glyphicon-plus-sign"></a></li>
 		</ul>
     	<div id="atributos_denuncia">
         {{ form_row(form.creacion, t_options) }}
@@ -30,7 +30,44 @@ var $provincia_canton = JSON.parse('{{ form.children.vulneradosDireccion.childre
 var $canton_parroquia = JSON.parse('{{ form.children.vulneradosDireccion.children.0.children.direccion.vars.canton_parroquia|raw }}');
 
 jQuery(document).ready(function() {
+	//form validation
+	$("form").validate();
 
+	//actor-vulnerado form validation
+	$.each($('.identificacion input, .telefono input, .telefonoContacto input, .edad input, .identificacionContacto input'), function (key, value) {
+		$(this).rules('add', "digits");
+	});
+	$.each($('.telefono input, .telefonoContacto input'), function (key, value) {
+		$(this).rules('add', {
+			minlength: 6,
+			maxlength: 10,
+			messages: {
+				minlength: jQuery.validator.format("Por favor, no escriba menos de {0} digitos."),
+				maxlength: jQuery.validator.format("Por favor, no escriba mas de {0} digitos.")
+			}
+		});
+	});
+
+	//actor form validation
+	$.each($('.actor .identificacionContacto input'), function (key, value) {
+		$(this).rules('add', {
+			minlength: 10,
+			messages: {
+				minlength: jQuery.validator.format("Por favor, no escriba menos de {0} digitos.")
+			}
+		});
+	});
+	
+	//vulnerado form validation
+	$.each($('.vulnerado .identificacion input'), function (key, value) {
+		$(this).rules('add', {
+			minlength: 10,
+			messages: {
+				minlength: jQuery.validator.format("Por favor, no escriba menos de {0} digitos.")
+			}
+		});
+	});
+	
 	//selects direccion
     $.each($('.direccion'), function (key, value) {
         bindSelects($(value).find('.provincia select').first(), $(value).find('.canton select').first(), $provincia_canton, 'codigo');
@@ -41,6 +78,13 @@ jQuery(document).ready(function() {
 	$.each($('.actor_direccion'), function (key, value) {
     	actorSelect($(value));
     });
+
+    //upercase
+	$.each($('.uppercase'), function (key, value) {
+		$(value).keyup(function () {
+			$(this).val($(this).val().toUpperCase());
+		});
+	});
 	
 	//tabs denuncia
 	var tabs_denuncia = $("#tabs_denuncia").tabs();
@@ -73,6 +117,15 @@ jQuery(document).ready(function() {
 	addIndexToHolder($actoresHolder);
 	$actoresHolder.data('denunciante_index', denunciante_index);
 	$actoresHolder.data('denunciado_index', denunciado_index);
+
+	//edad
+	$.each($('.fechaNacimiento input'), function (key, value) {
+		$(value).change(function () {
+			edadInput = $(this).parents('.actor').find('.edad input')
+	        edadInput.val(getAge($(this).val()));
+			edadInput.valid();
+		});
+	});
 });
 
 function addToTabs($elementHolder, $option, $index, $tab_index) {
@@ -129,9 +182,33 @@ function addVulnerado(e) {
 		bindSelects($(value).find('.provincia select').first(), $(value).find('.canton select').first(), $provincia_canton, 'codigo');
 		bindSelects($(value).find('.canton select').first(), $(value).find('.parroquia select').first(), $canton_parroquia, 'codigo');
 	});
+
+	//validation
+	$.each($newElement.find('.identificacion input, .telefono input'), function (key, value) {
+		$(this).rules('add', "digits");
+	});
+	$.each($newElement.find('.vulnerado .identificacion input'), function (key, value) {
+		$(this).rules('add', {
+			minlength: 10,
+			messages: {
+				minlength: jQuery.validator.format("Por favor, no escriba menos de {0} digitos.")
+			}
+		});
+	});
+	$.each($newElement.find('.vulnerado .telefono input'), function (key, value) {
+		$(this).rules('add', {
+			minlength: 6,
+			maxlength: 10,
+			messages: {
+				minlength: jQuery.validator.format("Por favor, no escriba menos de {0} digitos."),
+				maxlength: jQuery.validator.format("Por favor, no escriba mas de {0} digitos.")
+				
+			}
+		});
+	});
 }
 
-function addDenun(e, $option) {
+function addActor(e, $option) {
 	e.preventDefault();
 	$newElement = addNewDenunElementToForm($('#denuncia_actoresDireccion'), $option);
 	var index = $('#denuncia_actoresDireccion').data('index') - 1;
@@ -144,6 +221,44 @@ function addDenun(e, $option) {
 	$id = addToTabs($newElement, $option, index, tab_index);
 	var index = $('#tabs_denuncia a[href="#' + $id + '"]').parent().index();
 	$("#tabs_denuncia").tabs("option", "active", index);
+
+	//direccion selects
+	$.each($newElement.find('.direccion'), function (key, value) {
+		bindSelects($(value).find('.provincia select').first(), $(value).find('.canton select').first(), $provincia_canton, 'codigo');
+		bindSelects($(value).find('.canton select').first(), $(value).find('.parroquia select').first(), $canton_parroquia, 'codigo');
+	});
+
+	//edad
+	$.each($newElement.find('.fechaNacimiento input'), function (key, value) {
+		$(value).change(function () {
+			edadInput = $(this).parents('.actor').find('.edad input')
+	        edadInput.val(getAge($(this).val()));
+			edadInput.valid();
+		});
+	});
+
+	//validation
+	$.each($newElement.find('.identificacion input, .telefono input, .telefonoContacto input, .edad input, .identificacionContacto input'), function (key, value) {
+		$(this).rules('add', "digits");
+	});
+	$.each($newElement.find('.telefono input, .telefonoContacto input'), function (key, value) {
+		$(this).rules('add', {
+			minlength: 6,
+			maxlength: 10,
+			messages: {
+				minlength: jQuery.validator.format("Por favor, no escriba menos de {0} digitos."),
+				maxlength: jQuery.validator.format("Por favor, no escriba mas de {0} digitos.")
+			}
+		});
+	});
+	$.each($newElement.find('.actor .identificacionContacto input'), function (key, value) {
+		$(this).rules('add', {
+			minlength: 10,
+			messages: {
+				minlength: jQuery.validator.format("Por favor, no escriba menos de {0} digitos.")
+			}
+		});
+	});
 }
 	
 function addRemoveLink($link, $li, $elementHolder) {

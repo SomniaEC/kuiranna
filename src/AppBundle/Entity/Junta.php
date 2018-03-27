@@ -18,11 +18,30 @@ class Junta extends EntidadBase {
 	
 	/**
 	 * @ORM\Column(type="string", length=13, nullable=true)
+     * @Assert\Regex(
+     *     pattern="/^[0-9]*$/",
+     *     message="RUC debe contener numeros solamente"
+     * )
+     * @Assert\Length(
+     *      min = 13,
+     *      max = 13,
+     *      exactMessage = "RUC debe tener {{ limit }} digitos"
+     * )
 	 */
 	private $ruc;
 	
 	/**
 	 * @ORM\Column(type="string", length=100, nullable=true)
+     * @Assert\Regex(
+     *     pattern="/^[0-9]*$/",
+     *     message="Telefono debe contener numeros solamente"
+     * )
+     * @Assert\Length(
+     *      min = 6,
+     *      max = 10,
+     *      minMessage = "Telefono debe tener al menos {{ limit }} digitos",
+     *      maxMessage = "Telefono no puede tener mas de {{ limit }} digitos"
+     * )
 	 */
 	private $telefono;
 	

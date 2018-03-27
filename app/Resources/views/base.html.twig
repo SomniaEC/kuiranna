@@ -11,6 +11,8 @@
         {% block javascripts %}
         	<script type="text/javascript" src="{{ asset('js/jquery.min.js') }}"></script>
         	<script type="text/javascript" src="{{ asset('js/jquery-ui.min.js') }}"></script>
+        	<script type="text/javascript" src="{{ asset('js/jquery.validate.js') }}"></script>
+        	<script type="text/javascript" src="{{ asset('js/messages_es.js') }}"></script>
             <script type="text/javascript" src="{{ asset('js/selects.js') }}"></script>
         {% endblock %}
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
@@ -18,10 +20,17 @@
     <body>
        <div>
             {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
-                {{ 'layout.logged_in_as'|trans({'%username%': app.user.username}, 'FOSUserBundle') }} |
-                <a href="{{ path('fos_user_security_logout') }}">
-                    {{ 'layout.logout'|trans({}, 'FOSUserBundle') }}
-                </a>
+                <div>
+                    {{ 'layout.logged_in_as'|trans({'%username%': app.user.username}, 'FOSUserBundle') }} | 
+                    <a href="/profile">
+                        Ver perfil
+                    </a>
+                </div>
+                <div>
+                    <a href="{{ path('fos_user_security_logout') }}">
+                        {{ 'layout.logout'|trans({}, 'FOSUserBundle') }}
+                    </a>
+                </div>
             {% else %}
                 <a href="{{ path('fos_user_security_login') }}">{{ 'layout.login'|trans({}, 'FOSUserBundle') }}</a>
             {% endif %}

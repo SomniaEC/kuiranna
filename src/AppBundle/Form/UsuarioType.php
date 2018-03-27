@@ -2,9 +2,11 @@
 
 namespace AppBundle\Form;
 
+use FOS\UserBundle\Form\Type\RegistrationFormType as BaseRegistrationFormType;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\FormBuilderInterface;
 
 class UsuarioType extends AbstractType {
 	/**
@@ -17,18 +19,22 @@ class UsuarioType extends AbstractType {
 		$builder->add ( 'telefonoConvencional' );
 		$builder->add ( 'telefonoCelular' );
 		$builder->add ( 'cargo' );
-		$builder->add ( 'fechaInicio' );
-		$builder->add ( 'fechaFin' );
-		$builder->add ( 'estadoActividad' );
 		$builder->add ( 'junta' );
-		$builder->add('roles', ChoiceType::class, array(
-                'label' => 'Rol',
-                'required' => true,
-                'choices' => $this->getExistingRoles(),
-                'multiple' => true));
+		$builder->add ( 'rol', ChoiceType::class, array (
+				'label' => 'Rol',
+				'required' => true,
+				'choices' => $this->getExistingRoles (),
+				'multiple' => false,
+				'expanded' => false, // render check-boxes
+		)
+		) ;
+		$builder->add('enabled', CheckboxType::class, array(
+				'label'    => 'Activo',
+				'required' => false
+		));
 	}
 	public function getParent() {
-		return 'FOS\UserBundle\Form\Type\RegistrationFormType';
+		return BaseRegistrationFormType::class;
 	}
 	public function getBlockPrefix() {
 		return 'app_user_registration';
@@ -37,19 +43,12 @@ class UsuarioType extends AbstractType {
 		return $this->getBlockPrefix ();
 	}
 	public function getExistingRoles() {
-		
-		return array ('ROLE_ADMIN' => 'ROLE_ADMIN', 'ROLE_USER' => 'ROLE_USER', 'ROLE_CUSTOMER' => 'ROLE_CUSTOMER');
-		// sintaxis dentro de admin class:
-// 		$roleHierarchy = $this->getConfigurationPool()->getContainer()->getParameter('security.role_hierarchy.roles');
-		// sintaxis dentro de un controlador:
-// 		$container = new ContainerBuilder();
-// 		$roleHierarchy = $container->getParameter('security.role_hierarchy.roles');
-// 		$roles = array_keys($roleHierarchy);
-// 		$theRoles = array();
-	
-// 		foreach ($roles as $role) {
-// 			$theRoles[$role] = $role;
-// 		}
-// 		return $theRoles;
+		return array (
+				'Secretario' => 'ROLE_SECRETARIO',
+				'Miembro de junta'=> 'ROLE_MIEMBRO_DE_JUNTA', 
+				'Psicólogo'=> 'ROLE_PSICOLOGO', 
+				'Administrador de Junta'=> 'ROLE_ADMIN_JUNTA',
+				'Super Admin' => 'ROLE_SUPER_ADMIN');
 	}
+	
 }

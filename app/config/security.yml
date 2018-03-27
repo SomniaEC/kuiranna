@@ -18,20 +18,96 @@ security:
             form_login:
                 provider: fos_userbundle
                 csrf_token_generator: security.csrf.token_manager
-                # if you are using Symfony < 2.8, use the following config instead:
-                # csrf_provider: form.csrf_provider
- 
             logout:       true
             anonymous:    ~
  
+    #ROLES: ROLE_SECRETARIO, ROLE_MIEMBRO_DE_JUNTA, ROLE_PSICOLOGO, ROLE_ADMIN_JUNTA, ROLE_SUPER_ADMIN
+    #If you make sure that no users ever have ROLE_NO_ACCESS, then access is denied 
+    #(ROLE_NO_ACCESS can be anything that does not match an existing role, it just serves as a trick to always deny access).
+    
     access_control:
-        - { path: ^/register, role: IS_AUTHENTICATED_REMEMBERED }
-        - { path: /.*listar, role: IS_AUTHENTICATED_REMEMBERED }
-        - { path: /.*guardar, role: ROLE_SUPER_ADMIN }
-        - { path: /.*mostrar, role: IS_AUTHENTICATED_REMEMBERED }
-        - { path: /.*eliminar, role: ROLE_SUPER_ADMIN }
-        - { path: /.*prueba, role: ROLE_SUPER_ADMIN }
-        - { path: ^/usuario/listar, role: IS_AUTHENTICATED_REMEMBERED }
+        #centroEducativo        
+        - { path: /centroEducativo/listar, roles: [ROLE_SECRETARIO, ROLE_MIEMBRO_DE_JUNTA, ROLE_PSICOLOGO, ROLE_ADMIN_JUNTA, ROLE_SUPER_ADMIN] }
+        - { path: /centroEducativo/mostrar, roles: [ROLE_SECRETARIO, ROLE_MIEMBRO_DE_JUNTA, ROLE_PSICOLOGO, ROLE_ADMIN_JUNTA, ROLE_SUPER_ADMIN] }
+        - { path: /centroEducativo/guardar, roles: [ROLE_SECRETARIO, ROLE_MIEMBRO_DE_JUNTA, ROLE_PSICOLOGO, ROLE_ADMIN_JUNTA, ROLE_SUPER_ADMIN] }
+        - { path: /centroEducativo/eliminar, roles: [ROLE_SUPER_ADMIN, ROLE_ADMIN_JUNTA] }
+        #derecho
+        - { path: /derecho/listar, roles: [ROLE_SECRETARIO, ROLE_MIEMBRO_DE_JUNTA, ROLE_PSICOLOGO, ROLE_ADMIN_JUNTA, ROLE_SUPER_ADMIN] }
+        - { path: /derecho/mostrar, roles: [ROLE_SECRETARIO, ROLE_MIEMBRO_DE_JUNTA, ROLE_PSICOLOGO, ROLE_ADMIN_JUNTA, ROLE_SUPER_ADMIN] }
+        - { path: /derecho/guardar, roles: [ROLE_SUPER_ADMIN, ROLE_ADMIN_JUNTA] }
+        - { path: /derecho/eliminar, roles: [ROLE_SUPER_ADMIN] }
+        #denuncia
+        - { path: /denuncia/listar, roles: [ROLE_SECRETARIO, ROLE_MIEMBRO_DE_JUNTA, ROLE_PSICOLOGO, ROLE_ADMIN_JUNTA, ROLE_SUPER_ADMIN] }
+        - { path: /denuncia/mostrar, roles: [ROLE_SECRETARIO, ROLE_MIEMBRO_DE_JUNTA, ROLE_PSICOLOGO, ROLE_ADMIN_JUNTA, ROLE_SUPER_ADMIN] }
+        - { path: /denuncia/guardar, roles: [ROLE_SECRETARIO, ROLE_MIEMBRO_DE_JUNTA, ROLE_PSICOLOGO, ROLE_ADMIN_JUNTA, ROLE_SUPER_ADMIN] }
+        - { path: /denuncia/eliminar, roles: [ROLE_SUPER_ADMIN, ROLE_ADMIN_JUNTA] }
+        #auditoria
+        - { path: /auditoria/listar, roles: [ROLE_SECRETARIO, ROLE_MIEMBRO_DE_JUNTA, ROLE_PSICOLOGO, ROLE_ADMIN_JUNTA, ROLE_SUPER_ADMIN] }
+        - { path: /auditoria/mostrar, roles: [ROLE_SECRETARIO, ROLE_MIEMBRO_DE_JUNTA, ROLE_PSICOLOGO, ROLE_ADMIN_JUNTA, ROLE_SUPER_ADMIN] }
+        - { path: /auditoria/guardar, roles: ROLE_SUPER_ADMIN }
+        - { path: /auditoria/eliminar, roles: ROLE_SUPER_ADMIN }
+        #junta
+        - { path: /junta/listar, roles: [ROLE_SECRETARIO, ROLE_MIEMBRO_DE_JUNTA, ROLE_PSICOLOGO, ROLE_ADMIN_JUNTA, ROLE_SUPER_ADMIN] }
+        - { path: /junta/mostrar, roles: [ROLE_SECRETARIO, ROLE_MIEMBRO_DE_JUNTA, ROLE_PSICOLOGO, ROLE_ADMIN_JUNTA, ROLE_SUPER_ADMIN] }
+        - { path: /junta/guardar, roles: [ROLE_SUPER_ADMIN] }
+        - { path: /junta/eliminar, roles: [ROLE_SUPER_ADMIN] }
+        #provincia
+        - { path: /provincia/listar, roles: [ROLE_SECRETARIO, ROLE_MIEMBRO_DE_JUNTA, ROLE_PSICOLOGO, ROLE_ADMIN_JUNTA, ROLE_SUPER_ADMIN] }
+        - { path: /provincia/mostrar, roles: [ROLE_SECRETARIO, ROLE_MIEMBRO_DE_JUNTA, ROLE_PSICOLOGO, ROLE_ADMIN_JUNTA, ROLE_SUPER_ADMIN] }
+        - { path: /provincia/guardar, roles: [ROLE_SUPER_ADMIN] }
+        - { path: /provincia/eliminar, roles: [ROLE_SUPER_ADMIN] }
+        #canton
+        - { path: /canton/listar, roles: [ROLE_SECRETARIO, ROLE_MIEMBRO_DE_JUNTA, ROLE_PSICOLOGO, ROLE_ADMIN_JUNTA, ROLE_SUPER_ADMIN] }
+        - { path: /canton/mostrar, roles: [ROLE_SECRETARIO, ROLE_MIEMBRO_DE_JUNTA, ROLE_PSICOLOGO, ROLE_ADMIN_JUNTA, ROLE_SUPER_ADMIN] }
+        - { path: /canton/guardar, roles: [ROLE_SUPER_ADMIN] }
+        - { path: /canton/eliminar, roles: [ROLE_SUPER_ADMIN] }
+        #parroquia
+        - { path: /parroquia/listar, roles: [ROLE_SECRETARIO, ROLE_MIEMBRO_DE_JUNTA, ROLE_PSICOLOGO, ROLE_ADMIN_JUNTA, ROLE_SUPER_ADMIN] }
+        - { path: /parroquia/mostrar, roles: [ROLE_SECRETARIO, ROLE_MIEMBRO_DE_JUNTA, ROLE_PSICOLOGO, ROLE_ADMIN_JUNTA, ROLE_SUPER_ADMIN] }
+        - { path: /parroquia/guardar, roles: [ROLE_SUPER_ADMIN] }
+        - { path: /parroquia/eliminar, roles: [ROLE_SUPER_ADMIN] }
+        #usuario
+        - { path: /usuario/listar, roles: [ROLE_SUPER_ADMIN, ROLE_ADMIN_JUNTA] }
+        - { path: /usuario/mostrar, roles: [ROLE_SUPER_ADMIN, ROLE_ADMIN_JUNTA] }
+        - { path: /usuario/guardar, roles: [ROLE_SUPER_ADMIN, ROLE_ADMIN_JUNTA] }
+        - { path: /usuario/eliminar, roles: [ROLE_SUPER_ADMIN] }
+        #comando
+        - { path: /comando/*, roles: ROLE_SUPER_ADMIN }
+        #actividadEconomica        
+        - { path: /actividadEconomica/listar, roles: [ROLE_SECRETARIO, ROLE_MIEMBRO_DE_JUNTA, ROLE_PSICOLOGO, ROLE_ADMIN_JUNTA, ROLE_SUPER_ADMIN] }
+        - { path: /actividadEconomica/mostrar, roles: [ROLE_SECRETARIO, ROLE_MIEMBRO_DE_JUNTA, ROLE_PSICOLOGO, ROLE_ADMIN_JUNTA, ROLE_SUPER_ADMIN] }
+        - { path: /actividadEconomica/guardar, roles: [ROLE_SECRETARIO, ROLE_MIEMBRO_DE_JUNTA, ROLE_PSICOLOGO, ROLE_ADMIN_JUNTA, ROLE_SUPER_ADMIN] }
+        - { path: /actividadEconomica/eliminar, roles: [ROLE_SUPER_ADMIN, ROLE_ADMIN_JUNTA] }
+        #actor        
+        - { path: /actor/listar, roles: [ROLE_SUPER_ADMIN] }
+        - { path: /actor/mostrar, roles: [ROLE_SUPER_ADMIN] }
+        - { path: /actor/guardar, roles: [ROLE_SUPER_ADMIN] }
+        - { path: /actor/eliminar, roles: [ROLE_SUPER_ADMIN] }
+        #actorDireccion        
+        - { path: /actorDireccion/listar, roles: [ROLE_SUPER_ADMIN] }
+        - { path: /actorDireccion/mostrar, roles: [ROLE_SUPER_ADMIN] }
+        - { path: /actorDireccion/guardar, roles: [ROLE_SUPER_ADMIN] }
+        - { path: /actorDireccion/eliminar, roles: [ROLE_SUPER_ADMIN] }
+        #archivo        
+        - { path: /archivo/listar, roles: [ROLE_SUPER_ADMIN] }
+        - { path: /archivo/mostrar, roles: [ROLE_SUPER_ADMIN] }
+        - { path: /archivo/guardar, roles: [ROLE_SUPER_ADMIN] }
+        - { path: /archivo/eliminar, roles: [ROLE_SUPER_ADMIN] }
+        #direccion        
+        - { path: /direccion/listar, roles: [ROLE_SUPER_ADMIN] }
+        - { path: /direccion/mostrar, roles: [ROLE_SUPER_ADMIN] }
+        - { path: /direccion/guardar, roles: [ROLE_SUPER_ADMIN] }
+        - { path: /direccion/eliminar, roles: [ROLE_SUPER_ADMIN] }
+        #operacionDenuncia        
+        - { path: /operacionDenuncia/listar, roles: [ROLE_SUPER_ADMIN] }
+        - { path: /operacionDenuncia/mostrar, roles: [ROLE_SUPER_ADMIN] }
+        - { path: /operacionDenuncia/guardar, roles: [ROLE_SUPER_ADMIN] }
+        - { path: /operacionDenuncia/eliminar, roles: [ROLE_SUPER_ADMIN] }
+        #plantilla        
+        - { path: /plantilla/listar, roles: [ROLE_SECRETARIO, ROLE_MIEMBRO_DE_JUNTA, ROLE_PSICOLOGO, ROLE_ADMIN_JUNTA, ROLE_SUPER_ADMIN] }
+        - { path: /plantilla/mostrar, roles: [ROLE_SECRETARIO, ROLE_MIEMBRO_DE_JUNTA, ROLE_PSICOLOGO, ROLE_ADMIN_JUNTA, ROLE_SUPER_ADMIN] }
+        - { path: /plantilla/guardar, roles: [ROLE_SECRETARIO, ROLE_MIEMBRO_DE_JUNTA, ROLE_PSICOLOGO, ROLE_ADMIN_JUNTA, ROLE_SUPER_ADMIN] }
+        - { path: /plantilla/eliminar, roles: [ROLE_SECRETARIO, ROLE_MIEMBRO_DE_JUNTA, ROLE_PSICOLOGO, ROLE_ADMIN_JUNTA, ROLE_SUPER_ADMIN] }
         
         
     role_hierarchy:

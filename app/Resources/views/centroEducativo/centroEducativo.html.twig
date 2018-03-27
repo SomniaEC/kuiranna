@@ -1,19 +1,60 @@
 {% extends 'entidadBase/mostrarEntidad.html.twig' %}
 
 {% block form %}
-<script type="text/javascript">
-jQuery(document).ready(function() {
-    var $provincia_canton = JSON.parse('{{ form.children.direccion.vars.provincia_canton|raw }}');
-    var $canton_parroquia = JSON.parse('{{ form.children.direccion.vars.canton_parroquia|raw }}');
-    bindSelects($('#bloque_centroeducativo_direccion_provincia'), $('#bloque_centroeducativo_direccion_canton'), $provincia_canton, 'codigo');
-    bindSelects($('#bloque_centroeducativo_direccion_canton'), $('#bloque_centroeducativo_direccion_parroquia'), $canton_parroquia, 'codigo');
-});
-</script>
 
     {{ form_row(form.identificacion, t_options) }}
     {{ form_row(form.nombre, t_options) }}
     {{ form_row(form.telefono, t_options) }}
     {{ form_row(form.junta, t_options) }}
     {{ form_row(form.direccion, t_options) }}
+
+<script type="text/javascript">
+jQuery(document).ready(function() {
+	//selects direccion
+    var $provincia_canton = JSON.parse('{{ form.children.direccion.vars.provincia_canton|raw }}');
+    var $canton_parroquia = JSON.parse('{{ form.children.direccion.vars.canton_parroquia|raw }}');
+    $.each($('.direccion'), function (key, value) {
+        bindSelects($(value).find('.provincia select').first(), $(value).find('.canton select').first(), $provincia_canton, 'codigo');
+        bindSelects($(value).find('.canton select').first(), $(value).find('.parroquia select').first(), $canton_parroquia, 'codigo');
+    });
+
+    //select junta
+    var $junta_direccion = JSON.parse('{{ form.vars.junta_direccion|raw }}');
+    if($junta_direccion.length !== 0) {
+        juntaCentroSelect($('.junta select'), $('.direccion'), $junta_direccion);
+    }
+	
+	$("form").validate({
+		rules: {
+			"centroeducativo[identificacion]": {
+				digits: true,
+				minlength: 13
+			},
+			"centroeducativo[telefono]": {
+				digits: true,
+				minlength: 6,
+				maxlength: 10
+			}
+		},
+		messages: {
+			"centroeducativo[identificacion]": {
+				minlength: jQuery.validator.format("Por favor, no escriba menos de {0} digitos.")
+			},
+			"centroeducativo[telefono]": {
+				maxlength: jQuery.validator.format("Por favor, no escriba mas de {0} digitos."),
+				minlength: jQuery.validator.format("Por favor, no escriba menos de {0} digitos.")
+			}
+		}
+	});
+	
+    //upercase
+    $.each($('.uppercase'), function (key, value) {
+        $(value).keyup(function () {
+			$(this).val($(this).val().toUpperCase());
+      	});
+    });
     
+});
+</script>
+
 {% endblock %}
