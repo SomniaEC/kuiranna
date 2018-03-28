@@ -54,7 +54,7 @@ class Usuario extends BaseUser {
 	protected $estadoActividad;
 	
 	/**
-	 * @ORM\ManyToOne(targetEntity="Junta", cascade={"persist"})
+	 * @ORM\ManyToOne(targetEntity="Junta", cascade={"persist"}, fetch="EAGER")
 	 * @ORM\JoinColumn(name="junta_id", referencedColumnName="id")
 	 */
 	protected $junta;

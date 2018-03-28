@@ -58,7 +58,7 @@ class Junta extends EntidadBase {
 	
 	
 	/**
-	 * @ORM\ManyToOne(targetEntity="Direccion", cascade={"persist", "remove"})
+	 * @ORM\ManyToOne(targetEntity="Direccion", cascade={"persist", "remove"}, fetch="EAGER")
 	 * @ORM\JoinColumn(name="direccion_id", referencedColumnName="id")
 	 */
 	private $direccion;
