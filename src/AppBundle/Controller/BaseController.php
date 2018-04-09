@@ -17,7 +17,12 @@ class BaseController extends Controller {
 		$em = $this->getDoctrine ()->getManager ();
 		$mensaje = $request->query->get ( 'mensaje' );
 		$className = "AppBundle\Entity\\" . ucfirst ( $nombreEntidad );
-		$entidades = $em->getRepository ( 'AppBundle:' . ucfirst ( $nombreEntidad ) )->findAll ();
+		$entidadesJunta = ['centroEducativo', 'denuncia', 'usuario'];
+		if ($request->getSession ()->get ( 'junta' ) != null && in_array($nombreEntidad, $entidadesJunta)) {
+			$entidades = $em->getRepository ( 'AppBundle:' . ucfirst ( $nombreEntidad ) )->findByJunta ($request->getSession ()->get ( 'junta' ));
+		} else {
+			$entidades = $em->getRepository ( 'AppBundle:' . ucfirst ( $nombreEntidad ) )->findAll ();
+		}
 		return $this->render ( 'entidadBase/listarEntidad.html.twig', array_merge ( array (
 				'cabeceras' => $className::getMostrarCabeceras (),
 				'entidades' => $entidades,
@@ -63,7 +68,7 @@ class BaseController extends Controller {
 	
 	/**
 	 * @Route("{nombreEntidad}/guardar", name="guardar_entidad", 
-	 * requirements={"nombreEntidad" : "actor|direccion|centroEducativo|derecho|vulnerado|actorDireccion|vulneradoDireccion|archivo|actividadEconomica|plantilla|operacionDenuncia|auditoria|provincia|canton|parroquia|domicilio|usuario|persona"})
+	 * requirements={"nombreEntidad" : "actor|direccion|derecho|vulnerado|actorDireccion|vulneradoDireccion|archivo|actividadEconomica|plantilla|operacionDenuncia|auditoria|provincia|canton|parroquia|domicilio|usuario|persona"})
 	 */
 	public function guardarEntidadAction(Request $request, $nombreEntidad) {
 		// 1) build the form
@@ -113,6 +118,14 @@ class BaseController extends Controller {
 	}
 	
 	public function getModificarType($nombreEntidad){
+		return $this->getCrearType($nombreEntidad);
+	}
+	
+	public function getCrearTodoType($nombreEntidad){
+		return 'AppBundle\Form\\' . ucfirst ( $nombreEntidad ) . 'TodoType';
+	}
+	
+	public function getModificarTodoType($nombreEntidad){
 		return $this->getCrearType($nombreEntidad);
 	}
 	

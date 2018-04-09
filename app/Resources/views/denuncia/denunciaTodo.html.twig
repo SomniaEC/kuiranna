@@ -1,0 +1,323 @@
+{% extends 'entidadBase/mostrarEntidad.html.twig' %}
+
+{% block form %}
+	<div id="tabs_denuncia" class="denuncia">
+		<ul id="list_tabs_denuncia">
+			<li><a href="#atributos_denuncia">Denuncia</a></li>
+			<li><a id="addVulnerado" onclick="addVulnerado(event); $(this).blur();" href="#vulnerados"><span class="glyphicon glyphicon-plus-sign"></span></a></li>
+			<li><a id="addDenunciante" onclick="addActor(event, 'Denunciante'); $(this).blur();" href="#denunciantes"><span class="glyphicon glyphicon-plus-sign"></a></li>
+			<li><a id="addDenunciado" onclick="addActor(event, 'Denunciado'); $(this).blur();" href="#denunciados"><span class="glyphicon glyphicon-plus-sign"></a></li>
+		</ul>
+    	<div id="atributos_denuncia">
+        {{ form_row(form.creacion, t_options) }}
+        {{ form_row(form.hechos, t_options) }}
+        {{ form_row(form.recursoImpugnacion, t_options) }}
+        {{ form_row(form.tipoMaltrato, t_options) }}
+        {{ form_row(form.ambitoMaltrato, t_options) }}
+        {{ form_row(form.vulneradoresDerechos, t_options) }}
+        {{ form_row(form.derechos, t_options) }}
+        {{ form_row(form.junta, t_options) }}
+        </div>
+        {{ form_row(form.vulneradosDireccion, t_options) }}
+        {{ form_row(form.actoresDireccion, t_options) }}
+        <div id="vulnerados"></div>
+        <div id="denunciados"></div>
+        <div id="denunciantes"></div>
+    </div>
+	
+<script type="text/javascript">
+
+var $provincia_canton = JSON.parse('{{ form.children.vulneradosDireccion.children.0.children.direccion.vars.provincia_canton|raw }}');
+var $canton_parroquia = JSON.parse('{{ form.children.vulneradosDireccion.children.0.children.direccion.vars.canton_parroquia|raw }}');
+
+jQuery(document).ready(function() {
+	//form validation
+	$("form").validate();
+
+	//actor-vulnerado form validation
+	$.each($('.identificacion input, .telefono input, .telefonoContacto input, .edad input, .identificacionContacto input'), function (key, value) {
+		$(this).rules('add', "digits");
+	});
+	$.each($('.telefono input, .telefonoContacto input'), function (key, value) {
+		$(this).rules('add', {
+			minlength: 6,
+			maxlength: 10,
+			messages: {
+				minlength: jQuery.validator.format("Por favor, no escriba menos de {0} digitos."),
+				maxlength: jQuery.validator.format("Por favor, no escriba mas de {0} digitos.")
+			}
+		});
+	});
+
+	//actor form validation
+	$.each($('.actor .identificacionContacto input'), function (key, value) {
+		$(this).rules('add', {
+			minlength: 10,
+			messages: {
+				minlength: jQuery.validator.format("Por favor, no escriba menos de {0} digitos.")
+			}
+		});
+	});
+	
+	//vulnerado form validation
+	$.each($('.vulnerado .identificacion input'), function (key, value) {
+		$(this).rules('add', {
+			minlength: 10,
+			messages: {
+				minlength: jQuery.validator.format("Por favor, no escriba menos de {0} digitos.")
+			}
+		});
+	});
+	
+	//selects direccion
+    $.each($('.direccion'), function (key, value) {
+        bindSelects($(value).find('.provincia select').first(), $(value).find('.canton select').first(), $provincia_canton, 'codigo');
+        bindSelects($(value).find('.canton select').first(), $(value).find('.parroquia select').first(), $canton_parroquia, 'codigo');
+    });
+
+    //selects actor
+	$.each($('.actor_direccion'), function (key, value) {
+    	actorSelect($(value));
+    });
+
+    //upercase
+	$.each($('.uppercase'), function (key, value) {
+		$(value).keyup(function () {
+			$(this).val($(this).val().toUpperCase());
+		});
+	});
+	
+	//tabs denuncia
+	var tabs_denuncia = $("#tabs_denuncia").tabs();
+
+	//tabs vulnerados
+	var vulnerados_index = 0;
+	var $vulneradoHolder = $('#denuncia_vulneradosDireccion');
+	$vulneradoHolder.children().each(function() {
+		addToTabs(this, 'Vulnerado', vulnerados_index);
+		vulnerados_index++;
+	});
+	addIndexToHolder($vulneradoHolder);
+	
+	//tabs actor
+	var actores_index = 0;
+	var denunciante_index = 0;
+	var denunciado_index = 0;
+	var $actoresHolder = $('#denuncia_actoresDireccion');
+	$actoresHolder.children().each(function() {
+		var $actor_type = $(this).find('.rol select').val();
+		if($actor_type == 'Denunciante') {
+			addToTabs(this, $actor_type, actores_index, denunciante_index);
+			denunciante_index++;
+		} else {
+			addToTabs(this, $actor_type, actores_index, denunciado_index);
+			denunciado_index++;
+		}
+		actores_index++;
+	});
+	addIndexToHolder($actoresHolder);
+	$actoresHolder.data('denunciante_index', denunciante_index);
+	$actoresHolder.data('denunciado_index', denunciado_index);
+
+	//edad
+	$.each($('.fechaNacimiento input'), function (key, value) {
+		$(value).change(function () {
+			edadInput = $(this).parents('.actor').find('.edad input')
+	        edadInput.val(getAge($(this).val()));
+			edadInput.valid();
+		});
+	});
+});
+
+function addToTabs($elementHolder, $option, $index, $tab_index) {
+	if($option == 'Vulnerado') {
+		$id = 'denuncia_vulneradosDireccion_' + $index;
+		$link = $('');
+		if($index != 0) {
+			$link = $('<a class="delete_vulnerado delete_btn"><span class="glyphicon glyphicon-trash"></span></a>');
+		}
+		$tab = $('<a class="tab_vulnerado '+ $id +'" href="#' + $id + '">Vulnerado ' + ($index + 1) + '</a>');
+		$li = $('<li></li>').append($tab).append($link);
+		$('#addVulnerado').parent().before($li);
+	} else if ($option == 'Denunciante') {
+		$id = 'denuncia_actoresDireccion_' + $index;
+		$link = $('');
+		if($index > 1) {
+			$link = $('<a class="delete_actor delete_denunciante delete_btn"><span class="glyphicon glyphicon-trash"></a>');
+		}
+		$tab = $('<a class="tab_actor '+ $id +'" href="#' + $id + '">Denunciante ' + ($tab_index + 1) + '</a>');
+		$li = $('<li></li>').append($tab).append($link);
+		$('#addDenunciante').parent().before($li);
+	} else if ($option == 'Denunciado') {
+		$id = 'denuncia_actoresDireccion_' + $index;
+		$link = $('');
+		if($index > 1) {
+			$link = $('<a class="delete_actor delete_denunciado delete_btn"><span class="glyphicon glyphicon-trash"></a>');
+		}
+		$tab = $('<a class="tab_actor '+ $id +'" href="#' + $id + '">Denunciado ' + ($tab_index + 1) + '</a>');
+		$li = $('<li></li>').append($tab).append($link);
+		$('#addDenunciado').parent().before($li);
+	}
+	if($index != 0) {
+		addRemoveLink($link, $li, $('#' + $id));
+	}
+	$("#tabs_denuncia").tabs( "refresh" );
+	return $id;
+}
+
+function addIndexToHolder($elementHolder) {
+	var $startIndex = $elementHolder.children().length;
+	$elementHolder.data('index', $startIndex);
+}
+
+function addVulnerado(e) {
+	e.preventDefault();
+	$newElement = addNewElementToForm($('#denuncia_vulneradosDireccion'));
+	var index = $('#denuncia_vulneradosDireccion').data('index') - 1;
+	$id = addToTabs($newElement, 'Vulnerado', index);
+	var index = $('#tabs_denuncia a[href="#' + $id + '"]').parent().index();
+	$("#tabs_denuncia").tabs("option", "active", index);
+
+	//direccion selects
+	$.each($newElement.find('.direccion'), function (key, value) {
+		bindSelects($(value).find('.provincia select').first(), $(value).find('.canton select').first(), $provincia_canton, 'codigo');
+		bindSelects($(value).find('.canton select').first(), $(value).find('.parroquia select').first(), $canton_parroquia, 'codigo');
+	});
+
+	//validation
+	$.each($newElement.find('.identificacion input, .telefono input'), function (key, value) {
+		$(this).rules('add', "digits");
+	});
+	$.each($newElement.find('.vulnerado .identificacion input'), function (key, value) {
+		$(this).rules('add', {
+			minlength: 10,
+			messages: {
+				minlength: jQuery.validator.format("Por favor, no escriba menos de {0} digitos.")
+			}
+		});
+	});
+	$.each($newElement.find('.vulnerado .telefono input'), function (key, value) {
+		$(this).rules('add', {
+			minlength: 6,
+			maxlength: 10,
+			messages: {
+				minlength: jQuery.validator.format("Por favor, no escriba menos de {0} digitos."),
+				maxlength: jQuery.validator.format("Por favor, no escriba mas de {0} digitos.")
+				
+			}
+		});
+	});
+}
+
+function addActor(e, $option) {
+	e.preventDefault();
+	$newElement = addNewDenunElementToForm($('#denuncia_actoresDireccion'), $option);
+	var index = $('#denuncia_actoresDireccion').data('index') - 1;
+	var tab_index = 0;
+	if($option == 'Denunciante') {
+		tab_index = $('#denuncia_actoresDireccion').data('denunciante_index') - 1;
+	} else {
+		tab_index = $('#denuncia_actoresDireccion').data('denunciado_index') - 1;
+	}
+	$id = addToTabs($newElement, $option, index, tab_index);
+	var index = $('#tabs_denuncia a[href="#' + $id + '"]').parent().index();
+	$("#tabs_denuncia").tabs("option", "active", index);
+
+	//direccion selects
+	$.each($newElement.find('.direccion'), function (key, value) {
+		bindSelects($(value).find('.provincia select').first(), $(value).find('.canton select').first(), $provincia_canton, 'codigo');
+		bindSelects($(value).find('.canton select').first(), $(value).find('.parroquia select').first(), $canton_parroquia, 'codigo');
+	});
+
+	//edad
+	$.each($newElement.find('.fechaNacimiento input'), function (key, value) {
+		$(value).change(function () {
+			edadInput = $(this).parents('.actor').find('.edad input')
+	        edadInput.val(getAge($(this).val()));
+			edadInput.valid();
+		});
+	});
+
+	//validation
+	$.each($newElement.find('.identificacion input, .telefono input, .telefonoContacto input, .edad input, .identificacionContacto input'), function (key, value) {
+		$(this).rules('add', "digits");
+	});
+	$.each($newElement.find('.telefono input, .telefonoContacto input'), function (key, value) {
+		$(this).rules('add', {
+			minlength: 6,
+			maxlength: 10,
+			messages: {
+				minlength: jQuery.validator.format("Por favor, no escriba menos de {0} digitos."),
+				maxlength: jQuery.validator.format("Por favor, no escriba mas de {0} digitos.")
+			}
+		});
+	});
+	$.each($newElement.find('.actor .identificacionContacto input'), function (key, value) {
+		$(this).rules('add', {
+			minlength: 10,
+			messages: {
+				minlength: jQuery.validator.format("Por favor, no escriba menos de {0} digitos.")
+			}
+		});
+	});
+}
+	
+function addRemoveLink($link, $li, $elementHolder) {
+	$link.on('click', function(e) {
+		e.preventDefault();
+		$elementHolder.parent().remove();
+		$li.remove();
+		$("#tabs_denuncia").tabs( "refresh" );
+    });
+}
+
+function addNewElementToForm($collectionHolder) {
+    // Get the data-prototype explained earlier
+    var prototype = $collectionHolder.data('prototype');
+    // get the new index
+    var index = $collectionHolder.data('index');
+
+	// Replace '__name__' in the prototype's HTML to
+	// instead be a number based on how many items we have
+	var newForm = prototype.replace(/__name__label__/g, index);
+	newForm = newForm.replace(/__name__/g, index);
+
+	// increase the index with one for the next item
+	$collectionHolder.data('index', index + 1);
+
+	$element = $(newForm);
+	$collectionHolder.append($element);
+	return $element;
+}
+
+function addNewDenunElementToForm($collectionHolder, $value) {
+    // Get the data-prototype explained earlier
+    var prototype = $collectionHolder.data('prototype');
+    // get the new index
+    var index = $collectionHolder.data('index');
+
+	// Replace '__name__' in the prototype's HTML to
+	// instead be a number based on how many items we have
+	var newForm = prototype.replace(/__name__label__/g, index);
+	newForm = newForm.replace(/__name__/g, index);
+
+	// increase the index with one for the next item
+	$collectionHolder.data('index', index + 1);
+	if($value == 'Denunciante') {
+		$collectionHolder.data('denunciante_index', $collectionHolder.data('denunciante_index') + 1);
+	} else {
+		$collectionHolder.data('denunciado_index', $collectionHolder.data('denunciado_index') + 1);
+	}
+
+	// Display the form in the page in an li, before the "Add a tag" link li
+	var $element = $(newForm)
+	$element.find('.rol select').val($value);
+	$collectionHolder.append($element);
+
+	//selects actor
+    actorSelect($element);
+	return $element;
+}
+</script>
+	
+{% endblock %}

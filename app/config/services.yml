@@ -32,7 +32,7 @@ services:
             - { name: form.type }
             
     app.form.type.centroeducativo:
-        class: AppBundle\Form\CentroEducativoType
+        class: AppBundle\Form\CentroEducativoTodoType
         arguments: ['@doctrine.orm.entity_manager']
         tags:
             - { name: form.type }

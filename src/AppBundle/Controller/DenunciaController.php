@@ -54,7 +54,8 @@ class DenunciaController extends Controller {
 	 * @Route("denuncia/guardar", name="guardar_denuncia")
 	 */
 	public function crearDenunciaAction(Request $request) {
-		// 1) build the form
+		$em = $this->getDoctrine ()->getManager ();
+		$junta = $request->getSession ()->get ( 'junta' );
 		$idEntidad = $request->query->get ( 'id' );
 		if ($idEntidad == null) {
 			$denuncia = new Denuncia ();
@@ -68,18 +69,24 @@ class DenunciaController extends Controller {
 			$vulnerado = new VulneradoDireccion ();
 			$denuncia->addVulneradosDireccion ( $vulnerado );
 			$mensaje = "Denuncia creada correctamente";
+			
+			// si usuario tiene ligada una junta
+			if ($junta != null) {
+				$idJunta = $request->getSession ()->get ( 'junta' )->getId ();
+				$entidad = $em->getRepository ( 'AppBundle:Junta' )->findOneById ( $idJunta );
+				$denuncia->setJunta ( $entidad );
+			}
 		} else {
-			$em = $this->getDoctrine ()->getManager ();
 			$denuncia = $em->getRepository ( 'AppBundle:Denuncia' )->find ( $idEntidad );
 			$mensaje = "Denuncia modificada correctamente";
 		}
 		
-		$originalPDireccions = new ArrayCollection ();
+		$originalActores = new ArrayCollection ();
 		$originalVulnerados = new ArrayCollection ();
 		
 		// Create an ArrayCollection of the current pDireccions objects in the database
-		foreach ( $denuncia->getActoresDireccion () as $pDireccion ) {
-			$originalPDireccions->add ( $pDireccion );
+		foreach ( $denuncia->getActoresDireccion () as $actor ) {
+			$originalActores->add ( $actor );
 		}
 		
 		// Create an ArrayCollection of the current vulnerados objects in the database
@@ -87,7 +94,11 @@ class DenunciaController extends Controller {
 			$originalVulnerados->add ( $vulnerado );
 		}
 		
-		$form = $this->createForm ( 'AppBundle\Form\\DenunciaType', $denuncia );
+		if($junta != null) {
+			$form = $this->createForm ( 'AppBundle\Form\\DenunciaType', $denuncia );
+		} else {
+			$form = $this->createForm ( 'AppBundle\Form\\DenunciaTodoType', $denuncia );
+		}
 		
 		// 2) handle the submit (will only happen on POST)
 		$form->handleRequest ( $request );
@@ -95,17 +106,17 @@ class DenunciaController extends Controller {
 			
 			// 4) save the User!
 			$em = $this->getDoctrine ()->getManager ();
-			foreach ( $denuncia->getActoresDireccion () as $pDireccion ) {
-				$pDireccion->setDenuncia ( $denuncia );
-				$pDireccion->setJunta ( $denuncia->getJunta () );
+			foreach ( $denuncia->getActoresDireccion () as $actor ) {
+				$actor->setDenuncia ( $denuncia );
+				$actor->setJunta ( $denuncia->getJunta () );
 			}
 			foreach ( $denuncia->getVulneradosDireccion () as $vulnerado ) {
 				$vulnerado->setDenuncia ( $denuncia );
 				$vulnerado->setJunta ( $denuncia->getJunta () );
 			}
-			foreach ( $originalPDireccions as $pDireccion ) {
-				if (false === $denuncia->getActoresDireccion ()->contains ( $pDireccion )) {
-					$em->remove ( $pDireccion );
+			foreach ( $originalActores as $actor ) {
+				if (false === $denuncia->getActoresDireccion ()->contains ( $actor )) {
+					$em->remove ( $actor );
 				}
 			}
 			foreach ( $originalVulnerados as $vulnerado ) {
@@ -124,7 +135,12 @@ class DenunciaController extends Controller {
 			) );
 		}
 		
-		return $this->render ( 'denuncia/denuncia.html.twig', array (
+		if($junta != null) {
+			$view = 'denuncia/denuncia.html.twig';
+		} else {
+			$view = 'denuncia/denunciaTodo.html.twig';
+		}
+		return $this->render ( $view, array (
 				'form' => $form->createView (),
 				'nombreEntidad' => 'denuncia',
 				'operacion' => ConstantesDeOperaciones::CREAR 

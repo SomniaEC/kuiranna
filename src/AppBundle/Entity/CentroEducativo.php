@@ -40,7 +40,7 @@ class CentroEducativo extends EntidadBase {
 	private $telefono;
 	
 	/**
-	 * @ORM\ManyToOne(targetEntity="Junta", cascade={"persist", "remove"})
+	 * @ORM\ManyToOne(targetEntity="Junta", cascade={"persist"})
 	 * @ORM\JoinColumn(name="junta_id", referencedColumnName="id")
 	 */
 	private $junta;
