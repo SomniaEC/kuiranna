@@ -5,6 +5,7 @@
     {{ form_row(form.identificacion, t_options) }}
     {{ form_row(form.nombre, t_options) }}
     {{ form_row(form.telefono, t_options) }}
+    {{ form_row(form.junta, t_options) }}
     {{ form_row(form.direccion, t_options) }}
 
 <script type="text/javascript">
@@ -17,6 +18,12 @@ jQuery(document).ready(function() {
         bindSelects($(value).find('.canton select').first(), $(value).find('.parroquia select').first(), $canton_parroquia, 'codigo');
     });
 
+    //select junta
+    var $junta_direccion = JSON.parse('{{ form.vars.junta_direccion|raw }}');
+    if($junta_direccion.length !== 0) {
+        juntaCentroSelect($('.junta select'), $('.direccion'), $junta_direccion);
+    }
+	
 	$("form").validate({
 		rules: {
 			"centroeducativo[identificacion]": {

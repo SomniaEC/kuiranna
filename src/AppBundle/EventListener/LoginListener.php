@@ -58,7 +58,9 @@ class LoginListener implements EventSubscriberInterface
 
         // set session attributes
         $session->set('user_rol', $user->getRol());
-        $session->set('junta', $user->getJunta());
+        if($user->getRol() != 'ROLE_SUPER_ADMIN') {
+        	$session->set('junta', $user->getJunta());
+        }
     }
 }
 ?>
