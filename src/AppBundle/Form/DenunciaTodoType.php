@@ -11,6 +11,8 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use AppBundle\Entity\Junta;
 
 class DenunciaTodoType extends AbstractType {
 	/**
@@ -35,7 +37,10 @@ class DenunciaTodoType extends AbstractType {
 				'entry_type' => VulneradoDireccionTodoType::class,
 				'allow_add' => true,
 				'allow_delete' => true	
-		) )->add ( 'junta');
+		) )->add ( 'junta', EntityType::class, array (
+				'class' => Junta::class,
+				'required' => true
+		) );
 		$builder->add ( 'actoresDireccion', CollectionType::class, array (
 				'entry_type' => ActorDireccionTodoType::class,
 				'allow_add' => true,
