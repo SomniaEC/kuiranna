@@ -14,6 +14,7 @@ use Symfony\Component\HttpFoundation\Request;
 use AppBundle\Entity\Derecho;
 
 class DenunciaController extends Controller {
+	
 	/**
 	 * @Route("/denuncia/prueba", name="prueba_denuncia")
 	 */
@@ -51,28 +52,87 @@ class DenunciaController extends Controller {
 	}
 	
 	/**
-	 * @Route("denuncia/guardar", name="guardar_denuncia")
+	 * @Route("denuncia/crear", name="crear_denuncia")
 	 */
 	public function crearDenunciaAction(Request $request) {
 		// 1) build the form
-		$idEntidad = $request->query->get ( 'id' );
-		if ($idEntidad == null) {
-			$denuncia = new Denuncia ();
-			$denuncia->setCreacion ( new \DateTime ( date ( "d-m-Y" ) ) );
-			$denunciante = new ActorDireccion ();
-			$denunciante->setRol ( ConstantesDeRolActor::Denunciante );
-			$denuncia->addActoresDireccion ( $denunciante );
-			$denunciado = new ActorDireccion ();
-			$denunciado->setRol ( ConstantesDeRolActor::Denunciado );
-			$denuncia->addActoresDireccion ( $denunciado );
-			$vulnerado = new VulneradoDireccion ();
-			$denuncia->addVulneradosDireccion ( $vulnerado );
-			$mensaje = "Denuncia creada correctamente";
-		} else {
-			$em = $this->getDoctrine ()->getManager ();
-			$denuncia = $em->getRepository ( 'AppBundle:Denuncia' )->find ( $idEntidad );
-			$mensaje = "Denuncia modificada correctamente";
+		$denuncia = new Denuncia ();
+		$denuncia->setCreacion ( new \DateTime ( date ( "d-m-Y" ) ) );
+		$denunciante = new ActorDireccion ();
+		$denunciante->setRol ( ConstantesDeRolActor::Denunciante );
+		$denuncia->addActoresDireccion ( $denunciante );
+		$denunciado = new ActorDireccion ();
+		$denunciado->setRol ( ConstantesDeRolActor::Denunciado );
+		$denuncia->addActoresDireccion ( $denunciado );
+		$vulnerado = new VulneradoDireccion ();
+		$denuncia->addVulneradosDireccion ( $vulnerado );
+		$mensaje = "Denuncia creada correctamente";
+		
+		$originalPDireccions = new ArrayCollection ();
+		$originalVulnerados = new ArrayCollection ();
+		
+		// Create an ArrayCollection of the current pDireccions objects in the database
+		foreach ( $denuncia->getActoresDireccion () as $pDireccion ) {
+			$originalPDireccions->add ( $pDireccion );
 		}
+		
+		// Create an ArrayCollection of the current vulnerados objects in the database
+		foreach ( $denuncia->getVulneradosDireccion () as $vulnerado ) {
+			$originalVulnerados->add ( $vulnerado );
+		}
+		
+		$form = $this->createForm ( 'AppBundle\Form\\DenunciaType', $denuncia );
+		
+		// 2) handle the submit (will only happen on POST)
+		$form->handleRequest ( $request );
+		if ($form->isSubmitted () && $form->isValid ()) {
+			
+			// 4) save the User!
+			$em = $this->getDoctrine ()->getManager ();
+			foreach ( $denuncia->getActoresDireccion () as $pDireccion ) {
+				$pDireccion->setDenuncia ( $denuncia );
+				$pDireccion->setJunta ( $denuncia->getJunta () );
+			}
+			foreach ( $denuncia->getVulneradosDireccion () as $vulnerado ) {
+				$vulnerado->setDenuncia ( $denuncia );
+				$vulnerado->setJunta ( $denuncia->getJunta () );
+			}
+			foreach ( $originalPDireccions as $pDireccion ) {
+				if (false === $denuncia->getActoresDireccion ()->contains ( $pDireccion )) {
+					$em->remove ( $pDireccion );
+				}
+			}
+			foreach ( $originalVulnerados as $vulnerado ) {
+				if (false === $denuncia->getVulneradosDireccion ()->contains ( $vulnerado )) {
+					$em->remove ( $vulnerado );
+				}
+			}
+			$em->persist ( $denuncia );
+			$em->flush ();
+			
+			// ... do any other work - like sending them an email, etc
+			// maybe set a "flash" success message for the user
+			return $this->redirectToRoute ( 'listar_entidad', array (
+					"nombreEntidad" => "denuncia",
+					"mensaje" => $mensaje 
+			) );
+		}
+		
+		return $this->render ( 'denuncia/denuncia.html.twig', array (
+				'form' => $form->createView (),
+				'nombreEntidad' => 'denuncia',
+				'operacion' => ConstantesDeOperaciones::CREAR 
+		) );
+	}
+	
+	/**
+	 * @Route("denuncia/modificar", name="modificar_denuncia")
+	 */
+	public function modificarDenunciaAction(Request $request) {
+		// 1) build the form
+		$em = $this->getDoctrine ()->getManager ();
+		$denuncia = $em->getRepository ( 'AppBundle:Denuncia' )->find ( $idEntidad );
+		$mensaje = "Denuncia modificada correctamente";
 		
 		$originalPDireccions = new ArrayCollection ();
 		$originalVulnerados = new ArrayCollection ();

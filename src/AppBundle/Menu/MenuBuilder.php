@@ -46,6 +46,12 @@ class MenuBuilder
                 'nombreEntidad' => 'derecho'
             )
         ));
+        $menu['Catálogos']->addChild('Actividad Económica', array(
+            'route' => 'listar_entidad',
+            'routeParameters' => array(
+                'nombreEntidad' => 'actividadEconomica'
+            )
+        ));
         
         // Denuncia menu
         $menu->addChild('Denuncia', array(
@@ -53,9 +59,9 @@ class MenuBuilder
         ));
         $menu['Denuncia']->setAttribute('class', 'dropdown');
         $menu['Denuncia']->addChild('Crear', array(
-            'route' => 'guardar_denuncia'
+            'route' => 'crear_denuncia'
         ));
-        $menu['Denuncia']->addChild('Gestionar', array(
+        $menu['Denuncia']->addChild('Listar', array(
             'route' => 'listar_entidad',
             'routeParameters' => array(
                 'nombreEntidad' => 'denuncia'
@@ -150,8 +156,18 @@ class MenuBuilder
             'uri' => '#'
         ));
         
-        // Logout
-        $menu->addChild('Logout', array(
+        // Mi usuario
+        $menu->addChild('Mi usuario', array(
+            'uri' => '#'
+        ));
+        $menu['Mi usuario']->setAttribute('class', 'dropdown');
+        $menu['Mi usuario']->addChild('Perfil', array(
+            'route' => 'fos_user_profile_show'
+        ));
+        $menu['Mi usuario']->addChild('Cambiar contraseña', array(
+            'route' => 'fos_user_change_password'
+        ));
+        $menu['Mi usuario']->addChild('Logout', array(
             'route' => 'fos_user_security_logout'
         ));
         
@@ -187,6 +203,12 @@ class MenuBuilder
                 'nombreEntidad' => 'derecho'
             )
         ));
+        $menu['Catálogos']->addChild('Actividad Económica', array(
+            'route' => 'listar_entidad',
+            'routeParameters' => array(
+                'nombreEntidad' => 'actividadEconomica'
+            )
+        ));
         
         // Denuncia menu
         $menu->addChild('Denuncia', array(
@@ -194,9 +216,9 @@ class MenuBuilder
         ));
         $menu['Denuncia']->setAttribute('class', 'dropdown');
         $menu['Denuncia']->addChild('Crear', array(
-            'route' => 'guardar_denuncia'
+            'route' => 'crear_denuncia'
         ));
-        $menu['Denuncia']->addChild('Gestionar', array(
+        $menu['Denuncia']->addChild('Listar', array(
             'route' => 'listar_entidad',
             'routeParameters' => array(
                 'nombreEntidad' => 'denuncia'
@@ -279,8 +301,18 @@ class MenuBuilder
             'uri' => '#'
         ));
         
-        // Logout
-        $menu->addChild('Logout', array(
+        // Mi usuario
+        $menu->addChild('Mi usuario', array(
+            'uri' => '#'
+        ));
+        $menu['Mi usuario']->setAttribute('class', 'dropdown');
+        $menu['Mi usuario']->addChild('Perfil', array(
+            'route' => 'fos_user_profile_show'
+        ));
+        $menu['Mi usuario']->addChild('Cambiar contraseña', array(
+            'route' => 'fos_user_change_password'
+        ));
+        $menu['Mi usuario']->addChild('Logout', array(
             'route' => 'fos_user_security_logout'
         ));
         
@@ -329,6 +361,12 @@ class MenuBuilder
                 'nombreEntidad' => 'derecho'
             )
         ));
+        $menu['Catálogos']->addChild('Actividad Económica', array(
+            'route' => 'listar_entidad',
+            'routeParameters' => array(
+                'nombreEntidad' => 'actividadEconomica'
+            )
+        ));
         
         // Denuncia menu
         $menu->addChild('Denuncia', array(
@@ -336,9 +374,9 @@ class MenuBuilder
         ));
         $menu['Denuncia']->setAttribute('class', 'dropdown');
         $menu['Denuncia']->addChild('Crear', array(
-            'route' => 'guardar_denuncia'
+            'route' => 'crear_denuncia'
         ));
-        $menu['Denuncia']->addChild('Gestionar', array(
+        $menu['Denuncia']->addChild('Listar', array(
             'route' => 'listar_entidad',
             'routeParameters' => array(
                 'nombreEntidad' => 'denuncia'
@@ -401,8 +439,18 @@ class MenuBuilder
             'uri' => '#'
         ));
         
-        // Logout
-        $menu->addChild('Logout', array(
+        // Mi usuario
+        $menu->addChild('Mi usuario', array(
+            'uri' => '#'
+        ));
+        $menu['Mi usuario']->setAttribute('class', 'dropdown');
+        $menu['Mi usuario']->addChild('Perfil', array(
+            'route' => 'fos_user_profile_show'
+        ));
+        $menu['Mi usuario']->addChild('Cambiar contraseña', array(
+            'route' => 'fos_user_change_password'
+        ));
+        $menu['Mi usuario']->addChild('Logout', array(
             'route' => 'fos_user_security_logout'
         ));
         
@@ -416,6 +464,126 @@ class MenuBuilder
 
     public function createPsicologoMenu($menu)
     {
-        return $this->createSecretarioMenu($menu);
+        $menu = $this->factory->createItem('root');
+        $menu->setChildrenAttributes(array(
+            'class' => 'topnav'
+        ));
+        
+        // Inicio menu
+        $menu->addChild('Inicio', array(
+            'route' => 'homepage'
+        ));
+        
+        // Catalogo menu
+        $menu->addChild('Catálogos', array(
+            'uri' => '#'
+        ));
+        $menu['Catálogos']->setAttribute('class', 'dropdown');
+        $menu['Catálogos']->addChild('Centros Educativos', array(
+            'route' => 'listar_entidad',
+            'routeParameters' => array(
+                'nombreEntidad' => 'centroEducativo'
+            )
+        ));
+        $menu['Catálogos']->addChild('Derechos Vulnerados', array(
+            'route' => 'listar_entidad',
+            'routeParameters' => array(
+                'nombreEntidad' => 'derecho'
+            )
+        ));
+        $menu['Catálogos']->addChild('Actividad Económica', array(
+            'route' => 'listar_entidad',
+            'routeParameters' => array(
+                'nombreEntidad' => 'actividadEconomica'
+            )
+        ));
+        
+        // Denuncia menu
+        $menu->addChild('Denuncia', array(
+            'uri' => '#'
+        ));
+        $menu['Denuncia']->setAttribute('class', 'dropdown');
+        $menu['Denuncia']->addChild('Crear', array(
+            'route' => 'crear_denuncia'
+        ));
+        $menu['Denuncia']->addChild('Listar', array(
+            'route' => 'listar_entidad',
+            'routeParameters' => array(
+                'nombreEntidad' => 'denuncia'
+            )
+        ));
+        $menu['Denuncia']->addChild('Búsqueda avanzada', array(
+            'uri' => '#'
+        ));
+        
+        // Denuncia menu
+        $menu->addChild('Administración', array(
+            'uri' => '#'
+        ));
+        
+        // Administracion menu
+        $menu['Administración']->setAttribute('class', 'dropdown');
+        $menu['Administración']->addChild('Junta', array(
+            'route' => 'listar_entidad',
+            'routeParameters' => array(
+                'nombreEntidad' => 'junta'
+            )
+        ));
+        
+        // Localidad Menu
+        $menuLocalidad = $menu['Administración']->addChild('Localidad', array(
+            'uri' => '#',
+            'class' => 'dropdown'
+        ));
+        $menuLocalidad->addChild('Provincia', array(
+            'route' => 'listar_entidad',
+            'routeParameters' => array(
+                'nombreEntidad' => 'provincia'
+            )
+        ));
+        $menuLocalidad->addChild('Cantón', array(
+            'route' => 'listar_entidad',
+            'routeParameters' => array(
+                'nombreEntidad' => 'canton'
+            )
+        ));
+        $menuLocalidad->addChild('Parroquia', array(
+            'route' => 'listar_entidad',
+            'routeParameters' => array(
+                'nombreEntidad' => 'parroquia'
+            )
+        ));
+        
+        // Ayuda menu
+        $menu->addChild('Ayuda', array(
+            'uri' => '#'
+        ));
+        $menu['Ayuda']->setAttribute('class', 'dropdown');
+        $menu['Ayuda']->addChild('Temas de ayuda', array(
+            'uri' => '#'
+        ));
+        $menu['Ayuda']->addChild('Sugerencias', array(
+            'uri' => '#'
+        ));
+        $menu['Ayuda']->addChild('Acerca de', array(
+            'uri' => '#'
+        ));
+        
+        // Mi usuario
+        $menu->addChild('Mi usuario', array(
+            'uri' => '#'
+        ));
+        $menu['Mi usuario']->setAttribute('class', 'dropdown');
+        $menu['Mi usuario']->addChild('Perfil', array(
+            'route' => 'fos_user_profile_show'
+        ));
+        $menu['Mi usuario']->addChild('Cambiar contraseña', array(
+            'route' => 'fos_user_change_password'
+        ));
+        $menu['Mi usuario']->addChild('Logout', array(
+            'route' => 'fos_user_security_logout'
+        ));
+        
+        return $menu;
     }
 }

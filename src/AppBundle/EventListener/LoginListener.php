@@ -48,9 +48,19 @@ class LoginListener implements EventSubscriberInterface
 
     public function onSecurityInteractiveLogin(InteractiveLoginEvent $event)
     {
+    	//get authenticated user
         $token = $event->getAuthenticationToken();
         $user=$token->getUser();
-        $token->setAttribute('junta', $user->getJunta());
+        
+        //get session
+        $request = $event->getRequest();
+        $session = $request->getSession();
+
+        // set session attributes
+        $session->set('user_rol', $user->getRol());
+        if($user->getRol() != 'ROLE_SUPER_ADMIN') {
+        	$session->set('junta', $user->getJunta());
+        }
     }
 }
 ?>
