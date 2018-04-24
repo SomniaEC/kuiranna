@@ -561,3 +561,9 @@ a.ui-button:active,
 	-webkit-box-shadow: 0px 0px 5px #666666;
 	box-shadow: 0px 0px 5px #666666;
 }
+
+/* Custom */
+.ui-tabs .ui-tabs-nav li.error {
+    border: 1px solid red;
+    background: #fb321d73;
+}

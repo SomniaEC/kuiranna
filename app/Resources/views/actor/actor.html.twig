@@ -7,11 +7,6 @@
         {{ form_row(form.nombres, t_options) }}
         {{ form_row(form.telefono, t_options) }}
         {{ form_row(form.email, t_options) }}
-        {{ form_row(form.identificacionContacto, t_options) }}
-        {{ form_row(form.nombresContacto, t_options) }}
-        {{ form_row(form.cargoContacto, t_options) }}
-        {{ form_row(form.emailContacto, t_options) }}
-        {{ form_row(form.telefonoContacto, t_options) }}
         {{ form_row(form.fechaNacimiento, t_options) }}
         {{ form_row(form.edad, t_options) }}
         {{ form_row(form.sexo, t_options) }}
@@ -23,5 +18,73 @@
         {{ form_row(form.instruccion, t_options) }}
         {{ form_row(form.capacidadEspecial, t_options) }}
         {{ form_row(form.relacion, t_options) }}
+        {{ form_row(form.identificacionContacto, t_options) }}
+        {{ form_row(form.nombresContacto, t_options) }}
+        {{ form_row(form.cargoContacto, t_options) }}
+        {{ form_row(form.emailContacto, t_options) }}
+        {{ form_row(form.telefonoContacto, t_options) }}
+
+<script type="text/javascript">
+jQuery(document).ready(function() {
+	//form validation
+	$("form").validate({
+		rules: {
+			"actor[identificacion]": {
+				digits: true
+			},
+			"actor[telefono]": {
+				digits: true,
+				minlength: 6,
+				maxlength: 10
+			},
+			"actor[telefonoContacto]": {
+				digits: true,
+				minlength: 6,
+				maxlength: 10
+			},
+			"actor[edad]": {
+				digits: true,
+				maxlength: 3
+			},
+			"actor[identificacionContacto]": {
+				digits: true,
+				minlength: 10
+			}
+		},
+		messages: {
+			"actor[telefono]": {
+				maxlength: jQuery.validator.format("Por favor, no escriba mas de {0} digitos."),
+				minlength: jQuery.validator.format("Por favor, no escriba menos de {0} digitos.")
+			},
+			"actor[telefonoContacto]": {
+				maxlength: jQuery.validator.format("Por favor, no escriba mas de {0} digitos."),
+				minlength: jQuery.validator.format("Por favor, no escriba menos de {0} digitos.")
+			},
+			"actor[edad]": {
+				maxlength: jQuery.validator.format("Por favor, no escriba mas de {0} digitos.")
+			},
+			"actor[identificacionContacto]": {
+				minlength: jQuery.validator.format("Por favor, no escriba menos de {0} digitos.")
+			},
+			
+		}
+	});
+	
+    //selects actor
+	actorSelect($('.formulario'));
+
+    //upercase
+    $.each($('.uppercase'), function (key, value) {
+        $(value).keyup(function () {
+			$(this).val($(this).val().toUpperCase());
+      	});
+    });
+
+    //edad
+    $('#actor_fechaNacimiento').change(function () {
+        $('#actor_edad').val(getAge($(this).val()));
+	});
+});
+</script>
 
 {% endblock %}

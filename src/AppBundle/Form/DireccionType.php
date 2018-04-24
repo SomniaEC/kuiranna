@@ -11,12 +11,14 @@ use Symfony\Component\Form\FormView;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 
 class DireccionType extends AbstractType {
 	private $em;
 	private $provincias;
 	private $cantones;
 	private $parroquias;
+	
 	public function __construct(EntityManager $em) {
 		$this->em = $em;
 	}
@@ -61,9 +63,10 @@ class DireccionType extends AbstractType {
 						'class' => 'select_direccion_parroquia' 
 				) 
 		) )->add ( 'sector', TextType::class, array (
-				'required' => false 
+				'required' => false,
+				'attr' => array('class'=>'uppercase')
 		) )->add ( 'zona', ChoiceType::class, array (
-				'choices' => ConstantesDeZona::getConstants () 
+				'choices' => array_flip ( ConstantesDeZona::getConstants () )
 		) )->add ( 'callePrincipal', TextType::class, array (
 				'required' => false 
 		) )->add ( 'calleSecundaria', TextType::class, array (
@@ -72,6 +75,9 @@ class DireccionType extends AbstractType {
 				'required' => false 
 		) )->add ( 'referencia', TextType::class, array (
 				'required' => false 
+		) )->add('hiddentoken', HiddenType::class, array(
+				'data' => json_encode ( $this->cantones ['prov_canton'] ),
+				'mapped' => false,
 		) );
 	}
 	public function getProvincias() {
@@ -160,7 +166,8 @@ class DireccionType extends AbstractType {
 	 */
 	public function configureOptions(OptionsResolver $resolver) {
 		$resolver->setDefaults ( array (
-				'data_class' => 'AppBundle\Entity\Direccion' 
+				'data_class' => 'AppBundle\Entity\Direccion',
+				'var_provincia_canton' => array()
 		) );
 	}
 	

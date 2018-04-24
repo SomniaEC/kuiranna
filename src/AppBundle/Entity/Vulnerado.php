@@ -12,7 +12,16 @@ use Symfony\Component\Validator\Constraints as Assert;
 class Vulnerado extends EntidadBase {
 	
 	/**
-	 * @ORM\Column(type="string", length=13, nullable=true)
+	 * @ORM\Column(type="string", length=10, nullable=true)
+     * @Assert\Regex(
+     *     pattern="/^[0-9]*$/",
+     *     message="Cedula debe contener numeros solamente"
+     * )
+     * @Assert\Length(
+     *      min = 10,
+     *      max = 10,
+     *      exactMessage = "Cedula debe tener {{ limit }} digitos"
+     * )
 	 */
 	private $identificacion;
 	
@@ -68,6 +77,16 @@ class Vulnerado extends EntidadBase {
 	
 	/**
 	 * @ORM\Column(type="string", length=100, nullable=true)
+     * @Assert\Regex(
+     *     pattern="/^[0-9]*$/",
+     *     message="Telefono debe contener numeros solamente"
+     * )
+     * @Assert\Length(
+     *      min = 6,
+     *      max = 10,
+     *      minMessage = "Telefono debe tener al menos {{ limit }} digitos",
+     *      maxMessage = "Telefono no puede tener mas de {{ limit }} digitos"
+     * )
 	 */
 	private $telefono;
 	
@@ -105,7 +124,7 @@ class Vulnerado extends EntidadBase {
 	public static function getMostrarCabeceras() {
 		return array (
 				"id",
-				"identificacion",
+				"cedula",
 				"nombres",
 				"fecha de nacimiento",
 				"sexo",

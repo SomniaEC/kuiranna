@@ -30,7 +30,17 @@ services:
         arguments: ['@doctrine.orm.entity_manager']
         tags:
             - { name: form.type }
-
+            
+    app.form.type.centroeducativo:
+        class: AppBundle\Form\CentroEducativoTodoType
+        arguments: ['@doctrine.orm.entity_manager']
+        tags:
+            - { name: form.type }
+            
+    app.sequence_manager:
+        class: AppBundle\Utils\SequenceManager
+        arguments: ['@doctrine.orm.entity_manager']
+        
     app.redirect_after_registration_subscriber:
         class: AppBundle\EventListener\RedirectAfterRegistrationSubscriber
         autowire: true

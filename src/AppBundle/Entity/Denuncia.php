@@ -3,12 +3,18 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity
  * @ORM\Table(name="denuncia")
  */
 class Denuncia extends EntidadBase {
+	
+	/**
+	 * @ORM\Column(type="string", length=20, nullable=false)
+	 */
+	private $numeroCaso;
 	
 	/**
 	 * @ORM\Column(type="date")
@@ -60,11 +66,13 @@ class Denuncia extends EntidadBase {
 	
 	/**
 	 * @ORM\OneToMany(targetEntity="ActorDireccion", mappedBy="denuncia", cascade={"persist", "remove"})
+	 * @Assert\Valid
 	 */
 	private $actoresDireccion;
 	
 	/**
 	 * @ORM\OneToMany(targetEntity="VulneradoDireccion", mappedBy="denuncia", cascade={"persist", "remove"})
+	 * @Assert\Valid
 	 */
 	private $vulneradosDireccion;
 	
@@ -82,6 +90,7 @@ class Denuncia extends EntidadBase {
 	public function getMostrarDetalles() {
 		return array (
 				$this->id,
+				$this->numeroCaso,
 				$this->creacion->format ( 'd-m-Y' ),
 				$this->hechos,
 				$this->recursoImpugnacion,
@@ -100,6 +109,7 @@ class Denuncia extends EntidadBase {
 	public static function getMostrarCabeceras() {
 		return array (
 				"id",
+				"numero de caso",
 				"fecha de registro",
 				"hechos",
 				"recurso de impugnacion",
@@ -129,6 +139,20 @@ class Denuncia extends EntidadBase {
 		return $this->hechos == null ? "" : $this->hechos;
 	}
 	
+	/**
+	 * @return mixed
+	 */
+	public function getNumeroCaso() {
+		return $this->numeroCaso;
+	}
+
+	/**
+	 * @param mixed $numeroCaso
+	 */
+	public function setNumeroCaso($numeroCaso) {
+		$this->numeroCaso = $numeroCaso;
+	}
+
 	/**
 	 * Set creacion
 	 *

@@ -229,6 +229,26 @@ label.container_label {
     color: #00004d;
 }
 
+.uppercase {
+	text-transform: uppercase;
+}
+
+/* forms */
+input.error {
+	border-color: red;
+	border-width: 1px;
+}
+
+input.error:focus {
+	border-color: red;
+	border-width: 1px;
+}
+
+label.error {
+	color: red;
+}
+
+/* denuncia */
 .denuncia .rol {
 	display: none;
 }

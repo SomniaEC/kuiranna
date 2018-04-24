@@ -3,6 +3,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity
@@ -12,6 +13,15 @@ class CentroEducativo extends EntidadBase {
 	
 	/**
 	 * @ORM\Column(type="string", length=13, nullable=true)
+     * @Assert\Regex(
+     *     pattern="/^[0-9]*$/",
+     *     message="Ruc debe contener numeros solamente"
+     * )
+     * @Assert\Length(
+     *      min = 13,
+     *      max = 13,
+     *      exactMessage = "Ruc debe tener {{ limit }} digitos"
+     * )
 	 */
 	private $identificacion;
 	
@@ -22,11 +32,15 @@ class CentroEducativo extends EntidadBase {
 	
 	/**
 	 * @ORM\Column(type="string", length=100, nullable=true)
+     * @Assert\Regex(
+     *     pattern="/^[0-9]*$/",
+     *     message="Telefono debe contener numeros solamente"
+     * ) 
 	 */
 	private $telefono;
 	
 	/**
-	 * @ORM\ManyToOne(targetEntity="Junta", cascade={"persist", "remove"})
+	 * @ORM\ManyToOne(targetEntity="Junta", cascade={"persist"})
 	 * @ORM\JoinColumn(name="junta_id", referencedColumnName="id")
 	 */
 	private $junta;

@@ -8,7 +8,7 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\FormBuilderInterface;
 
-class UsuarioType extends AbstractType {
+class UsuarioTodoType extends AbstractType {
 	/**
 	 *
 	 * {@inheritdoc}
@@ -19,6 +19,7 @@ class UsuarioType extends AbstractType {
 		$builder->add ( 'telefonoConvencional' );
 		$builder->add ( 'telefonoCelular' );
 		$builder->add ( 'cargo' );
+		$builder->add ( 'junta' );
 		$builder->add ( 'rol', ChoiceType::class, array (
 				'label' => 'Rol',
 				'required' => true,

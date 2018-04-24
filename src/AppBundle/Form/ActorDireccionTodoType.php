@@ -16,7 +16,7 @@ class ActorDireccionTodoType extends AbstractType {
 	 */
 	public function buildForm(FormBuilderInterface $builder, array $options) {
 		$builder->add ( 'rol', ChoiceType::class, array (
-				'choices' => ConstantesDeRolActor::getConstants () 
+				'choices' => array_flip ( ConstantesDeRolActor::getConstants () )
 		) )->add ( 'actor', ActorType::class, array (
 				'label_attr' => array (
 						'class' => 'container_label' 

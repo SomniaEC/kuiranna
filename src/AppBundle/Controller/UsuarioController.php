@@ -71,20 +71,34 @@ class UsuarioController extends BaseController
      */
     public function guardarUsuarioAction(Request $request)
     {
-        // 1) build the form
+    	$em = $this->getDoctrine ()->getManager ();
+    	$junta = $request->getSession ()->get ( 'junta' );
         $idEntidad = $request->query->get('id');
         if ($idEntidad == null) {
             $operacion = ConstantesDeOperaciones::CREAR;
             $usuario = new Usuario();
             $mensaje = "Usuario creado correctamente";
-            $form = $this->createForm('AppBundle\Form\UsuarioType', $usuario);
+            
+            // si usuario tiene ligada una junta
+            if ($junta != null) {
+            	$idJunta = $request->getSession ()->get ( 'junta' )->getId ();
+            	$entidad = $em->getRepository ( 'AppBundle:Junta' )->findOneById ( $idJunta );
+            	$usuario->setJunta ( $entidad );
+            	$form = $this->createForm('AppBundle\Form\UsuarioType', $usuario);
+            } else {
+            	$form = $this->createForm('AppBundle\Form\UsuarioTodoType', $usuario);
+            }
+            
         } else {
             $operacion = ConstantesDeOperaciones::MODIFICAR;
-            $em = $this->getDoctrine()->getManager();
             $usuario = $em->getRepository('AppBundle:Usuario')->find($idEntidad);
             $passwordViejo = $usuario->getPassword();
             $mensaje = "Usuario modificado correctamente";
-            $form = $this->createForm('AppBundle\Form\UsuarioModificarType', $usuario);
+            if ($junta != null) {
+            	$form = $this->createForm('AppBundle\Form\UsuarioModificarType', $usuario);
+            } else {
+            	$form = $this->createForm('AppBundle\Form\UsuarioModificarTodoType', $usuario);
+            }
         }
         // 2) handle the submit (will only happen on POST)
         $form->handleRequest($request);
@@ -103,7 +117,6 @@ class UsuarioController extends BaseController
                 }
             }
             // 4) save the User!
-            $em = $this->getDoctrine()->getManager();
             $em->persist($usuario);
             $em->flush();
             
@@ -115,7 +128,12 @@ class UsuarioController extends BaseController
             ));
         }
         
-        return $this->render('usuario/usuario.html.twig', array(
+        if ($junta != null) {
+        	$view = 'usuario/usuario.html.twig';
+        } else {
+        	$view = 'usuario/usuarioTodo.html.twig';
+        }
+        return $this->render($view, array(
             'form' => $form->createView(),
             'nombreEntidad' => 'usuario',
             'operacion' => $operacion
