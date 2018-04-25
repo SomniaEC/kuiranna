@@ -14,9 +14,9 @@ class SequenceManager {
 	/**
 	 * Get the next number of the sequence given a seed string
 	 *
-	 * @param string $seed
+	 * @param $seed
 	 *        	the seed of the sequence
-	 * @param int $initialNumber
+	 * @param $initialNumber
 	 *        	a start value, where the index begins
 	 *        	
 	 */
@@ -33,7 +33,7 @@ class SequenceManager {
 				$this->em->persist ( $sequence );
 				$nextVal = $initialNumber;
 			} else {
-				$nextVal = $currentNumber[0][0] + 1;
+				$nextVal = $currentNumber + 1;
 				$query = $this->em->createQuery ( 'UPDATE AppBundle:Sequence s SET s.number=:number WHERE s.seed=:seed');
 				$query->setParameters ( array (
 						'seed' => $seed,

@@ -178,6 +178,13 @@ function addVulnerado(e) {
 		bindSelects($(value).find('.canton select').first(), $(value).find('.parroquia select').first(), $canton_parroquia, 'codigo');
 	});
 
+    //upercase
+	$.each($newElement.find('.uppercase'), function (key, value) {
+		$(value).keyup(function () {
+			$(this).val($(this).val().toUpperCase());
+		});
+	});
+
 	//validation
 	$.each($newElement.find('.identificacion input, .telefono input'), function (key, value) {
 		$(this).rules('add', "digits");

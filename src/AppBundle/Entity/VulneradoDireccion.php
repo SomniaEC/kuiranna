@@ -12,14 +12,14 @@ use Symfony\Component\Validator\Constraints as Assert;
 class VulneradoDireccion extends EntidadBase {
 	
 	/**
-	 * @ORM\ManyToOne(targetEntity="Vulnerado", cascade={"persist"})
+	 * @ORM\ManyToOne(targetEntity="Vulnerado", cascade={"persist", "remove"})
 	 * @ORM\JoinColumn(name="vulnerado_id", referencedColumnName="id")
 	 * @Assert\Valid
 	 */
 	private $vulnerado;
 	
 	/**
-	 * @ORM\ManyToOne(targetEntity="Direccion", cascade={"persist"})
+	 * @ORM\ManyToOne(targetEntity="Direccion", cascade={"persist", "remove"})
 	 * @ORM\JoinColumn(name="direccion_id", referencedColumnName="id")
 	 */
 	private $direccion;
@@ -78,7 +78,7 @@ class VulneradoDireccion extends EntidadBase {
 	 * @see \AppBundle\Entity\EntidadBase::__toString()
 	 */
 	public function __toString() {
-		return $this->vulnerado . " " . $this->direccion;
+		return $this->vulnerado . " ";
 	}
 	
 	/**

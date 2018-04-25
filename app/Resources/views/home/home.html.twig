@@ -1,0 +1,68 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+	<div class="table">
+		<div class="row header">
+    		<div class="cell">{{ knp_pagination_sortable(denuncias, 'Número de Caso', 'd.numeroCaso') }}</div>
+    		<div class="cell">{{ knp_pagination_sortable(denuncias, 'Fecha', 'd.creacion') }}</div>
+    		<div class="cell">{{ knp_pagination_sortable(denuncias, 'Expira en', 'd.creacion') }}</div>
+    		{% if rol == constant('AppBundle\\Utils\\ConstantesDeRolUsuario::Miembro_Junta') %}
+    		<div class="cell">{{ knp_pagination_sortable(denuncias, 'Fecha de Audiencia', 'd.fechaAudiencia') }}</div>
+    		{% endif %}
+    		<div class="cell">NNA Vulnerado</div>
+    		<div class="cell">Derecho Vulnerado</div>
+    		<div class="cell">{{ knp_pagination_sortable(denuncias, 'Estado', 'd.estado') }}</div>
+            {% if rol == constant('AppBundle\\Utils\\ConstantesDeRolUsuario::Secretario') or rol == constant('AppBundle\\Utils\\ConstantesDeRolUsuario::Psicologo') %}
+    		<div class="cell">{{ knp_pagination_sortable(denuncias, 'Responsable', 'usuario.username') }}</div>
+    		{% endif %}
+    		{% if rol == constant('AppBundle\\Utils\\ConstantesDeRolUsuario::Miembro_Junta') %}
+    		<div class="cell">{{ knp_pagination_sortable(denuncias, 'Observacion', 'd.observacion') }}</div>
+    		{% endif %}
+		</div>
+
+		{% for denuncia in denuncias %}
+		<div class="row">
+			<div class="cell"><a href="/denuncia/guardar?id={{ denuncia.id }}">{{ denuncia.numeroCaso }}</a></div>
+			<div class="cell"><a href="/denuncia/guardar?id={{ denuncia.id }}">{{ denuncia.creacion|date('d/m/Y') }}</a></div>
+			<div class="cell"><a href="/denuncia/guardar?id={{ denuncia.id }}">{{ denuncia.creacion|date_modify("+" ~ ( constant('AppBundle\\Utils\\Constantes::DIAS_EXPIRA') + 1 ) ~ " day").diff( hoy ).days }} días</a></div>
+			{% if rol == constant('AppBundle\\Utils\\ConstantesDeRolUsuario::Miembro_Junta') %}
+			<div class="cell"><a href="/denuncia/guardar?id={{ denuncia.id }}">{% if denuncia.fechaAudiencia is not null %}{{ denuncia.fechaAudiencia|date('d/m/Y') }}{% endif %}</a></div>
+			{% endif %}
+			<div class="cell"><a href="/denuncia/guardar?id={{ denuncia.id }}">
+				{% for vulnerado in denuncia.vulneradosDireccion %}
+					<div class="line">{{ vulnerado }}{% if not loop.last %},{% endif %}</div>
+				{% endfor %}
+			</a></div>
+			<div class="cell"><a href="/denuncia/guardar?id={{ denuncia.id }}">
+				{% for derecho in denuncia.derechos %}
+					{{ derecho }}{% if not loop.last %},{% endif %}
+				{% endfor %}
+			</a></div>
+			<div class="cell"><a href="/denuncia/guardar?id={{ denuncia.id }}">{{ denuncia.estadoOperacion }}</a></div>
+			{% if rol == constant('AppBundle\\Utils\\ConstantesDeRolUsuario::Secretario') or rol == constant('AppBundle\\Utils\\ConstantesDeRolUsuario::Psicologo') %}
+			<div class="cell"><a href="/denuncia/guardar?id={{ denuncia.id }}">{% if denuncia.responsable is not null %}{{ denuncia.responsable.username }}{% endif %}</a></div>
+			{% endif %}
+			{% if rol == constant('AppBundle\\Utils\\ConstantesDeRolUsuario::Miembro_Junta') %}
+			<div class="cell"><a href="/denuncia/guardar?id={{ denuncia.id }}">{{ denuncia.observaciones }}</a></div>
+			{% endif %}
+		</div>
+		{% endfor %}
+		<div class="navigation text-center">{{ knp_pagination_render(denuncias) }}</div>
+	</div>
+	
+	{% if rol == constant('AppBundle\\Utils\\ConstantesDeRolUsuario::Secretario') %}
+	<div class="table">
+		<div class="row header">
+			<div class="cell">Miembro de la Junta</div>
+			<div class="cell">Casos Asignados</div>
+			<div class="cell">Casos Resueltos (Ultimo Mes)</div>
+		</div>
+		{% for resumen in resumenes %}
+		<div class="row">
+			{% for element in resumen %}
+			<div class="cell">{{ element }}</div>
+			{% endfor %}
+		</div>
+		{% endfor %}
+	{% endif %}
+{% endblock %}

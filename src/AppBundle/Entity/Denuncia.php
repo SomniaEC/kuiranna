@@ -4,6 +4,7 @@ namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use AppBundle\Utils\ConstantesDeEstadoDenuncia;
 
 /**
  * @ORM\Entity
@@ -17,7 +18,7 @@ class Denuncia extends EntidadBase {
 	private $numeroCaso;
 	
 	/**
-	 * @ORM\Column(type="date")
+	 * @ORM\Column(type="datetime")
 	 */
 	private $creacion;
 	
@@ -82,6 +83,26 @@ class Denuncia extends EntidadBase {
 	private $operacionesDenuncia;
 	
 	/**
+	 * @ORM\ManyToOne(targetEntity="Usuario")
+	 */
+	private $responsable;
+	
+	/**
+	 * @ORM\Column(type="datetime", nullable=true)
+	 */
+	private $fechaAudiencia;
+	
+	/**
+	 * @ORM\Column(type="string", length=500, nullable=true)
+	 */
+	private $observaciones;
+	
+	/**
+	 * @ORM\Column(type="string", length=30)
+	 */
+	protected $estadoOperacion = ConstantesDeEstadoDenuncia::Validar;
+	
+	/**
 	 *
 	 * {@inheritdoc}
 	 *
@@ -91,14 +112,14 @@ class Denuncia extends EntidadBase {
 		return array (
 				$this->id,
 				$this->numeroCaso,
-				$this->creacion->format ( 'd-m-Y' ),
+				$this->creacion->format ( 'd/m/Y' ),
 				$this->hechos,
 				$this->recursoImpugnacion,
-				$this->tipoMaltrato,
-				$this->ambitoMaltrato,
 				$this->vulneradoresDerechos,
 				implode ( ", ", $this->derechos->getValues () ),
-				$this->junta 
+				$this->junta,
+				$this->estado,
+				$this->estadoOperacion
 		);
 	}
 	
@@ -113,11 +134,11 @@ class Denuncia extends EntidadBase {
 				"fecha de registro",
 				"hechos",
 				"recurso de impugnacion",
-				"tipo de maltrato",
-				"ambito del maltrato",
 				"vulneradores de los derechos",
 				"derechos vulnerados",
-				"junta" 
+				"junta",
+				"estado",
+				"estado de operacion"
 		);
 	}
 	
@@ -414,5 +435,61 @@ class Denuncia extends EntidadBase {
 	 */
 	public function getOperacionesDenuncia() {
 		return $this->operacionesDenuncia;
+	}
+	
+	/**
+	 * @return mixed
+	 */
+	public function getResponsable() {
+		return $this->responsable;
+	}
+
+	/**
+	 * @param mixed $responsable
+	 */
+	public function setResponsable($responsable) {
+		$this->responsable = $responsable;
+	}
+	
+	/**
+	 * @return mixed
+	 */
+	public function getFechaAudiencia() {
+		return $this->fechaAudiencia;
+	}
+
+	/**
+	 * @param mixed $fechaAudiencia
+	 */
+	public function setFechaAudiencia($fechaAudiencia) {
+		$this->fechaAudiencia = $fechaAudiencia;
+	}
+
+	/**
+	 * @return mixed
+	 */
+	public function getObservaciones() {
+		return $this->observaciones;
+	}
+
+	/**
+	 * @param mixed $observaciones
+	 */
+	public function setObservaciones($observaciones) {
+		$this->observaciones = $observaciones;
+	}
+	
+	/**
+	 * @return string
+	 */
+	public function getEstadoOperacion() {
+		return $this->estadoOperacion;
+	}
+
+	/**
+	 * @param string $estadoOperacion
+	 */
+	public function setEstadoOperacion($estadoOperacion) {
+		$this->estadoOperacion = $estadoOperacion;
 	}
 }
