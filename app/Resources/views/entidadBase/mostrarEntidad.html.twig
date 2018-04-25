@@ -22,12 +22,13 @@
             	 </div>
             </div>
             {% endif %}
+            {% if nombreEntidad is defined %}
              <div class="row">
                  <div align="center">
                 	<a href="{{ path('listar_entidad', {'nombreEntidad':nombreEntidad}) }}">Atras</a>
                 </div>
             </div>
-            
+            {% endif %}
         {% endblock %}
     </div>
     {{ form_end(form) }}
