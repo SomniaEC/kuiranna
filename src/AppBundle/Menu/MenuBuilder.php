@@ -59,7 +59,7 @@ class MenuBuilder
         ));
         $menu['Denuncia']->setAttribute('class', 'dropdown');
         $menu['Denuncia']->addChild('Crear', array(
-            'route' => 'crear_denuncia'
+            'route' => 'guardar_denuncia'
         ));
         $menu['Denuncia']->addChild('Listar', array(
             'route' => 'listar_entidad',
@@ -216,7 +216,7 @@ class MenuBuilder
         ));
         $menu['Denuncia']->setAttribute('class', 'dropdown');
         $menu['Denuncia']->addChild('Crear', array(
-            'route' => 'crear_denuncia'
+            'route' => 'guardar_denuncia'
         ));
         $menu['Denuncia']->addChild('Listar', array(
             'route' => 'listar_entidad',
@@ -374,7 +374,7 @@ class MenuBuilder
         ));
         $menu['Denuncia']->setAttribute('class', 'dropdown');
         $menu['Denuncia']->addChild('Crear', array(
-            'route' => 'crear_denuncia'
+            'route' => 'guardar_denuncia'
         ));
         $menu['Denuncia']->addChild('Listar', array(
             'route' => 'listar_entidad',
@@ -504,7 +504,7 @@ class MenuBuilder
         ));
         $menu['Denuncia']->setAttribute('class', 'dropdown');
         $menu['Denuncia']->addChild('Crear', array(
-            'route' => 'crear_denuncia'
+            'route' => 'guardar_denuncia'
         ));
         $menu['Denuncia']->addChild('Listar', array(
             'route' => 'listar_entidad',
