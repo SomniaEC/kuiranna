@@ -9,14 +9,16 @@
 			<li><a id="addDenunciado" onclick="addActor(event, 'Denunciado'); $(this).blur();" href="#denunciados"><span class="glyphicon glyphicon-plus-sign"></a></li>
 		</ul>
     	<div id="atributos_denuncia">
-        {{ form_row(form.creacion, t_options) }}
         {{ form_row(form.hechos, t_options) }}
         {{ form_row(form.recursoImpugnacion, t_options) }}
+        {{ form_row(form.fechaAudiencia, t_options) }}
         {{ form_row(form.tipoMaltrato, t_options) }}
         {{ form_row(form.ambitoMaltrato, t_options) }}
         {{ form_row(form.vulneradoresDerechos, t_options) }}
         {{ form_row(form.derechos, t_options) }}
         {{ form_row(form.junta, t_options) }}
+        {{ form_row(form.responsable, t_options) }}
+        {{ form_row(form.observaciones, t_options) }}
         </div>
         {{ form_row(form.vulneradosDireccion, t_options) }}
         {{ form_row(form.actoresDireccion, t_options) }}

@@ -36,7 +36,11 @@ services:
         arguments: ['@doctrine.orm.entity_manager']
         tags:
             - { name: form.type }
-
+            
+    app.sequence_manager:
+        class: AppBundle\Utils\SequenceManager
+        arguments: ['@doctrine.orm.entity_manager']
+        
     app.redirect_after_registration_subscriber:
         class: AppBundle\EventListener\RedirectAfterRegistrationSubscriber
         autowire: true
@@ -47,7 +51,9 @@ services:
         arguments: ['@session']
         tags:
             - { name: kernel.event_listener, event: security.interactive_login, method: onSecurityInteractiveLogin }
-            
+    app.security.login_form_authenticator:
+        class: AppBundle\Security\LoginUsuarioJuntaAuthenticator
+        autowire: true
     # authentication failure event listener
     app.security.authentication_event_listener:
         class: AppBundle\EventListener\LoginListener

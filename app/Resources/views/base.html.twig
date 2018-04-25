@@ -22,7 +22,7 @@
             {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
                 <div>
                     {{ 'layout.logged_in_as'|trans({'%username%': app.user.username}, 'FOSUserBundle') }} | 
-                    <a href="/profile">
+                    <a href="{{ path('fos_user_profile_show') }}">
                         Ver perfil
                     </a>
                 </div>

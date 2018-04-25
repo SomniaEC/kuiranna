@@ -2,9 +2,9 @@
 namespace AppBundle\Utils;
 
 abstract class ConstantesDeOperaciones  extends ConstantesAbstractas {
-	const CREAR = "guardar";
+	const CREAR = "crear";
 	const LISTAR = "listar";
-	const MODIFICAR = "guardar";
+	const MODIFICAR = "modificar";
 	const MOSTRAR = "mostrar";
 	const ELIMINAR = "eliminar";
 	const PRUEBA = "prueba";

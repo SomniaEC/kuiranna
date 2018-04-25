@@ -27,7 +27,7 @@
 			{% for detalle in entidad.mostrarDetalles %}
 			<div class="cell">{{ detalle }}</div>
 			{% endfor %}
-			<div class="cell"><a href="/{{ nombreEntidad }}/guardar?id={{ entidad.id }}">Modificar</a>
+			<div class="cell"><a href="/{{ nombreEntidad }}/modificar?id={{ entidad.id }}">Modificar</a>
 			</div>
 			<div class="cell"><a href="{{ path(ruta_mostrar, {'nombreEntidad':nombreEntidad, 'id': entidad.id}) }}">Mostrar</a>
 			</div>
@@ -36,7 +36,7 @@
 		</div>
 		{% endfor %}
 	</div>
-	<a href="/{{ nombreEntidad }}/guardar">Agregar</a>
+	<a href="/{{ nombreEntidad }}/crear">Agregar</a>
 	{% set ruta = ruta_prueba ~ nombreEntidad %}
 	<a href="{{ path(ruta) }}">Agregar prueba</a>
 	{% endblock %}

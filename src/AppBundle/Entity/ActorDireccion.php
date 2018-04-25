@@ -17,7 +17,7 @@ class ActorDireccion extends EntidadBase {
 	private $rol;
 	
 	/**
-	 * @ORM\ManyToOne(targetEntity="Actor", cascade={"persist"})
+	 * @ORM\ManyToOne(targetEntity="Actor", cascade={"persist", "remove"})
 	 * @ORM\JoinColumn(name="actor_id", referencedColumnName="id")
 	 * @Assert\Valid
 	 */
@@ -36,7 +36,7 @@ class ActorDireccion extends EntidadBase {
 	private $direccionTrabajo;
 	
 	/**
-	 * @ORM\ManyToOne(targetEntity="Denuncia", cascade={"persist"}, inversedBy="actoresDireccion")
+	 * @ORM\ManyToOne(targetEntity="Denuncia", cascade={"persist", "remove"}, inversedBy="actoresDireccion")
 	 * @ORM\JoinColumn(name="denuncia_id", referencedColumnName="id")
 	 */
 	private $denuncia;
