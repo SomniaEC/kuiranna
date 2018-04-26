@@ -340,7 +340,7 @@ class DenunciaController extends Controller {
 	    return $this->render ( $view, array (
 	        'form' => $form->createView (),
 	        'nombreEntidad' => 'denuncia',
-	        'operacion' => ConstantesDeOperaciones::CREAR
+	    	'operacion' => ConstantesDeOperaciones::MODIFICAR
 	    ) );
 	}
 	
