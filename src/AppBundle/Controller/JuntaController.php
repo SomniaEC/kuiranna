@@ -47,23 +47,13 @@ class JuntaController extends Controller {
     }
     
     /**
-     * @Route("junta/guardar", name="guardar_junta")
+     * @Route("junta/crear", name="crear_junta")
      */
     public function crearJunta(Request $request) {
-        // 1) build the form
-        $idEntidad = $request->query->get ( 'id' );
-        if ($idEntidad == null) {
-            $operacion = ConstantesDeOperaciones::CREAR;
-            $entidad = new Junta();
-            $mensaje = "Junta creada correctamente";
-            $form = $this->createForm ( 'AppBundle\Form\\JuntaType', $entidad );
-        } else {
-            $operacion = ConstantesDeOperaciones::MODIFICAR;
-            $em = $this->getDoctrine ()->getManager ();
-            $entidad = $em->getRepository ( 'AppBundle:Junta' )->find ( $idEntidad );
-            $mensaje = "Junta modificada correctamente";
-            $form = $this->createForm ( 'AppBundle\Form\\JuntaType', $entidad );
-        }
+        $operacion = ConstantesDeOperaciones::CREAR;
+        $entidad = new Junta();
+        $mensaje = "Junta creada correctamente";
+        $form = $this->createForm ( 'AppBundle\Form\\JuntaType', $entidad );
         
         // 2) handle the submit (will only happen on POST)
         $form->handleRequest ( $request );
@@ -104,5 +94,57 @@ class JuntaController extends Controller {
             'nombreEntidad' => 'junta',
             'operacion' => $operacion
         ) );
+    }
+    
+    /**
+     * @Route("junta/modificar", name="modificar_junta")
+     */
+    public function modificarJunta(Request $request) {
+    	$idEntidad = $request->query->get ( 'id' );
+    	$operacion = ConstantesDeOperaciones::MODIFICAR;
+    	$em = $this->getDoctrine ()->getManager ();
+    	$entidad = $em->getRepository ( 'AppBundle:Junta' )->find ( $idEntidad );
+    	$mensaje = "Junta modificada correctamente";
+    	$form = $this->createForm ( 'AppBundle\Form\\JuntaType', $entidad );
+    	
+    	// 2) handle the submit (will only happen on POST)
+    	$form->handleRequest ( $request );
+    	if ($form->isSubmitted () && $form->isValid ()) {
+    		// save junta
+    		$em = $this->getDoctrine ()->getManager ();
+    		$em->persist ( $entidad );
+    		$em->flush ();
+    		
+    		// handle file
+    		$file = $form['logo_img']->getData();
+    		
+    		if (null !== $file) {
+    			$jid = $entidad->getId();
+    			// try to guess the extension (more secure)
+    			$extension = $file->guessExtension();
+    			if (!$extension) {
+    				// extension cannot be guessed
+    				$extension = 'bin';
+    			}
+    			$filename = $jid.'.'.$extension;
+    			$file->move('content/junta', $filename);
+    			$entidad->setLogo($filename);
+    			$em->merge( $entidad );
+    			$em->flush ();
+    		}
+    		
+    		// ... do any other work - like sending them an email, etc
+    		// maybe set a "flash" success message for the user
+    		return $this->redirectToRoute ( 'listar_entidad', array (
+    				"nombreEntidad" => 'junta',
+    				"mensaje" => $mensaje
+    		) );
+    	}
+    	
+    	return $this->render ( 'junta/junta.html.twig', array (
+    			'form' => $form->createView (),
+    			'nombreEntidad' => 'junta',
+    			'operacion' => $operacion
+    	) );
     }
 }
