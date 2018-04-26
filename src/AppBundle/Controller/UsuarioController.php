@@ -66,43 +66,80 @@ class UsuarioController extends BaseController
     }
 
     /**
-     * @Route("usuario/guardar", name="guardar_usuario",
+     * @Route("usuario/crear", name="crear_usuario",
      * requirements={"nombreEntidad" : "usuario"})
      */
-    public function guardarUsuarioAction(Request $request)
+    public function crearUsuarioAction(Request $request)
     {
-    	$em = $this->getDoctrine ()->getManager ();
-    	$junta = $request->getSession ()->get ( 'junta' );
-        $idEntidad = $request->query->get('id');
-        if ($idEntidad == null) {
-            $operacion = ConstantesDeOperaciones::CREAR;
-            $usuario = new Usuario();
-            $mensaje = "Usuario creado correctamente";
-            
-            // si usuario tiene ligada una junta
-            if ($junta != null) {
-            	$idJunta = $request->getSession ()->get ( 'junta' )->getId ();
-            	$entidad = $em->getRepository ( 'AppBundle:Junta' )->findOneById ( $idJunta );
-            	$usuario->setJunta ( $entidad );
-            	$form = $this->createForm('AppBundle\Form\UsuarioType', $usuario);
-            } else {
-            	$form = $this->createForm('AppBundle\Form\UsuarioTodoType', $usuario);
-            }
-            
+        $em = $this->getDoctrine()->getManager();
+        $junta = $request->getSession()->get('junta');
+        $operacion = ConstantesDeOperaciones::CREAR;
+        $usuario = new Usuario();
+        $mensaje = "Usuario creado correctamente";
+        
+        // si usuario tiene ligada una junta
+        if ($junta != null) {
+            $idJunta = $request->getSession()
+                ->get('junta')
+                ->getId();
+            $entidad = $em->getRepository('AppBundle:Junta')->findOneById($idJunta);
+            $usuario->setJunta($entidad);
+            $form = $this->createForm('AppBundle\Form\UsuarioType', $usuario);
         } else {
-            $operacion = ConstantesDeOperaciones::MODIFICAR;
-            $usuario = $em->getRepository('AppBundle:Usuario')->find($idEntidad);
-            $passwordViejo = $usuario->getPassword();
-            $mensaje = "Usuario modificado correctamente";
-            if ($junta != null) {
-            	$form = $this->createForm('AppBundle\Form\UsuarioModificarType', $usuario);
-            } else {
-            	$form = $this->createForm('AppBundle\Form\UsuarioModificarTodoType', $usuario);
-            }
+            $form = $this->createForm('AppBundle\Form\UsuarioTodoType', $usuario);
         }
+        
         // 2) handle the submit (will only happen on POST)
         $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()) {            
+        if ($form->isSubmitted() && $form->isValid()) {
+            
+            // 4) save the User!
+            $em->persist($usuario);
+            $em->flush();
+            
+            // ... do any other work - like sending them an email, etc
+            // maybe set a "flash" success message for the user
+            return $this->redirectToRoute('listar_entidad', array(
+                "nombreEntidad" => 'usuario',
+                "mensaje" => $mensaje
+            ));
+        }
+        
+        if ($junta != null) {
+            $view = 'usuario/usuario.html.twig';
+        } else {
+            $view = 'usuario/usuarioTodo.html.twig';
+        }
+        return $this->render($view, array(
+            'form' => $form->createView(),
+            'nombreEntidad' => 'usuario',
+            'operacion' => $operacion
+        ));
+    }
+
+    /**
+     * @Route("usuario/modificar", name="modificar_usuario",
+     * requirements={"nombreEntidad" : "usuario"})
+     */
+    public function modificarUsuarioAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $junta = $request->getSession()->get('junta');
+        $idEntidad = $request->query->get('id');
+        
+        $operacion = ConstantesDeOperaciones::MODIFICAR;
+        $usuario = $em->getRepository('AppBundle:Usuario')->find($idEntidad);
+        $passwordViejo = $usuario->getPassword();
+        $mensaje = "Usuario modificado correctamente";
+        if ($junta != null) {
+            $form = $this->createForm('AppBundle\Form\UsuarioModificarType', $usuario);
+        } else {
+            $form = $this->createForm('AppBundle\Form\UsuarioModificarTodoType', $usuario);
+        }
+        
+        // 2) handle the submit (will only happen on POST)
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
             if ($operacion == ConstantesDeOperaciones::MODIFICAR) {
                 $data = $form->getData();
                 
@@ -129,9 +166,9 @@ class UsuarioController extends BaseController
         }
         
         if ($junta != null) {
-        	$view = 'usuario/usuario.html.twig';
+            $view = 'usuario/usuario.html.twig';
         } else {
-        	$view = 'usuario/usuarioTodo.html.twig';
+            $view = 'usuario/usuarioTodo.html.twig';
         }
         return $this->render($view, array(
             'form' => $form->createView(),
