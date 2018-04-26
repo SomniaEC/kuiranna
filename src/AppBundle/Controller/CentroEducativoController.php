@@ -52,12 +52,11 @@ class CentroEducativoController extends BaseController {
 	}
 	
 	/**
-	 * @Route("centroEducativo/guardar", name="guardar_centroeducativo")
+	 * @Route("centroEducativo/crear", name="crear_centroeducativo")
 	 */
-	public function guardarCentroEducativoAction(Request $request) {
-		$idEntidad = $request->query->get ( 'id' );
+	public function crearCentroEducativoAction(Request $request) {
 		$em = $this->getDoctrine ()->getManager ();
-		if ($idEntidad == null) {
+		
 			$operacion = ConstantesDeOperaciones::CREAR;
 			$centro = new CentroEducativo ();
 			$mensaje = "Centro Educativo creado correctamente";
@@ -76,19 +75,7 @@ class CentroEducativoController extends BaseController {
 			} else {
 				$form = $this->createForm ($this->getCrearTodoType($this->nombre_entidad), $centro );
 			}			
-		} else {
-			$operacion = ConstantesDeOperaciones::MODIFICAR;
-			$centro = $em->getRepository ( 'AppBundle:CentroEducativo')->find ( $idEntidad );
-			$mensaje = "Centro Educativo modificada correctamente";
-			// si usuario tiene ligada una junta
-			if ($request->getSession ()->get ( 'junta' ) != null) {
-				$form = $this->createForm ($this->getModificarType($this->nombre_entidad), $centro );
-			} else {
-				$form = $this->createForm ($this->getCrearTodoType($this->nombre_entidad), $centro );
-			}
-			
-		}
-		
+				
 		$form->handleRequest ( $request );
 		if ($form->isSubmitted () && $form->isValid ()) {
 			
@@ -111,5 +98,45 @@ class CentroEducativoController extends BaseController {
 				'nombreEntidad' => $this->nombre_entidad,
 				'operacion' => $operacion 
 		) );
+	}
+	
+	/**
+	 * @Route("centroEducativo/modificar", name="guardar_centroeducativo")
+	 */
+	public function modificarCentroEducativoAction(Request $request) {
+	    $idEntidad = $request->query->get ( 'id' );
+	    $em = $this->getDoctrine ()->getManager ();
+	    
+	    $operacion = ConstantesDeOperaciones::MODIFICAR;
+	    $centro = $em->getRepository ( 'AppBundle:CentroEducativo')->find ( $idEntidad );
+	    $mensaje = "Centro Educativo modificada correctamente";
+	    // si usuario tiene ligada una junta
+	    if ($request->getSession ()->get ( 'junta' ) != null) {
+	        $form = $this->createForm ($this->getModificarType($this->nombre_entidad), $centro );
+	    } else {
+	        $form = $this->createForm ($this->getCrearTodoType($this->nombre_entidad), $centro );
+	    }
+	    $form->handleRequest ( $request );
+	    if ($form->isSubmitted () && $form->isValid ()) {
+	        
+	        $em->persist ( $centro );
+	        $em->flush ();
+	        
+	        return $this->redirectToRoute ( 'listar_entidad', array (
+	            "nombreEntidad" => $this->nombre_entidad,
+	            "mensaje" => $mensaje
+	        ) );
+	    }
+
+	    if ($request->getSession ()->get ( 'junta' ) != null) {
+	        $view =  $this->nombre_entidad . '/' . $this->nombre_entidad . '.html.twig';
+	    } else {
+	        $view =  $this->nombre_entidad . '/' . $this->nombre_entidad . 'Todo.html.twig';
+	    }
+	    return $this->render ($view, array (
+	        'form' => $form->createView (),
+	        'nombreEntidad' => $this->nombre_entidad,
+	        'operacion' => $operacion
+	    ) );
 	}
 }

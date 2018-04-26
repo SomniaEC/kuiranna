@@ -65,52 +65,80 @@ class BaseController extends Controller {
 				'nombreEntidad' => $nombreEntidad 
 		) );
 	}
-	
-	/**
-	 * @Route("{nombreEntidad}/guardar", name="guardar_entidad", 
-	 * requirements={"nombreEntidad" : "actor|direccion|derecho|vulnerado|actorDireccion|vulneradoDireccion|archivo|actividadEconomica|plantilla|operacionDenuncia|auditoria|provincia|canton|parroquia|domicilio|usuario|persona"})
-	 */
-	public function guardarEntidadAction(Request $request, $nombreEntidad) {
-		// 1) build the form
-		$idEntidad = $request->query->get ( 'id' );
-		if ($idEntidad == null) {
-			$operacion = ConstantesDeOperaciones::CREAR;
-			$className = "AppBundle\Entity\\" . ucfirst ( $nombreEntidad );
-			$entidad = new $className ();
-			$mensaje = ucfirst ( $nombreEntidad ) . " creada correctamente";
-			$form = $this->createForm ($this->getCrearType($nombreEntidad), $entidad );
-		} else {
-			$operacion = ConstantesDeOperaciones::MODIFICAR;
-			$em = $this->getDoctrine ()->getManager ();
-			$entidad = $em->getRepository ( 'AppBundle:' . ucfirst ( $nombreEntidad ) )->find ( $idEntidad );
-			$mensaje = ucfirst ( $nombreEntidad ) . " modificada correctamente";
-			$form = $this->createForm ($this->getModificarType($nombreEntidad), $entidad );
-		}
-		
-		
-		
-		// 2) handle the submit (will only happen on POST)
-		$form->handleRequest ( $request );
-		if ($form->isSubmitted () && $form->isValid ()) {
-			
-			// 4) save the User!
-			$em = $this->getDoctrine ()->getManager ();
-			$em->persist ( $entidad );
-			$em->flush ();
-			
-			// ... do any other work - like sending them an email, etc
-			// maybe set a "flash" success message for the user
-			return $this->redirectToRoute ( 'listar_entidad', array (
-					"nombreEntidad" => $nombreEntidad,
-					"mensaje" => $mensaje 
-			) );
-		}
-		
-		return $this->render ( $nombreEntidad . '/' . $nombreEntidad . '.html.twig', array (
-				'form' => $form->createView (),
-				'nombreEntidad' => $nombreEntidad,
-				'operacion' => $operacion
-		) );
+
+    /**
+     * @Route("{nombreEntidad}/crear", name="crear_entidad",
+     * requirements={"nombreEntidad" : "actor|direccion|derecho|vulnerado|actorDireccion|vulneradoDireccion|archivo|actividadEconomica|plantilla|operacionDenuncia|auditoria|provincia|canton|parroquia|domicilio|usuario|persona"})
+     */
+    public function crearEntidadAction(Request $request, $nombreEntidad)
+    {
+        // 1) build the form
+        $operacion = ConstantesDeOperaciones::CREAR;
+        $className = "AppBundle\Entity\\" . ucfirst($nombreEntidad);
+        $entidad = new $className();
+        $mensaje = ucfirst($nombreEntidad) . " creada correctamente";
+        $form = $this->createForm($this->getCrearType($nombreEntidad), $entidad);
+        
+        // 2) handle the submit (will only happen on POST)
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            
+            // 4) save the User!
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($entidad);
+            $em->flush();
+            
+            // ... do any other work - like sending them an email, etc
+            // maybe set a "flash" success message for the user
+            return $this->redirectToRoute('listar_entidad', array(
+                "nombreEntidad" => $nombreEntidad,
+                "mensaje" => $mensaje
+            ));
+        }
+        
+        return $this->render($nombreEntidad . '/' . $nombreEntidad . '.html.twig', array(
+            'form' => $form->createView(),
+            'nombreEntidad' => $nombreEntidad,
+            'operacion' => $operacion
+        ));
+    }
+
+    /**
+     * @Route("{nombreEntidad}/modificar", name="modificar_entidad",
+     * requirements={"nombreEntidad" : "actor|direccion|derecho|vulnerado|actorDireccion|vulneradoDireccion|archivo|actividadEconomica|plantilla|operacionDenuncia|auditoria|provincia|canton|parroquia|domicilio|usuario|persona"})
+     */
+    public function modificarEntidadAction(Request $request, $nombreEntidad)
+    {
+        // 1) build the form
+        $idEntidad = $request->query->get('id');
+        $operacion = ConstantesDeOperaciones::MODIFICAR;
+        $em = $this->getDoctrine()->getManager();
+        $entidad = $em->getRepository('AppBundle:' . ucfirst($nombreEntidad))->find($idEntidad);
+        $mensaje = ucfirst($nombreEntidad) . " modificada correctamente";
+        $form = $this->createForm($this->getModificarType($nombreEntidad), $entidad);
+        
+        // 2) handle the submit (will only happen on POST)
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            
+            // 4) save the User!
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($entidad);
+            $em->flush();
+            
+            // ... do any other work - like sending them an email, etc
+            // maybe set a "flash" success message for the user
+            return $this->redirectToRoute('listar_entidad', array(
+                "nombreEntidad" => $nombreEntidad,
+                "mensaje" => $mensaje
+            ));
+        }
+        
+        return $this->render($nombreEntidad . '/' . $nombreEntidad . '.html.twig', array (
+	        'form' => $form->createView (),
+	        'nombreEntidad' => $nombreEntidad,
+	        'operacion' => $operacion
+	    ) );
 	}
 	
 	public function getCrearType($nombreEntidad){
