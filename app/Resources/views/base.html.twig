@@ -45,8 +45,6 @@
     		{{ knp_menu_render('psicologo')}}
     	{% elseif is_granted('ROLE_ADMIN_JUNTA') %}
     		{{ knp_menu_render('adminDeJunta')}}
-        {% else %}
-    		{{ knp_menu_render('login')}}
         {% endif %}
         
     	<div class="contenido">{% block body %}{% endblock %}</div>
