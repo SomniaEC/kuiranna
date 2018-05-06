@@ -60,3 +60,8 @@ services:
         arguments: [fos_user.user_manager,session]
         tags:
             - { name: kernel.event_subscriber }
+    app.twig_extension:
+            class: AppBundle\Utils\Extensions\AppExtensions
+            public: false
+            tags:
+                - { name: twig.extension }

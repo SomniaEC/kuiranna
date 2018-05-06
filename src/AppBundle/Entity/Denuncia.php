@@ -49,6 +49,8 @@ class Denuncia extends EntidadBase {
 	 */
 	private $vulneradoresDerechos;
 	
+	private $fechaExpira;
+	
 	/**
 	 * Muchas Denuncias tienen muchos Derechos que han sido vulnerados.
 	 * @ORM\ManyToMany(targetEntity="Derecho", cascade={"persist"})
@@ -491,5 +493,19 @@ class Denuncia extends EntidadBase {
 	 */
 	public function setEstadoOperacion($estadoOperacion) {
 		$this->estadoOperacion = $estadoOperacion;
+	}
+	
+	/**
+	 * @return string
+	 */
+	public function getFechaExpira() {
+		return $this->fechaExpira;
+	}
+	
+	/**
+	 * @param string $estadoOperacion
+	 */
+	public function setFechaExpira($fechaExpira) {
+		$this->fechaExpira = $fechaExpira;
 	}
 }

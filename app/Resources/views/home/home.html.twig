@@ -24,7 +24,7 @@
 		<div class="row">
 			<div class="cell"><a href="/denuncia/guardar?id={{ denuncia.id }}">{{ denuncia.numeroCaso }}</a></div>
 			<div class="cell"><a href="/denuncia/guardar?id={{ denuncia.id }}">{{ denuncia.creacion|date('d/m/Y') }}</a></div>
-			<div class="cell"><a href="/denuncia/guardar?id={{ denuncia.id }}">{{ denuncia.creacion|date_modify("+" ~ ( constant('AppBundle\\Utils\\Constantes::DIAS_EXPIRA') + 1 ) ~ " day").diff( hoy ).days }} días</a></div>
+			<div class="cell"><a href="/denuncia/guardar?id={{ denuncia.id }}">{{ denuncia.creacion|expira }}</a></div>
 			{% if rol == constant('AppBundle\\Utils\\ConstantesDeRolUsuario::Miembro_Junta') %}
 			<div class="cell"><a href="/denuncia/guardar?id={{ denuncia.id }}">{% if denuncia.fechaAudiencia is not null %}{{ denuncia.fechaAudiencia|date('d/m/Y') }}{% endif %}</a></div>
 			{% endif %}
