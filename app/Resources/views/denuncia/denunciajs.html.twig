@@ -18,6 +18,9 @@ jQuery(document).ready(function() {
 				$tab_element = $('#tabs_denuncia li[aria-controls="' + value.element.closest('div[role="tabpanel"]').id + '"]').first();
 				if(!$tab_element.hasClass('ui-tabs-active')) {
 					$tab_element.addClass('error');
+					$.alert("Existen errores en " + $tab_element.text(), {
+						closeTime: 5000,
+					});
 				}
 			});
 		}

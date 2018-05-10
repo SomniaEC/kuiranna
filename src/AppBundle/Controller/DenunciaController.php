@@ -72,7 +72,7 @@ class DenunciaController extends Controller {
 			$fecha = new \DateTime ( date ( "d-m-Y" ) );
 			
 			//codigo denuncia
-			$sequenceManager = $this->container->get('app.sequence_Manager');
+			$sequenceManager = $this->container->get('app.sequence_manager');
 			/* @var $provincia Provincia */
 			$provincia = $em->getRepository ( 'AppBundle:Provincia' )->findOneBy ( array ( 'nombre' => $junta->getDireccion()->getProvincia() ) );
 			/* @var $canton Canton */
@@ -167,7 +167,7 @@ class DenunciaController extends Controller {
             
             if ($denuncia->getNumeroCaso() == null) {
                 // codigo denuncia
-                $sequenceManager = $this->container->get('app.sequence_Manager');
+                $sequenceManager = $this->container->get('app.sequence_manager');
                 /* @var $provincia Provincia */
                 $provincia = $em->getRepository('AppBundle:Provincia')->findOneBy(array(
                     'nombre' => $junta->getDireccion()
@@ -281,7 +281,7 @@ class DenunciaController extends Controller {
             
             if ($denuncia->getNumeroCaso() == null) {
                 // codigo denuncia
-                $sequenceManager = $this->container->get('app.sequence_Manager');
+                $sequenceManager = $this->container->get('app.sequence_manager');
                 /* @var $provincia Provincia */
                 $provincia = $em->getRepository('AppBundle:Provincia')->findOneBy(array(
                     'nombre' => $junta->getDireccion()
