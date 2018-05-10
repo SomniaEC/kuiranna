@@ -273,6 +273,24 @@ label.error {
 	user-select: none;
 }
 
+.row.derechos .value {
+    float: none;
+}
+
+.row.vulneradoresDerechos .value {
+	float: none;
+}
+
+.vulneradoresDerechos .elemento {
+	float: left;
+	width: 50%;
+}
+
+.derechos .elemento {
+	float: left;
+	width: 25%;
+}
+
 /* user_profile CSS */
 .fos_user_profile_edit .container_value {
 	padding-left: 0px;
@@ -283,4 +301,44 @@ label.error {
 .fos_user_change_password .container_value {
 	padding-left: 0px;
 	padding-bottom: 0px;
+}
+
+/* tooltip */
+.tooltip {
+	position: relative;
+	display: inline-block;
+}
+.tooltip .tooltiptext {
+    visibility: hidden;
+    width: 120px;
+    background-color: black;
+    color: #fff;
+    text-align: center;
+    padding: 5px 0;
+    border-radius: 6px;
+ 
+    /* Position the tooltip text - see examples below! */
+    position: absolute;
+    z-index: 1;
+    width: 120px;
+    top: 130%;
+    left: 50%; 
+    margin-left: -60px;
+    opacity: 0;
+    transition:opacity 0.4s ease-out;
+}
+
+.tooltip:hover .tooltiptext {
+    visibility: visible;
+    opacity: 1;
+}
+
+.tooltiptext:hover {
+	 visibility: hidden!important;
+	 opacity: 0!important;
+}
+
+.derechos.row {
+	overflow: visible;
+	height: 230px;
 }

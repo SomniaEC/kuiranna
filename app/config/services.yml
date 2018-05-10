@@ -60,8 +60,15 @@ services:
         arguments: [fos_user.user_manager,session]
         tags:
             - { name: kernel.event_subscriber }
+
     app.twig_extension:
-            class: AppBundle\Utils\Extensions\AppExtensions
-            public: false
-            tags:
-                - { name: twig.extension }
+        class: AppBundle\Utils\Extensions\AppExtensions
+        public: false
+        tags:
+            - { name: twig.extension }
+
+    app.tooltip_extension:
+        class: AppBundle\Utils\Extensions\TooltipTypeExtension
+        tags:
+            - { name: form.type_extension, extended_type: Symfony\Component\Form\Extension\Core\Type\FormType }
+    
