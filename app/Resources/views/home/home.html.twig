@@ -22,28 +22,28 @@
 
 		{% for denuncia in denuncias %}
 		<div class="row">
-			<div class="cell"><a href="/denuncia/guardar?id={{ denuncia.id }}">{{ denuncia.numeroCaso }}</a></div>
-			<div class="cell"><a href="/denuncia/guardar?id={{ denuncia.id }}">{{ denuncia.creacion|date('d/m/Y') }}</a></div>
-			<div class="cell"><a href="/denuncia/guardar?id={{ denuncia.id }}">{{ denuncia.creacion|expira }}</a></div>
+			<div class="cell"><a href="/denuncia/modificar?id={{ denuncia.id }}">{{ denuncia.numeroCaso }}</a></div>
+			<div class="cell"><a href="/denuncia/modificar?id={{ denuncia.id }}">{{ denuncia.creacion|date('d/m/Y') }}</a></div>
+			<div class="cell"><a href="/denuncia/modificar?id={{ denuncia.id }}">{{ denuncia.creacion|expira }}</a></div>
 			{% if rol == constant('AppBundle\\Utils\\ConstantesDeRolUsuario::Miembro_Junta') %}
-			<div class="cell"><a href="/denuncia/guardar?id={{ denuncia.id }}">{% if denuncia.fechaAudiencia is not null %}{{ denuncia.fechaAudiencia|date('d/m/Y') }}{% endif %}</a></div>
+			<div class="cell"><a href="/denuncia/modificar?id={{ denuncia.id }}">{% if denuncia.fechaAudiencia is not null %}{{ denuncia.fechaAudiencia|date('d/m/Y') }}{% endif %}</a></div>
 			{% endif %}
-			<div class="cell"><a href="/denuncia/guardar?id={{ denuncia.id }}">
+			<div class="cell"><a href="/denuncia/modificar?id={{ denuncia.id }}">
 				{% for vulnerado in denuncia.vulneradosDireccion %}
 					<div class="line">{{ vulnerado }}{% if not loop.last %},{% endif %}</div>
 				{% endfor %}
 			</a></div>
-			<div class="cell"><a href="/denuncia/guardar?id={{ denuncia.id }}">
+			<div class="cell"><a href="/denuncia/modificar?id={{ denuncia.id }}">
 				{% for derecho in denuncia.derechos %}
 					{{ derecho }}{% if not loop.last %},{% endif %}
 				{% endfor %}
 			</a></div>
-			<div class="cell"><a href="/denuncia/guardar?id={{ denuncia.id }}">{{ denuncia.estadoOperacion }}</a></div>
+			<div class="cell"><a href="/denuncia/modificar?id={{ denuncia.id }}">{{ denuncia.estadoOperacion }}</a></div>
 			{% if rol == constant('AppBundle\\Utils\\ConstantesDeRolUsuario::Secretario') or rol == constant('AppBundle\\Utils\\ConstantesDeRolUsuario::Psicologo') %}
-			<div class="cell"><a href="/denuncia/guardar?id={{ denuncia.id }}">{% if denuncia.responsable is not null %}{{ denuncia.responsable.username }}{% endif %}</a></div>
+			<div class="cell"><a href="/denuncia/modificar?id={{ denuncia.id }}">{% if denuncia.responsable is not null %}{{ denuncia.responsable.username }}{% endif %}</a></div>
 			{% endif %}
 			{% if rol == constant('AppBundle\\Utils\\ConstantesDeRolUsuario::Miembro_Junta') %}
-			<div class="cell"><a href="/denuncia/guardar?id={{ denuncia.id }}">{{ denuncia.observaciones }}</a></div>
+			<div class="cell"><a href="/denuncia/modificar?id={{ denuncia.id }}">{{ denuncia.observaciones }}</a></div>
 			{% endif %}
 		</div>
 		{% endfor %}
