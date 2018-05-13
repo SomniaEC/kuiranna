@@ -21,6 +21,8 @@ use AppBundle\Entity\Parroquia;
 use AppBundle\Entity\Vulnerado;
 use AppBundle\Entity\CentroEducativo;
 use AppBundle\Entity\Direccion;
+use AppBundle\Utils\ConstantesDeRolUsuario;
+use AppBundle\Utils\ConstantesDeEstadoDenuncia;
 
 class DenunciaController extends Controller {
 	/**
@@ -105,6 +107,7 @@ class DenunciaController extends Controller {
      */
     public function crearDenunciaAction(Request $request)
     {
+    	$rol = $request->getSession ()->get ( 'user_rol' );
         $em = $this->getDoctrine()->getManager();
         $junta = $request->getSession()->get('junta');
         $denuncia = new Denuncia();
@@ -128,42 +131,34 @@ class DenunciaController extends Controller {
             $denuncia->setJunta($entidad);
         }
         
-        $originalActores = new ArrayCollection();
-        $originalVulnerados = new ArrayCollection();
-        
-        // Create an ArrayCollection of the current pDireccions objects in the database
-        foreach ($denuncia->getActoresDireccion() as $actor) {
-            $originalActores->add($actor);
-        }
-        
-        // Create an ArrayCollection of the current vulnerados objects in the database
-        foreach ($denuncia->getVulneradosDireccion() as $vulnerado) {
-            $originalVulnerados->add($vulnerado);
-        }
-        
         if ($junta != null) {
-            $form = $this->createForm('AppBundle\Form\\DenunciaType', $denuncia, array(
-                'junta' => $junta
-            ));
+        	if($rol == ConstantesDeRolUsuario::Secretario) {
+        		$form = $this->createForm('AppBundle\Form\\DenunciaSecretarioType', $denuncia, array(
+        				'junta' => $junta
+        		));
+        	} else {
+	            $form = $this->createForm('AppBundle\Form\\DenunciaType', $denuncia, array(
+	                'junta' => $junta
+	            ));
+        	}
         } else {
             $form = $this->createForm('AppBundle\Form\\DenunciaTodoType', $denuncia, array(
                 'junta' => $junta
             ));
         }
         
-        // 2) handle the submit (will only happen on POST)
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             
+        	$denuncia->setEstadoOperacion(ConstantesDeEstadoDenuncia::Asignar_Miembro);
+        	
             /* @var $junta Junta */
             $junta = $denuncia->getJunta();
             /* @var $em EntityManager */
             $em = $this->getDoctrine()->getManager();
             
-            $fecha = new \DateTime(date("d-m-Y"));
-            if ($denuncia->getCreacion() == null) {
-                $denuncia->setCreacion($fecha);
-            }
+            $fecha = new \DateTime();
+            $denuncia->setCreacion($fecha);
             
             if ($denuncia->getNumeroCaso() == null) {
                 // codigo denuncia
@@ -197,22 +192,10 @@ class DenunciaController extends Controller {
                 $vulnerado->setDenuncia($denuncia);
                 $vulnerado->setJunta($junta);
             }
-            foreach ($originalActores as $actor) {
-                if (false === $denuncia->getActoresDireccion()->contains($actor)) {
-                    $em->remove($actor);
-                }
-            }
-            foreach ($originalVulnerados as $vulnerado) {
-                if (false === $denuncia->getVulneradosDireccion()->contains($vulnerado)) {
-                    $em->remove($vulnerado);
-                }
-            }
             
             $em->persist($denuncia);
             $em->flush();
             
-            // ... do any other work - like sending them an email, etc
-            // maybe set a "flash" success message for the user
             return $this->redirectToRoute('listar_entidad', array(
                 "nombreEntidad" => "denuncia",
                 "mensaje" => $mensaje
@@ -220,7 +203,11 @@ class DenunciaController extends Controller {
         }
         
         if ($junta != null) {
-            $view = 'denuncia/denuncia.html.twig';
+        	if($rol == ConstantesDeRolUsuario::Secretario) {
+            	$view = 'denuncia/denunciaSecretario.html.twig';
+        	} else {
+        		$view = 'denuncia/denuncia.html.twig';
+        	}
         } else {
             $view = 'denuncia/denunciaTodo.html.twig';
         }
@@ -273,11 +260,6 @@ class DenunciaController extends Controller {
             $junta = $denuncia->getJunta();
             /* @var $em EntityManager */
             $em = $this->getDoctrine()->getManager();
-            
-            $fecha = new \DateTime(date("d-m-Y"));
-            if ($denuncia->getCreacion() == null) {
-                $denuncia->setCreacion($fecha);
-            }
             
             if ($denuncia->getNumeroCaso() == null) {
                 // codigo denuncia

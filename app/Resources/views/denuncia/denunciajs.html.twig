@@ -10,6 +10,44 @@ var $provincia_canton = JSON.parse('{{ form.children.vulneradosDireccion.childre
 var $canton_parroquia = JSON.parse('{{ form.children.vulneradosDireccion.children.0.children.direccion.vars.canton_parroquia|raw }}');
 
 jQuery(document).ready(function() {
+	//tabs denuncia
+	var tabs_denuncia = $("#tabs_denuncia").tabs({
+		activate: function (event, ui) {
+			var $activeTab = ui.newTab;
+			$activeTab.removeClass('error');
+		}
+	});
+
+	//tabs vulnerados
+	var vulnerados_index = 0;
+	var $vulneradoHolder = $('#denuncia_vulneradosDireccion');
+	$vulneradoHolder.children().each(function() {
+		addToTabs(this, 'Vulnerado', vulnerados_index);
+		vulnerados_index++;
+	});
+
+	addIndexToHolder($vulneradoHolder);
+	
+	//tabs actor
+	var actores_index = 0;
+	var denunciante_index = 0;
+	var denunciado_index = 0;
+	var $actoresHolder = $('#denuncia_actoresDireccion');
+	$actoresHolder.children().each(function() {
+		var $actor_type = $(this).find('.rol select').val();
+		if($actor_type == 'Denunciante') {
+			addToTabs(this, $actor_type, actores_index, denunciante_index);
+			denunciante_index++;
+		} else {
+			addToTabs(this, $actor_type, actores_index, denunciado_index);
+			denunciado_index++;
+		}
+		actores_index++;
+	});
+	addIndexToHolder($actoresHolder);
+	$actoresHolder.data('denunciante_index', denunciante_index);
+	$actoresHolder.data('denunciado_index', denunciado_index);
+	
 	//form validation
 	$("form").validate({
 		ignore: [],
@@ -79,43 +117,6 @@ jQuery(document).ready(function() {
 		});
 	});
 	
-	//tabs denuncia
-	var tabs_denuncia = $("#tabs_denuncia").tabs({
-		activate: function (event, ui) {
-			var $activeTab = ui.newTab;
-			$activeTab.removeClass('error');
-		}
-	});
-
-	//tabs vulnerados
-	var vulnerados_index = 0;
-	var $vulneradoHolder = $('#denuncia_vulneradosDireccion');
-	$vulneradoHolder.children().each(function() {
-		addToTabs(this, 'Vulnerado', vulnerados_index);
-		vulnerados_index++;
-	});
-	addIndexToHolder($vulneradoHolder);
-	
-	//tabs actor
-	var actores_index = 0;
-	var denunciante_index = 0;
-	var denunciado_index = 0;
-	var $actoresHolder = $('#denuncia_actoresDireccion');
-	$actoresHolder.children().each(function() {
-		var $actor_type = $(this).find('.rol select').val();
-		if($actor_type == 'Denunciante') {
-			addToTabs(this, $actor_type, actores_index, denunciante_index);
-			denunciante_index++;
-		} else {
-			addToTabs(this, $actor_type, actores_index, denunciado_index);
-			denunciado_index++;
-		}
-		actores_index++;
-	});
-	addIndexToHolder($actoresHolder);
-	$actoresHolder.data('denunciante_index', denunciante_index);
-	$actoresHolder.data('denunciado_index', denunciado_index);
-
 	//edad
 	$.each($('.fechaNacimiento input'), function (key, value) {
 		$(value).change(function () {
