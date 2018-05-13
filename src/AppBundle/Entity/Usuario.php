@@ -74,7 +74,6 @@ class Usuario extends BaseUser {
 	public function __construct()
 	{
 		parent::__construct();
-		$this->enabled = true;
 		// your own logic
 	}
 	
