@@ -1,12 +1,20 @@
 {% extends 'denuncia/denunciajs.html.twig' %}
 
 {% block denunciaform %}
-	<div id="tabs_denuncia" class="denuncia">
-		<ul id="list_tabs_denuncia">
-			<li><a href="#atributos_denuncia">Denuncia</a></li>
-			<li><a id="addVulnerado" onclick="addVulnerado(event); $(this).blur();" href="#vulnerados"><span class="glyphicon glyphicon-plus-sign"></span></a></li>
-			<li><a id="addDenunciante" onclick="addActor(event, 'Denunciante'); $(this).blur();" href="#denunciantes"><span class="glyphicon glyphicon-plus-sign"></a></li>
-			<li><a id="addDenunciado" onclick="addActor(event, 'Denunciado'); $(this).blur();" href="#denunciados"><span class="glyphicon glyphicon-plus-sign"></a></li>
+	<div id="tabs_denuncia" class="denuncia ui-tabs ui-corner-all ui-widget ui-widget-content">
+		<ul id="list_tabs_denuncia" class="ui-tabs-nav ui-corner-all ui-helper-reset ui-helper-clearfix ui-widget-header">
+			<li class="ui-tabs-tab ui-corner-top ui-state-default ui-tab">
+				<a href="#atributos_denuncia" class="ui-tabs-anchor">Denuncia</a>
+			</li>
+			<li>
+				<a id="addVulnerado" class="ui-tabs-anchor" onclick="addVulnerado(event); $(this).blur();" href="#vulnerados"><span class="glyphicon glyphicon-plus-sign"></span></a>
+			</li>
+			<li class="ui-tabs-tab ui-corner-top ui-state-default ui-tab">
+				<a id="addDenunciante" class="ui-tabs-anchor" onclick="addActor(event, 'Denunciante'); $(this).blur();" href="#denunciantes"><span class="glyphicon glyphicon-plus-sign"></a>
+			</li>
+			<li class="ui-tabs-tab ui-corner-top ui-state-default ui-tab"	>
+				<a id="addDenunciado" class="ui-tabs-anchor" onclick="addActor(event, 'Denunciado'); $(this).blur();" href="#denunciados"><span class="glyphicon glyphicon-plus-sign"></a>
+			</li>
 		</ul>
     	<div id="atributos_denuncia">
         {{ form_row(form.hechos, t_options) }}
