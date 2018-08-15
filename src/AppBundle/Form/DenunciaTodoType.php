@@ -19,6 +19,7 @@ use Doctrine\ORM\EntityRepository;
 use AppBundle\Utils\ConstantesDeRolUsuario;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use AppBundle\Entity\Derecho;
 
 class DenunciaTodoType extends AbstractType {
 	
@@ -43,8 +44,16 @@ class DenunciaTodoType extends AbstractType {
 		) )->add ( 'vulneradoresDerechos', ChoiceType::class, array (
 				'choices' => array_flip ( ConstantesDeVulneradorDerecho::getConstants () ),
 				'multiple' => true,
+				'expanded' => true,
 				'required' => false
-		) )->add ( 'derechos' )->add ( 'vulneradosDireccion', CollectionType::class, array (
+		) )->add ( 'derechos' , EntityType::class, array (
+				'class' => Derecho::class,
+				'multiple' => true,
+				'expanded' => true,
+				'choice_attr' => function (Derecho $derecho, $key, $index) {
+					return ['data-tooltip' => $derecho->getDescripcion() ];
+				}
+		) )->add ( 'vulneradosDireccion', CollectionType::class, array (
 				'entry_type' => VulneradoDireccionTodoType::class,
 				'allow_add' => true,
 				'allow_delete' => true 
