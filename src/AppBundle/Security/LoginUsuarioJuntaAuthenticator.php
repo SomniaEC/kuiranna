@@ -41,7 +41,6 @@ class LoginUsuarioJuntaAuthenticator extends AbstractFormLoginAuthenticator
         
         $form = $this->formFactory->create(LoginType::class);
         $form->handleRequest($request);
-        
         $data = $form->getData();
         $request->getSession()->set(Security::LAST_USERNAME, $data['_username']);
         
@@ -57,7 +56,7 @@ class LoginUsuarioJuntaAuthenticator extends AbstractFormLoginAuthenticator
             'username' => $username
         ]);
         
-        if ($user->hasRole('ROLE_SUPER_ADMIN')) {
+        if ($user!=null && $user->hasRole('ROLE_SUPER_ADMIN')) {
             // if has role ROLE_SUPER_ADMIN set junta from form
             $user->setJunta($junta);
             return $user;
@@ -69,10 +68,6 @@ class LoginUsuarioJuntaAuthenticator extends AbstractFormLoginAuthenticator
         }
     }
 
-    // return $this->em->getRepository('AppBundle:Usuario')->findOneBy([
-    // 'username' => $username,
-    // 'junta'=> $junta
-    // ]);
     public function checkCredentials($credentials, UserInterface $user)
     {
         $password = $credentials['_password'];

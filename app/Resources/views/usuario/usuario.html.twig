@@ -11,5 +11,35 @@
     {{ form_row(form.cargo, t_options) }}
     {{ form_row(form.rol, t_options) }}
     {{ form_row(form.enabled, t_options) }}
+
+<script type="text/javascript">
+jQuery(document).ready(function() {
+	
+	//form validation
+	$("form").validate({
+		rules: {
+			"app_user_registration[cedula]": "required",
+			"app_user_registration[cedula]": {
+				digits: true,
+				minlength: 10
+			},
+			"app_user_registration[username]": {
+				digits: true,
+				minlength: 6,
+				maxlength: 10
+			}
+		},
+		messages: {
+			"app_user_registration[cedula]": {
+				minlength: jQuery.validator.format("Por favor, no escriba menos de {0} digitos.")
+			},
+			"app_user_registration[username]": {
+				maxlength: jQuery.validator.format("Por favor, no escriba mas de {0} digitos."),
+				minlength: jQuery.validator.format("Por favor, no escriba menos de {0} digitos.")
+			}
+		}
+	});
+});
+</script>
    
 {% endblock %}

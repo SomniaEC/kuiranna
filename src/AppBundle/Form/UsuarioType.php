@@ -4,9 +4,10 @@ namespace AppBundle\Form;
 
 use FOS\UserBundle\Form\Type\RegistrationFormType as BaseRegistrationFormType;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 class UsuarioType extends AbstractType {
 	/**
@@ -15,7 +16,12 @@ class UsuarioType extends AbstractType {
 	 *
 	 */
 	public function buildForm(FormBuilderInterface $builder, array $options) {
-		$builder->add ( 'cedula' );
+	    $builder->add ( 'cedula' , TextType::class, array (
+	        'required' => true,
+	        'attr' => array (
+	            'maxlength' => '10',
+	            'minlength' => '10',
+	        )));
 		$builder->add ( 'telefonoConvencional' );
 		$builder->add ( 'telefonoCelular' );
 		$builder->add ( 'cargo' );
