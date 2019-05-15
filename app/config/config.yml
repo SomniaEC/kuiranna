@@ -105,3 +105,31 @@ knp_paginator:
         pagination: '@KnpPaginator/Pagination/sliding.html.twig'     # sliding pagination controls template                                    
         sortable: '@KnpPaginator/Pagination/sortable_link.html.twig' # sort link template                                
         filtration: '@KnpPaginator/Pagination/filtration.html.twig'  # filters template
+ 
+simple_things_entity_audit:
+    audited_entities:
+        - AppBundle\Entity\ActividadEconomica
+        - AppBundle\Entity\Actor
+        - AppBundle\Entity\ActorDireccion
+        - AppBundle\Entity\Archivo
+        - AppBundle\Entity\Canton
+        - AppBundle\Entity\CentroEducativo
+        - AppBundle\Entity\Denuncia
+        - AppBundle\Entity\Derecho
+        - AppBundle\Entity\Direccion
+        - AppBundle\Entity\Junta
+        - AppBundle\Entity\OperacionDenuncia
+        - AppBundle\Entity\Parroquia 
+        - AppBundle\Entity\Plantilla 
+        - AppBundle\Entity\Provincia 
+        - AppBundle\Entity\Usuario 
+        - AppBundle\Entity\Vulnerado 
+        - AppBundle\Entity\VulneradoDireccion
+        
+simple_things_entity_audit:
+    service:
+        username_callable: simplethings_entityaudit.username_callable.token_storage
+
+        
+        
+        
