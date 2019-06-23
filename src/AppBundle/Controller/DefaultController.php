@@ -35,7 +35,7 @@ class DefaultController extends Controller {
 				$queryBuilder->setParameter ( 'noEstadoOperacion', array (
 						ConstantesDeEstadoDenuncia::Cerrado,
 						ConstantesDeEstadoDenuncia::Archivado,
-						ConstantesDeEstadoDenuncia::Espera_Psicologo 
+						ConstantesDeEstadoDenuncia::Esperando_Psicologo
 				) );
 			} elseif ($rol == ConstantesDeRolUsuario::Secretario) {
 				$queryBuilder->where ( 'd.estadoOperacion NOT IN (:noEstadoOperacion)' );
@@ -93,7 +93,7 @@ class DefaultController extends Controller {
 				$queryBuilder->Where ( 'd.junta = :junta' );
 				$queryBuilder->andWhere ( 'd.estadoOperacion = :estadoOperacion' );
 				$queryBuilder->setParameter ( 'junta', $usuario->getJunta () );
-				$queryBuilder->setParameter ( 'estadoOperacion', ConstantesDeEstadoDenuncia::Espera_Psicologo );
+				$queryBuilder->setParameter ( 'estadoOperacion', ConstantesDeEstadoDenuncia::Esperando_Psicologo );
 			}
 			
 			$queryBuilder->orderBy ( 'd.creacion', 'ASC' );

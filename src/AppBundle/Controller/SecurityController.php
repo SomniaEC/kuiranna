@@ -45,9 +45,6 @@ class SecurityController extends Controller
         
         $authenticationUtils = $this->get('security.authentication_utils');
         
-        // get the login error if there is one
-        $error = $authenticationUtils->getLastAuthenticationError();
-        
         // last username entered by the user
         $lastUsername = $authenticationUtils->getLastUsername();
         
@@ -58,8 +55,7 @@ class SecurityController extends Controller
         return $this->render('login/login_content.html.twig', array(
             'form' => $form->createView(),
             'error' => $error,
-            'last_username' => $lastUsername,
-            'error' => $error,
+            'last_username1' => $lastUsername,
             'csrf_token' => $csrfToken,
         ));
     }
